@@ -1,0 +1,53 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.JPanel;
+import java.awt.GridLayout;
+import javax.swing.JTextField;
+
+public class MainWindow {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainWindow window = new MainWindow();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public MainWindow() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame("Gerenciador de Livros");
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblBibliotecaDaFaculdade = new JLabel("Biblioteca da Faculdade de Tecnologia da FT");
+		lblBibliotecaDaFaculdade.setHorizontalAlignment(SwingConstants.CENTER);
+		frame.getContentPane().add(lblBibliotecaDaFaculdade, BorderLayout.NORTH);
+	}
+
+}
