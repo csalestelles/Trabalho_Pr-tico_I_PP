@@ -2,7 +2,7 @@ package BibliotecaSIS;
 
 public class Livro {
 	
-	private String titulo, editora, autor, sinopse;
+	private String titulo, editora, autor, sinopse, idioma;
 	private int ano, edicao, numExemplaresDisponiveis;
 	
 	public String getTitulo() {
@@ -46,6 +46,12 @@ public class Livro {
 	}
 	public void setNumExemplaresDisponiveis(int numExemplaresDisponiveis) {
 		this.numExemplaresDisponiveis = numExemplaresDisponiveis;
+	}
+	public String getIdioma() {
+		return idioma;
+	}
+	public void setIdioma(String idioma) {
+		this.idioma = idioma;
 	}
 	
 	
