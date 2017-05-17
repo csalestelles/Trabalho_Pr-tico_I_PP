@@ -13,6 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Color;
 
 public class MainWindow {
 
@@ -58,11 +61,19 @@ public class MainWindow {
 		frame.getContentPane().add(lblBibliotecaDaFaculdade);
 		
 		JButton btnAcessar = new JButton("Cadastre-se");
-		btnAcessar.setBounds(160, 206, 130, 29);
+		btnAcessar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				JanelaDeCadastro janelaDeCadastro = new JanelaDeCadastro();
+				janelaDeCadastro.main(null);
+			}
+		});
+		
+		btnAcessar.setBounds(159, 218, 130, 29);
 		frame.getContentPane().add(btnAcessar);
 		
 		JButton btnNewButton = new JButton("Fazer login");
-		btnNewButton.setBounds(160, 176, 130, 29);
+		btnNewButton.setBounds(159, 188, 130, 29);
 		frame.getContentPane().add(btnNewButton);
 		
 		JLabel lblUsurio = new JLabel("Usuário:");
@@ -81,5 +92,17 @@ public class MainWindow {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(190, 103, 130, 26);
 		frame.getContentPane().add(passwordField);
+		
+		JLabel lblNewLabel = new JLabel("Esqueci a senha");
+		lblNewLabel.setForeground(Color.BLUE);
+		lblNewLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RecuperaSenha recuperaSenha = new RecuperaSenha();
+				recuperaSenha.main(null);
+			}
+		});
+		lblNewLabel.setBounds(200, 130, 106, 16);
+		frame.getContentPane().add(lblNewLabel);
 	}
 }

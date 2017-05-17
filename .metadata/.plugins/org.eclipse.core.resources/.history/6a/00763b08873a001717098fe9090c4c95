@@ -1,0 +1,62 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+
+public class JanelaDeCadastro {
+
+	private JFrame frame;
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JanelaDeCadastro window = new JanelaDeCadastro();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public JanelaDeCadastro() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblInsiraSeusDados = new JLabel("Insira seus dados:");
+		lblInsiraSeusDados.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInsiraSeusDados.setBounds(171, 32, 127, 31);
+		frame.getContentPane().add(lblInsiraSeusDados);
+		
+		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setBounds(51, 87, 61, 16);
+		frame.getContentPane().add(lblNome);
+		
+		textField = new JTextField();
+		textField.setBounds(137, 82, 277, 26);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+	}
+
+}

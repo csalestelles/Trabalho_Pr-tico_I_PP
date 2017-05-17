@@ -1,0 +1,12 @@
+package BibliotecaSIS;
+
+import java.sql.*;
+
+public class UsuarioDAO {
+	
+	public boolean adicionarUsuario(Usuario user)
+	{
+		
+	}
+
+}

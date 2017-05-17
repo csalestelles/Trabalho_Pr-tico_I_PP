@@ -8,15 +8,21 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Random;
+import java.awt.event.ActionEvent;
 
-public class JanelaDeCadastro {
+public class JanelaDeCadastro extends BancoDeDados {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
+	private JTextField nomeCompletoField;
+	private JTextField nomeUserField;
+	private JTextField dataField;
+	private JPasswordField passField;
+	private JPasswordField confirmPassField;
+	
 
 	/**
 	 * Launch the application.
@@ -47,7 +53,7 @@ public class JanelaDeCadastro {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblInsiraSeusDados = new JLabel("Insira seus dados:");
@@ -59,47 +65,62 @@ public class JanelaDeCadastro {
 		lblNome.setBounds(19, 78, 106, 16);
 		frame.getContentPane().add(lblNome);
 		
-		textField = new JTextField();
-		textField.setBounds(157, 73, 267, 26);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		nomeCompletoField = new JTextField();
+		nomeCompletoField.setBounds(157, 73, 267, 26);
+		frame.getContentPane().add(nomeCompletoField);
+		nomeCompletoField.setColumns(10);
 		
 		JLabel lblNomeDeUsurio = new JLabel("Nome de usuário:");
 		lblNomeDeUsurio.setBounds(19, 106, 116, 16);
 		frame.getContentPane().add(lblNomeDeUsurio);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(157, 101, 267, 26);
-		frame.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		nomeUserField = new JTextField();
+		nomeUserField.setBounds(157, 101, 267, 26);
+		frame.getContentPane().add(nomeUserField);
+		nomeUserField.setColumns(10);
 		
 		JLabel lblDataDeNascimento = new JLabel("Data de nascimento:");
 		lblDataDeNascimento.setBounds(19, 134, 139, 16);
 		frame.getContentPane().add(lblDataDeNascimento);
 		
-		textField_2 = new JTextField();
-		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setBounds(157, 129, 116, 26);
-		frame.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		dataField = new JTextField();
+		dataField.setHorizontalAlignment(SwingConstants.CENTER);
+		dataField.setBounds(157, 129, 116, 26);
+		frame.getContentPane().add(dataField);
+		dataField.setColumns(10);
 		
 		JLabel lblNovaSenha = new JLabel("Nova senha:");
 		lblNovaSenha.setBounds(19, 164, 90, 16);
 		frame.getContentPane().add(lblNovaSenha);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(157, 159, 116, 26);
-		frame.getContentPane().add(passwordField);
+		passField = new JPasswordField();
+		passField.setBounds(157, 159, 116, 26);
+		frame.getContentPane().add(passField);
 		
 		JLabel lblConfirmeSuaSenha = new JLabel("Confirme sua senha:");
 		lblConfirmeSuaSenha.setBounds(19, 195, 139, 16);
 		frame.getContentPane().add(lblConfirmeSuaSenha);
 		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(157, 190, 116, 26);
-		frame.getContentPane().add(passwordField_1);
+		confirmPassField = new JPasswordField();
+		confirmPassField.setBounds(157, 190, 116, 26);
+		frame.getContentPane().add(confirmPassField);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				INSERT INTO personagens VALUES (NULL, "Starlord", "Peter Quill", "Guardians of the Galaxy");
+				Statement st;
+				try 
+				{
+					st = conexao.createStatement();
+					st.executeUpdate("INSERT INTO Usuarios VALUES (NULL, '" + nomeCompletoField.getText() + "', '" 
+							+ nomeUserField.getText() + "', '" + passField.getPassword().toString() + "', '" 
+							+ dataField.getText() + "');");
+				} 
+				catch (SQLException e1) {e1.printStackTrace();}
+				
+			}
+		});
 		btnCadastrar.setBounds(171, 228, 117, 29);
 		frame.getContentPane().add(btnCadastrar);
 	}

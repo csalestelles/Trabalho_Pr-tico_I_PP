@@ -1,18 +1,8 @@
 package BibliotecaSIS;
 
-import java.util.Random;
-
 public class Usuario {
 
-	private String nomeDeUsuario, senha, anoDeNascimento, nomeCompleto;
-
-	public String getNomeCompleto() {
-		return nomeCompleto;
-	}
-
-	public void setNomeCompleto(String nomeCompleto) {
-		this.nomeCompleto = nomeCompleto;
-	}
+	private String nomeDeUsuario, senha, anoDeNascimento;
 
 	public String getNomeDeUsuario() {
 		return nomeDeUsuario;
@@ -37,12 +27,5 @@ public class Usuario {
 	public void setAnoDeNascimento(String anoDeNascimento) {
 		this.anoDeNascimento = anoDeNascimento;
 	}
-
-	public String setNewRandomPass()
-	{
-		Random rand = new Random();
-		Integer novoPass = rand.nextInt(9000000) + 999999;
-		senha = novoPass.toString();
-		return senha;
-	}
+	
 }
