@@ -14,10 +14,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class RecuperaSenha extends BancoDeDados {
 
 	private JFrame frame;
+	private JPasswordField passwordField;
+	private JPasswordField passwordField_1;
 	private JTextField textField;
 
 	/**
@@ -42,19 +45,15 @@ public class RecuperaSenha extends BancoDeDados {
 	public RecuperaSenha() {
 		initialize();
 	}
-	
-	private void alteraSenha(Usuario user)
-	{
-//		UPDATE personagens SET apelido='Star­Lord' WHERE id=1;
-	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		 
+		frame = new JFrame("Recuperação de senha");
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblRecuperaoDeSenha = new JLabel("Recuperação de senha");
@@ -63,14 +62,9 @@ public class RecuperaSenha extends BancoDeDados {
 		lblRecuperaoDeSenha.setBounds(140, 28, 170, 16);
 		frame.getContentPane().add(lblRecuperaoDeSenha);
 		
-		JLabel lblConfirmeSeuNome = new JLabel("Confirme seu nome de usuário:");
-		lblConfirmeSeuNome.setBounds(19, 114, 205, 16);
+		JLabel lblConfirmeSeuNome = new JLabel("Defina sua nova senha:");
+		lblConfirmeSeuNome.setBounds(18, 109, 176, 16);
 		frame.getContentPane().add(lblConfirmeSeuNome);
-		
-		textField = new JTextField();
-		textField.setBounds(239, 109, 179, 26);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
 		
 		JButton btnGerarNovaSenha = new JButton("Gerar nova senha");
 		btnGerarNovaSenha.addActionListener(new ActionListener() {
@@ -79,35 +73,70 @@ public class RecuperaSenha extends BancoDeDados {
 				 Integer novoPass = 0;
 				 if (confirm == 0)
 				 {
-					 try 
-						{
-							Statement st = conexao.createStatement();
-							Random rand = new Random();
-							novoPass = rand.nextInt(9000000) + 999999;
-							st.executeUpdate("UPDATE Usuarios SET Pass='" + novoPass + "' WHERE USER='"+ 
-									textField.getText() + "';");
-							
-						}
-						catch (SQLException a){
-							JOptionPane.showMessageDialog(null, "Nome de Usuário inválido!");
-						}
-					 JOptionPane.showMessageDialog(null, "A sua nova senha é " + novoPass, "Nova Senha", 1);
+					 //TRATAR ERRO DE SENHAS DIFERENTES!!!
+					 checaSenha(passwordField.getPassword(), passwordField_1.getPassword(), textField.getText());
+					 frame.getDefaultCloseOperation();
 				 }
 				 
 				
 			}
 		});
-		btnGerarNovaSenha.setBounds(150, 175, 150, 29);
+		btnGerarNovaSenha.setBounds(150, 222, 150, 29);
 		frame.getContentPane().add(btnGerarNovaSenha);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					frame.getDefaultCloseOperation();
-			}
-		});
-		btnCancelar.setBounds(165, 216, 120, 29);
-		frame.getContentPane().add(btnCancelar);
+		JLabel lblConfirmeANova = new JLabel("Confirme a nova senha:");
+		lblConfirmeANova.setBounds(18, 137, 205, 16);
+		frame.getContentPane().add(lblConfirmeANova);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(205, 104, 217, 26);
+		frame.getContentPane().add(passwordField);
+		
+		passwordField_1 = new JPasswordField();
+		passwordField_1.setBounds(205, 132, 217, 26);
+		frame.getContentPane().add(passwordField_1);
+		
+		JLabel lblNewLabel = new JLabel("*A nova senha deve ter entre 6 e 15 caractéres");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(18, 188, 415, 16);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNomeDeUsurio = new JLabel("Nome de Usuário:");
+		lblNomeDeUsurio.setBounds(18, 81, 121, 16);
+		frame.getContentPane().add(lblNomeDeUsurio);
+		
+		textField = new JTextField();
+		textField.setBounds(205, 76, 217, 26);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
 	}
-
+	
+	private void checaSenha(char[] pass, char[] confirmPass, String userName)
+	{
+		if(pass.length < 6 || confirmPass.length > 15)
+		 {
+			 JOptionPane.showMessageDialog(null, "A senha não se encontra dentro do intervalo de caractéres ", 
+					 "Erro Login", JOptionPane.ERROR_MESSAGE);
+		 }
+		else
+		{
+			if(!pass.equals(confirmPass))
+			{
+				JOptionPane.showMessageDialog(null, "As senhas são diferentes", 
+						 "Erro Login", JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				try
+				{
+					Statement st = conexao.createStatement();
+					st.executeUpdate("UPDATE Usuarios SET Pass='" + pass + "' WHERE User='" + userName + "';");
+					JOptionPane.showMessageDialog(null, "A senha foi alterado com sucesso!", 
+							"Senha Alterada", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(SQLException z){z.printStackTrace();}
+			}
+			
+		}
+	}
 }

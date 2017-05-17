@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -15,9 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.awt.Color;
+import java.sql.*;
 
-public class MainWindow {
+public class MainWindow extends BancoDeDados {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -73,6 +76,31 @@ public class MainWindow {
 		frame.getContentPane().add(btnAcessar);
 		
 		JButton btnNewButton = new JButton("Fazer login");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				ResultSet rs = null;
+				try 
+				{
+					Statement st = conexao.createStatement();
+					rs = st.executeQuery("SELECT * FROM Usuarios WHERE User='" + textField.getText() 
+						+ "' AND Pass='" + passwordField.getPassword().toString() + "';");
+				} 
+				catch (SQLException e1) {e1.printStackTrace();}
+				try 
+				{
+					if (!rs.next())
+						JOptionPane.showMessageDialog(null, "Nome de usuário ou senha Incorreto!" + passwordField.getPassword().toString(), "Erro Login", JOptionPane.ERROR_MESSAGE);
+					else
+					{
+						//ABRIR JANELA DE EMPRÉSTIMO E DOAÇÃO DE LIVROS
+					}
+						
+				} 
+				catch (SQLException e1) {e1.printStackTrace();}
+				
+			}
+		});
 		btnNewButton.setBounds(159, 188, 130, 29);
 		frame.getContentPane().add(btnNewButton);
 		
