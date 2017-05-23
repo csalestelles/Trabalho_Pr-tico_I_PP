@@ -110,16 +110,25 @@ public class JanelaDeCadastro extends BancoDeDados {
 			public void actionPerformed(ActionEvent e) {
 //				INSERT INTO personagens VALUES (NULL, "Starlord", "Peter Quill", "Guardians of the Galaxy");
 				Statement st;
-				try 
+				String password = new String(passField.getPassword()).trim();
+				String passwordConfirmation = new String(confirmPassField.getPassword()).trim();
+				if(password.equals(passwordConfirmation) && password.length() >= 6)
 				{
-					st = conexao.createStatement();
-					st.executeUpdate("INSERT INTO Usuarios VALUES (NULL, '" + nomeCompletoField.getText() + "', '" 
-							+ nomeUserField.getText() + "', '" + passField.getPassword().toString() + "', '" 
-							+ dataField.getText() + "');");
-				} 
-				catch (SQLException e1) {e1.printStackTrace();}
-				
+					try 
+					{
+						st = conexao.createStatement();
+						st.executeUpdate("INSERT INTO Usuarios VALUES (NULL, '" + nomeCompletoField.getText() + "', '" 
+								+ nomeUserField.getText() + "', '" + password + "', '" 
+								+ dataField.getText() + "');");
+					} 
+					catch (SQLException e1) {e1.printStackTrace();}
+				}
+				else
+				{
+					//TRATAR SENHA MENOR QUE SEIS DIGITOS
+				}
 			}
+				
 		});
 		btnCadastrar.setBounds(171, 228, 117, 29);
 		frame.getContentPane().add(btnCadastrar);

@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class BancoDeDados {
 	
-	private static String url = "jdbc:mysql://localhost:3306/Biblioteca";
+	private static String url = "jdbc:mysql://localhost:3306/Biblioteca?useSSL=false";
 	private static String user = "biblioteca_admin";
 	private static String pass = "senha";
 	protected static Connection conexao = null;

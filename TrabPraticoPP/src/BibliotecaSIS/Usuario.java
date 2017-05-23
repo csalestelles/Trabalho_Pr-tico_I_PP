@@ -38,11 +38,4 @@ public class Usuario {
 		this.anoDeNascimento = anoDeNascimento;
 	}
 
-	public String setNewRandomPass()
-	{
-		Random rand = new Random();
-		Integer novoPass = rand.nextInt(9000000) + 999999;
-		senha = novoPass.toString();
-		return senha;
-	}
 }

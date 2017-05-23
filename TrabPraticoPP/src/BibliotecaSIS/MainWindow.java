@@ -80,17 +80,23 @@ public class MainWindow extends BancoDeDados {
 			public void actionPerformed(ActionEvent e) 
 			{
 				ResultSet rs = null;
+				String password = new String(passwordField.getPassword()).trim();
+				if(textField.getText() == "admin" && password == "admin")
+				{
+					//ABRIR JANELA DO ADMINISTRADOR
+				}
 				try 
 				{
 					Statement st = conexao.createStatement();
 					rs = st.executeQuery("SELECT * FROM Usuarios WHERE User='" + textField.getText() 
-						+ "' AND Pass='" + passwordField.getPassword().toString() + "';");
+						+ "' AND Pass='" + password + "';");
 				} 
 				catch (SQLException e1) {e1.printStackTrace();}
 				try 
 				{
 					if (!rs.next())
-						JOptionPane.showMessageDialog(null, "Nome de usuário ou senha Incorreto!" + passwordField.getPassword().toString(), "Erro Login", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Nome de usuário ou senha Incorreto!" 
+								+ password, "Erro Login", JOptionPane.ERROR_MESSAGE);
 					else
 					{
 						//ABRIR JANELA DE EMPRÉSTIMO E DOAÇÃO DE LIVROS

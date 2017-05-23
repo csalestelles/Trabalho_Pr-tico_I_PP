@@ -70,11 +70,12 @@ public class RecuperaSenha extends BancoDeDados {
 		btnGerarNovaSenha.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				 int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza?", "Recuperar senha", 0);
-				 Integer novoPass = 0;
+				 String password = new String(passwordField.getPassword()).trim();
+				 String passwordConfirmation = new String(passwordField_1.getPassword()).trim();
 				 if (confirm == 0)
 				 {
 					 //TRATAR ERRO DE SENHAS DIFERENTES!!!
-					 checaSenha(passwordField.getPassword(), passwordField_1.getPassword(), textField.getText());
+					 checaSenha(password, passwordConfirmation, textField.getText());
 					 frame.getDefaultCloseOperation();
 				 }
 				 
@@ -88,11 +89,11 @@ public class RecuperaSenha extends BancoDeDados {
 		lblConfirmeANova.setBounds(18, 137, 205, 16);
 		frame.getContentPane().add(lblConfirmeANova);
 		
-		passwordField = new JPasswordField();
+		passwordField = new JPasswordField(6);
 		passwordField.setBounds(205, 104, 217, 26);
 		frame.getContentPane().add(passwordField);
 		
-		passwordField_1 = new JPasswordField();
+		passwordField_1 = new JPasswordField(6);
 		passwordField_1.setBounds(205, 132, 217, 26);
 		frame.getContentPane().add(passwordField_1);
 		
@@ -111,9 +112,9 @@ public class RecuperaSenha extends BancoDeDados {
 		textField.setColumns(10);
 	}
 	
-	private void checaSenha(char[] pass, char[] confirmPass, String userName)
+	private void checaSenha(String pass, String confirmPass, String userName)
 	{
-		if(pass.length < 6 || confirmPass.length > 15)
+		if(pass.length() < 6 || confirmPass.length() > 15)
 		 {
 			 JOptionPane.showMessageDialog(null, "A senha não se encontra dentro do intervalo de caractéres ", 
 					 "Erro Login", JOptionPane.ERROR_MESSAGE);
