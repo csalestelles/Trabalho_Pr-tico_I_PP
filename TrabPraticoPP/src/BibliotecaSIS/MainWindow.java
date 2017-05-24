@@ -19,6 +19,9 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.awt.Color;
 import java.sql.*;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class MainWindow extends BancoDeDados {
 
@@ -53,6 +56,7 @@ public class MainWindow extends BancoDeDados {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame("Gerenciador de Livros e Documentos");
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,17 +67,10 @@ public class MainWindow extends BancoDeDados {
 		lblBibliotecaDaFaculdade.setBounds(5, 5, 439, 69);
 		frame.getContentPane().add(lblBibliotecaDaFaculdade);
 		
-		JButton btnAcessar = new JButton("Cadastre-se");
-		btnAcessar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				JanelaDeCadastro janelaDeCadastro = new JanelaDeCadastro();
-				janelaDeCadastro.main(null);
-			}
-		});
-		
-		btnAcessar.setBounds(159, 218, 130, 29);
-		frame.getContentPane().add(btnAcessar);
+		textField = new JTextField();
+		textField.setBounds(190, 73, 130, 26);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Fazer login");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -81,33 +78,27 @@ public class MainWindow extends BancoDeDados {
 			{
 				ResultSet rs = null;
 				String password = new String(passwordField.getPassword()).trim();
-				if(textField.getText() == "admin" && password == "admin")
-				{
-					//ABRIR JANELA DO ADMINISTRADOR
-				}
 				try 
 				{
 					Statement st = conexao.createStatement();
 					rs = st.executeQuery("SELECT * FROM Usuarios WHERE User='" + textField.getText() 
 						+ "' AND Pass='" + password + "';");
-				} 
-				catch (SQLException e1) {e1.printStackTrace();}
-				try 
-				{
-					if (!rs.next())
-						JOptionPane.showMessageDialog(null, "Nome de usuário ou senha Incorreto!" 
-								+ password, "Erro Login", JOptionPane.ERROR_MESSAGE);
-					else
+					
+					if (rs.first())
 					{
 						//ABRIR JANELA DE EMPRÉSTIMO E DOAÇÃO DE LIVROS
 					}
-						
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Nome de usuário ou senha Incorreto! " 
+								+ password, "Erro Login", JOptionPane.ERROR_MESSAGE);	
+					}
 				} 
 				catch (SQLException e1) {e1.printStackTrace();}
 				
 			}
 		});
-		btnNewButton.setBounds(159, 188, 130, 29);
+		btnNewButton.setBounds(159, 177, 130, 29);
 		frame.getContentPane().add(btnNewButton);
 		
 		JLabel lblUsurio = new JLabel("Usuário:");
@@ -117,11 +108,6 @@ public class MainWindow extends BancoDeDados {
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setBounds(117, 102, 61, 29);
 		frame.getContentPane().add(lblSenha);
-		
-		textField = new JTextField();
-		textField.setBounds(190, 73, 130, 26);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(190, 103, 130, 26);
@@ -138,5 +124,48 @@ public class MainWindow extends BancoDeDados {
 		});
 		lblNewLabel.setBounds(200, 130, 106, 16);
 		frame.getContentPane().add(lblNewLabel);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnCadastrar = new JMenu("Cadastrar");
+		menuBar.add(mnCadastrar);
+		
+		JMenuItem mntmAdministrador = new JMenuItem("Administrador");
+		mnCadastrar.add(mntmAdministrador);
+		mntmAdministrador.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				CadastroAdmin cadastroAdmin = new CadastroAdmin();
+				cadastroAdmin.main(null);
+			}
+		});
+		
+		JMenuItem mntmUsurio = new JMenuItem("Usuário");
+		mnCadastrar.add(mntmUsurio);
+		mntmUsurio.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				JanelaDeCadastro janelaDeCadastro = new JanelaDeCadastro();
+				janelaDeCadastro.main(null);
+			}
+		});
+		
+		JMenu mnLogin = new JMenu("Login");
+		menuBar.add(mnLogin);
+		
+		JMenuItem mntmAdministrados= new JMenuItem("Administrador");
+		mnLogin.add(mntmAdministrados);
+		mntmAdministrados.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				AdminLogin adminLogin = new AdminLogin();
+				adminLogin.main(null);
+				frame.dispose();
+			}
+		});
+		
+		JMenu mnSobre = new JMenu("Sobre");
+		menuBar.add(mnSobre);
 	}
 }

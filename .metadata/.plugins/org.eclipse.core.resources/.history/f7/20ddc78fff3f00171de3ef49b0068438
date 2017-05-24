@@ -1,0 +1,101 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+
+public class AdminWindow {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AdminWindow window = new AdminWindow();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public AdminWindow() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnPesquisar = new JMenu("Adicionar");
+		menuBar.add(mnPesquisar);
+		
+		JMenuItem menuItem = new JMenuItem("Usuário");
+		mnPesquisar.add(menuItem);
+		
+		JMenuItem menuItem_1 = new JMenuItem("Livro");
+		mnPesquisar.add(menuItem_1);
+		
+		JMenuItem menuItem_2 = new JMenuItem("Monografia");
+		mnPesquisar.add(menuItem_2);
+		
+		JMenuItem menuItem_3 = new JMenuItem("Periódico");
+		mnPesquisar.add(menuItem_3);
+		
+		JMenuItem menuItem_4 = new JMenuItem("Revista");
+		mnPesquisar.add(menuItem_4);
+		
+		JMenuItem menuItem_5 = new JMenuItem("Tese");
+		mnPesquisar.add(menuItem_5);
+		
+		JMenu mnRemover = new JMenu("Remover");
+		menuBar.add(mnRemover);
+		
+		JMenuItem mntmUsurio = new JMenuItem("Usuário");
+		mnRemover.add(mntmUsurio);
+		
+		JMenuItem mntmLivro = new JMenuItem("Livro");
+		mnRemover.add(mntmLivro);
+		
+		JMenuItem mntmMonografia = new JMenuItem("Monografia");
+		mnRemover.add(mntmMonografia);
+		
+		JMenuItem mntmPeridico = new JMenuItem("Periódico");
+		mnRemover.add(mntmPeridico);
+		
+		JMenuItem mntmRevista = new JMenuItem("Revista");
+		mnRemover.add(mntmRevista);
+		
+		JMenuItem mntmTese = new JMenuItem("Tese");
+		mnRemover.add(mntmTese);
+		frame.getContentPane().setLayout(null);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(26, 34, 178, 27);
+		frame.getContentPane().add(comboBox);
+		
+		JButton btnNewButton = new JButton("Pesquisar");
+		btnNewButton.setBounds(240, 33, 161, 29);
+		frame.getContentPane().add(btnNewButton);
+	}
+}
