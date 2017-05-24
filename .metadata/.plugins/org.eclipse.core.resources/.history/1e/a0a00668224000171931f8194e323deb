@@ -51,7 +51,7 @@ public class JanelaDeCadastro extends BancoDeDados {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame("Cadastro de Usuário");
+		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -120,10 +120,6 @@ public class JanelaDeCadastro extends BancoDeDados {
 						st.executeUpdate("INSERT INTO Usuarios VALUES (NULL, '" + nomeCompletoField.getText() + "', '" 
 								+ nomeUserField.getText() + "', '" + password + "', '" 
 								+ dataField.getText() + "');");
-						//USUÁRIO CADASTRADO COM SUCESSO
-						frame.dispose();
-						MainWindow mainWindow = new MainWindow();
-						mainWindow.main(null);
 					} 
 					catch (SQLException e1) {e1.printStackTrace();}
 				}

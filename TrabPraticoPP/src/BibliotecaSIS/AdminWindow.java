@@ -19,7 +19,7 @@ import java.awt.Font;
 
 public class AdminWindow {
 
-	private JFrame frame;
+	private JFrame frmPesquisa;
 	private JTextField textField;
 	private JTextField textField_1;
 
@@ -31,7 +31,7 @@ public class AdminWindow {
 			public void run() {
 				try {
 					AdminWindow window = new AdminWindow();
-					window.frame.setVisible(true);
+					window.frmPesquisa.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,23 +50,30 @@ public class AdminWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmPesquisa = new JFrame();
+		frmPesquisa.setTitle("Pesquisa");
+		frmPesquisa.setBounds(100, 100, 450, 300);
+		frmPesquisa.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.GRAY);
-		frame.setJMenuBar(menuBar);
+		frmPesquisa.setJMenuBar(menuBar);
 		
 		JMenu mnPesquisar = new JMenu("Adicionar");
 		mnPesquisar.setBackground(Color.GRAY);
 		menuBar.add(mnPesquisar);
 		
-		JMenuItem menuItem = new JMenuItem("Usuário");
-		mnPesquisar.add(menuItem);
-		
 		JMenuItem menuItem_1 = new JMenuItem("Livro");
 		mnPesquisar.add(menuItem_1);
+		menuItem_1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				frmPesquisa.dispose();
+				AddLivro addLivro = new AddLivro();
+				addLivro.main(null);
+				
+			}
+		});
 		
 		JMenuItem menuItem_2 = new JMenuItem("Monografia");
 		mnPesquisar.add(menuItem_2);
@@ -101,12 +108,50 @@ public class AdminWindow {
 		
 		JMenuItem mntmTese = new JMenuItem("Tese");
 		mnRemover.add(mntmTese);
-		frame.getContentPane().setLayout(null);
+		
+		JMenu mnSair = new JMenu("Sair");
+		menuBar.add(mnSair);
+		
+		JMenuItem mntmLogOut = new JMenuItem("Log out");
+		mnSair.add(mntmLogOut);
+		frmPesquisa.getContentPane().setLayout(null);
+		mntmLogOut.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				AdminLogin adminLogin = new AdminLogin();
+				frmPesquisa.dispose();
+				adminLogin.main(null);
+			}
+		});
+		
+		JTextPane txtpnSelecione = new JTextPane();
+		txtpnSelecione.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+		txtpnSelecione.setForeground(new Color(0, 0, 0));
+		txtpnSelecione.setEnabled(false);
+		txtpnSelecione.setEditable(false);
+		txtpnSelecione.setBackground(SystemColor.window);
+		txtpnSelecione.setText("Selecione o que você deseja presquisar");
+		txtpnSelecione.setBounds(29, 102, 328, 17);
+		frmPesquisa.getContentPane().add(txtpnSelecione);
+		
+		JTextPane txtpnSelecioneOQue = new JTextPane();
+		txtpnSelecioneOQue.setText("Informações adicionais");
+		txtpnSelecioneOQue.setEnabled(false);
+		txtpnSelecioneOQue.setEditable(false);
+		txtpnSelecioneOQue.setBackground(SystemColor.window);
+		txtpnSelecioneOQue.setBounds(26, 169, 331, 16);
+		frmPesquisa.getContentPane().add(txtpnSelecioneOQue);
 		
 		String[] itens = {"", "Usuário", "Livro", "Monografia", "Periódico", "Revista", "Tese"};
 		JComboBox comboBox = new JComboBox(itens);
 		comboBox.setBounds(26, 49, 178, 27);
-		frame.getContentPane().add(comboBox);
+		frmPesquisa.getContentPane().add(comboBox);
+		comboBox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				mudarLabel(txtpnSelecione, comboBox.getSelectedItem().toString(), txtpnSelecioneOQue, textField_1);
+			}
+		});
 		
 		JButton btnNewButton = new JButton("Pesquisar");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -116,52 +161,25 @@ public class AdminWindow {
 			}
 		});
 		btnNewButton.setBounds(260, 207, 161, 29);
-		frame.getContentPane().add(btnNewButton);
+		frmPesquisa.getContentPane().add(btnNewButton);
 		
 		textField = new JTextField();
-		textField.setBounds(26, 117, 331, 26);
-		frame.getContentPane().add(textField);
+		textField.setBounds(26, 131, 331, 26);
+		frmPesquisa.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JTextPane txtpnSelecione = new JTextPane();
-		txtpnSelecione.setFont(new Font("Lucida Grande", Font.BOLD, 14));
-		txtpnSelecione.setForeground(new Color(0, 0, 0));
-		txtpnSelecione.setEnabled(false);
-		txtpnSelecione.setEditable(false);
-		txtpnSelecione.setBackground(SystemColor.window);
-		txtpnSelecione.setText("Selecione o que você deseja presquisar");
-		txtpnSelecione.setBounds(29, 88, 328, 17);
-		frame.getContentPane().add(txtpnSelecione);
-		
-		JTextPane textPane = new JTextPane();
-		textPane.setEnabled(false);
-		textPane.setEditable(false);
-		textPane.setBackground(SystemColor.window);
-		textPane.setBounds(26, 155, 331, 16);
-		frame.getContentPane().add(textPane);
-		
-		JButton btnSelecionar = new JButton("Selecionar");
-		btnSelecionar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				mudarLabel(txtpnSelecione, comboBox.getSelectedItem().toString(), textPane, textField_1);
-				
-			}
-		});
-		btnSelecionar.setBounds(240, 48, 117, 29);
-		frame.getContentPane().add(btnSelecionar);
-		
 		textField_1 = new JTextField();
-		textField_1.setBounds(26, 183, 178, 26);
-		frame.getContentPane().add(textField_1);
+		textField_1.setBounds(26, 197, 178, 26);
+		frmPesquisa.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
-		textField_1.setVisible(false);
 		
+		JButton btnListar = new JButton("Listar");
+		btnListar.setBounds(260, 48, 117, 29);
+		frmPesquisa.getContentPane().add(btnListar);
 	}
 	
 	private void mudarLabel(JTextPane label, String i, JTextPane textPane, JTextField textField)
 	{
-		textField_1.setVisible(true);
 		switch(i)
 		{
 			case "Usuário":
@@ -178,7 +196,7 @@ public class AdminWindow {
 				break;
 			case "Periódico":
 				label.setText("Insira o nome do periódico:");
-				textPane.setText("Instituição:");
+				textPane.setText("Edição:");
 				break;
 			case "Revista":
 				label.setText("Insira o nome da revista:");

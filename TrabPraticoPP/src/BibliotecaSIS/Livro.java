@@ -1,9 +1,22 @@
 package BibliotecaSIS;
 
-public class Livro {
+public class Livro extends LivroDAO {
 	
 	private String titulo, editora, autor, sinopse, idioma;
-	private int ano, edicao, numExemplaresDisponiveis;
+	private int ano, edicao, numExemplaresDisponiveis, codigo;
+	
+	
+	
+	public void setLivro(String titulo, String editora, String autor, String idioma, int ano, int edicao,
+			int numExemplaresDisponiveis) {
+		this.titulo = titulo;
+		this.editora = editora;
+		this.autor = autor;
+		this.idioma = idioma;
+		this.ano = ano;
+		this.edicao = edicao;
+		this.numExemplaresDisponiveis = numExemplaresDisponiveis;
+	}
 	
 	public String getTitulo() {
 		return titulo;
@@ -52,6 +65,14 @@ public class Livro {
 	}
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 	
 	

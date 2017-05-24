@@ -3,15 +3,11 @@ package BibliotecaSIS;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -19,7 +15,7 @@ import javax.swing.JPasswordField;
 import java.awt.Color;
 import javax.swing.JButton;
 
-public class AdminLogin extends BancoDeDados {
+public class AdminLogin {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -85,38 +81,12 @@ public class AdminLogin extends BancoDeDados {
 		JMenu mnLogin = new JMenu("Login");
 		menuBar.add(mnLogin);
 		
-		JMenuItem mntmAdministrados = new JMenuItem("Usuário");
+		JMenuItem mntmAdministrados = new JMenuItem("Administrador");
 		mnLogin.add(mntmAdministrados);
-		mntmAdministrados.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
-				MainWindow mainWindow = new MainWindow();
-				mainWindow.main(null);
-				frame.dispose();
-			}
-		});
 		
-		JMenu mnSobre = new JMenu("Mais");
+		JMenu mnSobre = new JMenu("Sobre");
 		menuBar.add(mnSobre);
-		
-		JMenuItem mntmSobre = new JMenuItem("Sobre");
-		mnSobre.add(mntmSobre);
-		mntmSobre.addActionListener( new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
-				//TRATAR O "SOBRE" DO SOFTWARE
-			}
-		});
-		
-		JMenuItem mntmSair = new JMenuItem("Sair");
-		mnSobre.add(mntmSair);
 		frame.getContentPane().setLayout(null);
-		mntmSair.addActionListener( new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
-				System.exit(0);
-			}
-		});
 		
 		JLabel label = new JLabel("Biblioteca da Faculdade de Tecnologia da FT");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -141,31 +111,6 @@ public class AdminLogin extends BancoDeDados {
 		frame.getContentPane().add(passwordField);
 		
 		JButton button = new JButton("Fazer login");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ResultSet rs = null;
-				String password = new String(passwordField.getPassword()).trim();
-				try 
-				{
-					Statement st = conexao.createStatement();
-					rs = st.executeQuery("SELECT * FROM Administradores WHERE User='" + textField.getText() 
-						+ "' AND Pass='" + password + "';");
-					
-					if (rs.first())
-					{
-						AdminWindow adminWindow = new AdminWindow();
-						frame.dispose();
-						adminWindow.main(null);
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "Nome de usuário ou senha Incorreto! " 
-								+ password, "Erro Login", JOptionPane.ERROR_MESSAGE);	
-					}
-				} 
-				catch (SQLException e1) {e1.printStackTrace();}
-			}
-		});
 		button.setBounds(161, 179, 130, 29);
 		frame.getContentPane().add(button);
 		

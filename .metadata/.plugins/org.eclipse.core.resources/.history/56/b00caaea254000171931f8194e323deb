@@ -85,38 +85,12 @@ public class AdminLogin extends BancoDeDados {
 		JMenu mnLogin = new JMenu("Login");
 		menuBar.add(mnLogin);
 		
-		JMenuItem mntmAdministrados = new JMenuItem("Usuário");
+		JMenuItem mntmAdministrados = new JMenuItem("Administrador");
 		mnLogin.add(mntmAdministrados);
-		mntmAdministrados.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
-				MainWindow mainWindow = new MainWindow();
-				mainWindow.main(null);
-				frame.dispose();
-			}
-		});
 		
-		JMenu mnSobre = new JMenu("Mais");
+		JMenu mnSobre = new JMenu("Sobre");
 		menuBar.add(mnSobre);
-		
-		JMenuItem mntmSobre = new JMenuItem("Sobre");
-		mnSobre.add(mntmSobre);
-		mntmSobre.addActionListener( new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
-				//TRATAR O "SOBRE" DO SOFTWARE
-			}
-		});
-		
-		JMenuItem mntmSair = new JMenuItem("Sair");
-		mnSobre.add(mntmSair);
 		frame.getContentPane().setLayout(null);
-		mntmSair.addActionListener( new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
-				System.exit(0);
-			}
-		});
 		
 		JLabel label = new JLabel("Biblioteca da Faculdade de Tecnologia da FT");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -153,9 +127,7 @@ public class AdminLogin extends BancoDeDados {
 					
 					if (rs.first())
 					{
-						AdminWindow adminWindow = new AdminWindow();
-						frame.dispose();
-						adminWindow.main(null);
+						//ABRIR JANELA DE GERENCIAMENTO
 					}
 					else
 					{

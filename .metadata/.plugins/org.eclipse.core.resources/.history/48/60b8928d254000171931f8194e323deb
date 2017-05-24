@@ -154,30 +154,10 @@ public class MainWindow extends BancoDeDados {
 		JMenu mnLogin = new JMenu("Login");
 		menuBar.add(mnLogin);
 		
-		JMenuItem mntmAdministrados= new JMenuItem("Administrador");
+		JMenuItem mntmAdministrados = new JMenuItem("Administrador");
 		mnLogin.add(mntmAdministrados);
-		mntmAdministrados.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
-				AdminLogin adminLogin = new AdminLogin();
-				adminLogin.main(null);
-				frame.dispose();
-			}
-		});
 		
-		JMenu mnSobre = new JMenu("Mais\n");
+		JMenu mnSobre = new JMenu("Sobre");
 		menuBar.add(mnSobre);
-		
-		JMenuItem mntmSobre = new JMenuItem("Sobre");
-		mnSobre.add(mntmSobre);
-		
-		JMenuItem mntmSair = new JMenuItem("Sair");
-		mnSobre.add(mntmSair);
-		mntmSair.addActionListener( new ActionListener(){
-			public void actionPerformed(ActionEvent e) 
-			{
-				System.exit(0);
-			}
-		});
 	}
 }
