@@ -113,6 +113,8 @@ public class CadastroAdmin extends BancoDeDados {
 						st.executeUpdate("INSERT INTO Administradores VALUES (NULL, '" + textField.getText() + "', '" 
 								+ textField_1.getText() + "', '" + password + "');");
 						frame.dispose();
+						MainWindow mainWindow = new MainWindow();
+						mainWindow.main(null);
 					} 
 					catch (SQLException e1) {e1.printStackTrace();}
 				}

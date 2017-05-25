@@ -1,0 +1,11 @@
+package BibliotecaSIS;
+
+import java.sql.*;
+
+public class LivrosDAO extends BancoDeDados {
+	
+	public Livro livro;
+	private BD bd;
+	
+
+}

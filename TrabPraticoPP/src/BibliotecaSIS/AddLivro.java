@@ -6,29 +6,26 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
-import javax.swing.DropMode;
 import javax.swing.SwingConstants;
 
-import java.sql.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AddLivro extends Livro {
-
+public class AddLivro
+{
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JFormattedTextField edicaoField;
-	private Livro livro;
+	private JFormattedTextField edicaoField, numExemplaresField;
+	private LivroDAO livros;
 
 	/**
 	 * Launch the application.
@@ -57,7 +54,9 @@ public class AddLivro extends Livro {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame("Adicionar livro na Biblioteca");
+		livros = new LivroDAO();
+		
+		frame = new JFrame("Adicionar Livro na Biblioteca");
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -139,11 +138,17 @@ public class AddLivro extends Livro {
 		lblTotalDeExxemplares.setBounds(6, 209, 139, 16);
 		frame.getContentPane().add(lblTotalDeExxemplares);
 		
-		textField_4 = new JTextField();
-		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_4.setBounds(159, 204, 77, 26);
-		frame.getContentPane().add(textField_4);
-		textField_4.setColumns(10);
+		try    //FORMATA O TEXTFIELD PARA SOMENTE NUMEROS
+		{
+			 javax.swing.text.MaskFormatter numExemplares = new javax.swing.text.MaskFormatter("###");
+
+			 numExemplaresField = new javax.swing.JFormattedTextField(numExemplares);
+			 numExemplaresField.setHorizontalAlignment(SwingConstants.CENTER);
+			 numExemplaresField.setBounds(159, 204, 77, 26);
+		   	 frame.getContentPane().add(numExemplaresField);
+			 numExemplaresField.setColumns(10);
+		}catch(Exception e){}
+		
 		
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(new ActionListener() {
@@ -152,26 +157,20 @@ public class AddLivro extends Livro {
 				{
 					int edicao = Integer.parseInt(edicaoField.getText());
 					int ano = Integer.parseInt(comboBox_1.getSelectedItem().toString());
-					int numExemplares = Integer.parseInt(textField_4.getText());
-					livro.setLivro(textField.getText(), textField_2.getText(), textField_1.getText(), 
-							comboBox_1.getSelectedItem().toString(), ano,
-							edicao, numExemplares);
-					Statement st =conexao.createStatement();
-					ResultSet rs = st.executeQuery("SELECT * FROM Livros WHERE Titulo='" + textField.getText() 
-													+ "' AND Edicao='" + textField_3.getText() + "';");
-					livro.setCodigo(rs.getInt(1));
-					if(!rs.first()) //SE NÃO HOUVER O LIVRO NO BD, ADICIONAR
-					{
-						
-						livro.atualizar(INCLUSAO);
-					}
-					else
-					{
-						int numeroDeExemplaresAdicionados = Integer.parseInt(edicaoField.getText()) + rs.getInt(8);
-						livro.setNumExemplaresDisponiveis(numeroDeExemplaresAdicionados);
-						livro.atualizar(ALTERACAO);
-						
-					}
+					int numExemplares = Integer.parseInt(numExemplaresField.getText());
+					livros.livro.setTitulo(textField.getText());
+					livros.livro.setEditora(textField_2.getText());
+					livros.livro.setAutor(textField_1.getText());
+					livros.livro.setIdioma(comboBox.getSelectedItem().toString());
+					livros.livro.setAno(ano);
+					livros.livro.setEdicao(edicao);
+					livros.livro.setNumExemplaresDisponiveis(numExemplares);
+					
+					JOptionPane.showMessageDialog(null, livros.atualizar(BancoDeDados.INCLUSAO));
+					frame.dispose();
+					AdminWindow adminWindow = new AdminWindow();
+					adminWindow.main(null);
+				
 				}
 				catch(Exception f){f.printStackTrace();}
 			}

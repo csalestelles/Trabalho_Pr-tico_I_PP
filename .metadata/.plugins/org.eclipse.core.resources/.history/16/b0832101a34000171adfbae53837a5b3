@@ -1,0 +1,25 @@
+package BibliotecaSIS;
+
+import java.sql.*;
+
+public class LivroDAO extends BancoDeDados {
+	
+	public Livro livro;
+	private PreparedStatement statement;
+	private ResultSet resultSet;
+	public static final byte INCLUSAO = 1;
+	public static final byte ALTERACAO = 2;
+	public static final byte EXCLUSAO = 3;
+	
+	public LivroDAO()
+	{
+		BancoDeDados bd = new BancoDeDados();
+		livro = new Livro();
+	}
+	
+	public boolean localizar()
+	{
+		sql = "SELECT * FROM Livros WHERE Titulo=? AND Edicao=?";
+	}
+
+}

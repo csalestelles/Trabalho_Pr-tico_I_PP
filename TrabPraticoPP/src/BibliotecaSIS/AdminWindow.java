@@ -68,24 +68,36 @@ public class AdminWindow {
 		menuItem_1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				frmPesquisa.dispose();
 				AddLivro addLivro = new AddLivro();
 				addLivro.main(null);
-				
+				frmPesquisa.dispose();	
 			}
 		});
 		
 		JMenuItem menuItem_2 = new JMenuItem("Monografia");
 		mnPesquisar.add(menuItem_2);
+		menuItem_2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				AddMonografia addMonografia = new AddMonografia();
+				addMonografia.main(null);
+				frmPesquisa.dispose();	
+			}
+		});
 		
 		JMenuItem menuItem_3 = new JMenuItem("Periódico");
 		mnPesquisar.add(menuItem_3);
+		menuItem_3.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				AddPeriodico addPeriodico = new AddPeriodico();
+				addPeriodico.main(null);
+				frmPesquisa.dispose();	
+			}
+		});
 		
 		JMenuItem menuItem_4 = new JMenuItem("Revista");
 		mnPesquisar.add(menuItem_4);
-		
-		JMenuItem menuItem_5 = new JMenuItem("Tese");
-		mnPesquisar.add(menuItem_5);
 		
 		JMenu mnRemover = new JMenu("Remover");
 		mnRemover.setBackground(Color.GRAY);
@@ -105,9 +117,6 @@ public class AdminWindow {
 		
 		JMenuItem mntmRevista = new JMenuItem("Revista");
 		mnRemover.add(mntmRevista);
-		
-		JMenuItem mntmTese = new JMenuItem("Tese");
-		mnRemover.add(mntmTese);
 		
 		JMenu mnSair = new JMenu("Sair");
 		menuBar.add(mnSair);
@@ -176,6 +185,10 @@ public class AdminWindow {
 		JButton btnListar = new JButton("Listar");
 		btnListar.setBounds(260, 48, 117, 29);
 		frmPesquisa.getContentPane().add(btnListar);
+		
+		JLabel lblSelecione = new JLabel("Selecione:");
+		lblSelecione.setBounds(29, 21, 82, 16);
+		frmPesquisa.getContentPane().add(lblSelecione);
 	}
 	
 	private void mudarLabel(JTextPane label, String i, JTextPane textPane, JTextField textField)

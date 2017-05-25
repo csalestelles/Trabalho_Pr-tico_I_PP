@@ -120,6 +120,7 @@ public class MainWindow extends BancoDeDados {
 			public void mouseClicked(MouseEvent e) {
 				RecuperaSenha recuperaSenha = new RecuperaSenha();
 				recuperaSenha.main(null);
+				frame.dispose();
 			}
 		});
 		lblNewLabel.setBounds(200, 130, 106, 16);
@@ -138,6 +139,7 @@ public class MainWindow extends BancoDeDados {
 			{
 				CadastroAdmin cadastroAdmin = new CadastroAdmin();
 				cadastroAdmin.main(null);
+				frame.dispose();
 			}
 		});
 		
@@ -148,6 +150,7 @@ public class MainWindow extends BancoDeDados {
 			{
 				JanelaDeCadastro janelaDeCadastro = new JanelaDeCadastro();
 				janelaDeCadastro.main(null);
+				frame.dispose();
 			}
 		});
 		

@@ -8,9 +8,6 @@ public class LivroDAO extends BancoDeDados {
 	private PreparedStatement statement;
 	private ResultSet resultSet;
 	private String men, sql;
-	public static final byte INCLUSAO = 1;
-	public static final byte ALTERACAO = 2;
-	public static final byte EXCLUSAO = 3;
 	public BancoDeDados bd;
 	
 	public LivroDAO()
@@ -47,9 +44,9 @@ public class LivroDAO extends BancoDeDados {
 		
 		try
 		{
-			if (operacao == INCLUSAO)
+			if (operacao == BancoDeDados.INCLUSAO)
 			{
-				sql = "INSERT INTO Livros values (NULL, ?, ?, ?, ?, ?, ?, ?)";
+				sql = "INSERT INTO Livros VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)";
 				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(1, livro.getTitulo());
 				statement.setString(2, livro.getAutor());
@@ -59,7 +56,7 @@ public class LivroDAO extends BancoDeDados {
 				statement.setInt(6, livro.getEdicao());
 				statement.setInt(7, livro.getNumExemplaresDisponiveis());
 			}
-			else if(operacao == ALTERACAO)
+			else if(operacao == BancoDeDados.ALTERACAO)
 			{
 				sql = "UPDATE Livros SET Autor=?, Editora=?, Idioma=?, Ano=?, Total de exemplares=? WHERE Titulo=? AND Edicao=?";
 				statement = bd.conexao.prepareStatement(sql);
@@ -71,7 +68,7 @@ public class LivroDAO extends BancoDeDados {
 				statement.setString(6, livro.getTitulo());
 				statement.setInt(7, livro.getEdicao());
 			}
-			else if (operacao == EXCLUSAO)
+			else if (operacao == BancoDeDados.EXCLUSAO)
 			{
 				sql = "DELETE FROM Livros WHERE Titulo=? AND Edicao=?";
 				statement = bd.conexao.prepareStatement(sql);

@@ -76,7 +76,9 @@ public class RecuperaSenha extends BancoDeDados {
 				 {
 					 //TRATAR ERRO DE SENHAS DIFERENTES!!!
 					 checaSenha(password, passwordConfirmation, textField.getText());
-					 frame.getDefaultCloseOperation();
+					 frame.dispose();
+					 MainWindow mainWindow = new MainWindow();
+					 mainWindow.main(null);
 				 }
 				 
 				

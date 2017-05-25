@@ -9,6 +9,10 @@ public class BancoDeDados {
 	private static String pass = "senha";
 	protected static Connection conexao = null;
 	
+	public static final byte INCLUSAO = 1;
+	public static final byte ALTERACAO = 2;
+	public static final byte EXCLUSAO = 3;
+	
 	public BancoDeDados()
 	{
 		if(conexao==null)

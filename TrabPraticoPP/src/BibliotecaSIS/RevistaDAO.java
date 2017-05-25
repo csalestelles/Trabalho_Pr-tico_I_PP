@@ -1,0 +1,86 @@
+package BibliotecaSIS;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class RevistaDAO 
+{
+	public Revista revista;
+	private PreparedStatement statement;
+	private ResultSet resultSet;
+	private String men, sql;
+	public BancoDeDados bd;
+	
+	public RevistaDAO()
+	{
+		bd = new BancoDeDados();
+		revista = new Revista();
+	}
+	
+	public boolean localizar()
+	{
+		sql = "SELECT * FROM Revistas WHERE Nome=? AND Edicao=?";
+		try
+		{
+			statement = bd.conexao.prepareStatement(sql);
+			statement.setString(1, revista.getNome());
+			statement.setInt(2, revista.getEdicao());
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			revista.setNome(resultSet.getString(2));
+			revista.setTema(resultSet.getString(4));
+			revista.setEditora(resultSet.getString(3));
+			revista.setAno(resultSet.getInt(6));
+			revista.setEdicao(resultSet.getInt(5));
+			revista.setNumExemplares(resultSet.getInt(7));
+			return true;
+		}
+		catch(SQLException e){return false;}
+	}
+	
+	public String atualizar(int operacao)
+	{
+		men = "Operação realizada com sucesso!";
+		
+		try
+		{
+			if (operacao == BancoDeDados.INCLUSAO)
+			{
+				sql = "INSERT INTO Revistas VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)";
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, revista.getNome());
+				statement.setString(2, revista.getEditora());
+				statement.setString(3, revista.getTema());
+				statement.setInt(5, revista.getEdicao());
+				statement.setInt(6, revista.getAno());
+				statement.setInt(7, revista.getNumExemplares());
+			}
+			else if(operacao == BancoDeDados.ALTERACAO)
+			{
+				sql = "UPDATE Revistas SET Editora=?, Tema=?, Ano=?, Total de exemplares=? WHERE Nome=? AND Edicao=?";
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, revista.getEditora());
+				statement.setString(2, revista.getTema());
+				statement.setInt(3, revista.getAno());
+				statement.setInt(4, revista.getNumExemplares());
+				statement.setString(5, revista.getNome());
+				statement.setInt(6, revista.getEdicao());
+			}
+			else if (operacao == BancoDeDados.EXCLUSAO)
+			{
+				sql = "DELETE FROM Livros WHERE Nome=? AND Edicao=?";
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, revista.getNome());
+				statement.setInt(2, revista.getEdicao());
+			}
+			if(statement.executeUpdate() == 0)
+			{
+				men = "Falha na operacao!";
+			}
+		}
+		catch(SQLException g){men = "Falha na operação";}
+		return men;
+	}
+
+}
