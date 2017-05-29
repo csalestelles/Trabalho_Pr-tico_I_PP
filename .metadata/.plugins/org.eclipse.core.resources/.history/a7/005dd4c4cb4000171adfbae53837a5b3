@@ -1,0 +1,13 @@
+package BibliotecaSIS;
+
+import java.sql.*;
+
+public class PeriodicoDAO extends Periodico {
+	
+	public Periodico periodico;
+	private PreparedStatement statement;
+	private ResultSet resultSet;
+	private String men, sql;
+	public BancoDeDados bd;
+
+}

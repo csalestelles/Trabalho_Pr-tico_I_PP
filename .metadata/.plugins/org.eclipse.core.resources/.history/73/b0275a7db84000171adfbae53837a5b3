@@ -1,0 +1,23 @@
+package BibliotecaSIS;
+
+import java.sql.*;
+
+public class Monografia extends MonografiaDAO {
+	
+	private String titulo, autor, orientador, tema, tipo, instituicao;
+	private int ano;
+	
+	public setMonografia(String titulo, String autor, String orientador, String tema, String tipo, String instituicao,
+			int ano) {
+		this.titulo = titulo;
+		this.autor = autor;
+		this.orientador = orientador;
+		this.tema = tema;
+		this.tipo = tipo;
+		this.instituicao = instituicao;
+		this.ano = ano;
+	}
+	
+	
+
+}

@@ -6,23 +6,42 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.SystemColor;
 import java.awt.Font;
+import javax.swing.JTable;
 
-public class AdminWindow {
+import java.sql.*;
 
+public class AdminWindow extends JPanel 
+{
+	private JTabbedPane tpAbas;
 	private JFrame frmPesquisa;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JPanel livroPanel, monografiaPanel, periodicoPanel, usuarioPanel, revistaPanel;
+	private JScrollPane usuarioScroll, monografiaScroll, periodicoScroll, livroScroll, revistaScroll;
+	
+	private LivroDAO livros = new LivroDAO();
+	private MonografiaDAO monografias;
+	private PeriodicoDAO periodicos;
+	private RevistaDAO revistas;
+	private JTable table;
 
+	private PreparedStatement statement;
+	private ResultSet resultSet;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -52,8 +71,9 @@ public class AdminWindow {
 	private void initialize() {
 		frmPesquisa = new JFrame();
 		frmPesquisa.setTitle("Pesquisa");
-		frmPesquisa.setBounds(100, 100, 450, 300);
-		frmPesquisa.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmPesquisa.setBounds(100, 100, 600, 690);
+		frmPesquisa.setResizable(false);
+		frmPesquisa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.GRAY);
@@ -123,6 +143,42 @@ public class AdminWindow {
 		
 		JMenuItem mntmLogOut = new JMenuItem("Log out");
 		mnSair.add(mntmLogOut);
+		
+		JMenu mnTeste = new JMenu("Arquivo");
+		menuBar.add(mnTeste);
+		
+		JMenu mnAdicionar = new JMenu("Adicionar");
+		mnTeste.add(mnAdicionar);
+		
+		JMenuItem mntmMonografia_1 = new JMenuItem("Documento Acadêmico");
+		mnAdicionar.add(mntmMonografia_1);
+		
+		JMenuItem mntmLivro_1 = new JMenuItem("Livro");
+		mnAdicionar.add(mntmLivro_1);
+		
+		JMenuItem mntmPeridico_1 = new JMenuItem("Periódico");
+		mnAdicionar.add(mntmPeridico_1);
+		
+		JMenuItem mntmRevista_1 = new JMenuItem("Revista");
+		mnAdicionar.add(mntmRevista_1);
+		
+		JMenu mnRemover_1 = new JMenu("Remover");
+		mnTeste.add(mnRemover_1);
+		
+		JMenuItem mntmUsurio_1 = new JMenuItem("Usuário");
+		mnRemover_1.add(mntmUsurio_1);
+		
+		JMenuItem mntmDocumentoAcadmico = new JMenuItem("Documento Acadêmico");
+		mnRemover_1.add(mntmDocumentoAcadmico);
+		
+		JMenuItem mntmLivro_2 = new JMenuItem("Livro");
+		mnRemover_1.add(mntmLivro_2);
+		
+		JMenuItem mntmPeridico_2 = new JMenuItem("Periódico");
+		mnRemover_1.add(mntmPeridico_2);
+		
+		JMenuItem mntmRevista_2 = new JMenuItem("Revista");
+		mnRemover_1.add(mntmRevista_2);
 		frmPesquisa.getContentPane().setLayout(null);
 		mntmLogOut.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent e) 
@@ -133,96 +189,56 @@ public class AdminWindow {
 			}
 		});
 		
-		JTextPane txtpnSelecione = new JTextPane();
-		txtpnSelecione.setFont(new Font("Lucida Grande", Font.BOLD, 14));
-		txtpnSelecione.setForeground(new Color(0, 0, 0));
-		txtpnSelecione.setEnabled(false);
-		txtpnSelecione.setEditable(false);
-		txtpnSelecione.setBackground(SystemColor.window);
-		txtpnSelecione.setText("Selecione o que você deseja presquisar");
-		txtpnSelecione.setBounds(29, 102, 328, 17);
-		frmPesquisa.getContentPane().add(txtpnSelecione);
+//		String[] itens = {"", "Usuário", "Livro", "Monografia", "Periódico", "Revista", "Tese"};
+		tpAbas = new JTabbedPane();
 		
-		JTextPane txtpnSelecioneOQue = new JTextPane();
-		txtpnSelecioneOQue.setText("Informações adicionais");
-		txtpnSelecioneOQue.setEnabled(false);
-		txtpnSelecioneOQue.setEditable(false);
-		txtpnSelecioneOQue.setBackground(SystemColor.window);
-		txtpnSelecioneOQue.setBounds(26, 169, 331, 16);
-		frmPesquisa.getContentPane().add(txtpnSelecioneOQue);
+		usuarioScroll = new JScrollPane();
+		tpAbas.addTab("Usuários", usuarioScroll);
 		
-		String[] itens = {"", "Usuário", "Livro", "Monografia", "Periódico", "Revista", "Tese"};
-		JComboBox comboBox = new JComboBox(itens);
-		comboBox.setBounds(26, 49, 178, 27);
-		frmPesquisa.getContentPane().add(comboBox);
-		comboBox.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				mudarLabel(txtpnSelecione, comboBox.getSelectedItem().toString(), txtpnSelecioneOQue, textField_1);
-			}
-		});
-		
-		JButton btnNewButton = new JButton("Pesquisar");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				//TRATAR PESQUISA NO BANCO DE DADOS E CRIAR JANELA DE RELATÓRIO
-			}
-		});
-		btnNewButton.setBounds(260, 207, 161, 29);
-		frmPesquisa.getContentPane().add(btnNewButton);
-		
-		textField = new JTextField();
-		textField.setBounds(26, 131, 331, 26);
-		frmPesquisa.getContentPane().add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(26, 197, 178, 26);
-		frmPesquisa.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
-		
-		JButton btnListar = new JButton("Listar");
-		btnListar.setBounds(260, 48, 117, 29);
-		frmPesquisa.getContentPane().add(btnListar);
-		
-		JLabel lblSelecione = new JLabel("Selecione:");
-		lblSelecione.setBounds(29, 21, 82, 16);
-		frmPesquisa.getContentPane().add(lblSelecione);
-	}
-	
-	private void mudarLabel(JTextPane label, String i, JTextPane textPane, JTextField textField)
-	{
-		switch(i)
+		livroScroll = new JScrollPane();
+		try 
 		{
-			case "Usuário":
-				label.setText("Insira o nome de usuário:");
-				textPane.setText("Data de Nascimento:");
-				break;
-			case "Livro":
-				label.setText("Insira o nome do livro:");
-				textPane.setText("Edição:");
-				break;
-			case "Monografia":
-				label.setText("Insira o título da monografia:");
-				textPane.setText("Autor:");
-				break;
-			case "Periódico":
-				label.setText("Insira o nome do periódico:");
-				textPane.setText("Edição:");
-				break;
-			case "Revista":
-				label.setText("Insira o nome da revista:");
-				textPane.setText("Editora:");
-				break;
-			case "Tese":
-				label.setText("Insira o título da tese:");
-				textPane.setText("Autor:");
-				break;
-			default:
-				label.setText("Selecione o que você deseja presquisar");
-				textPane.setText("");
-				textField_1.setVisible(false);
-		}
+			livros.setTabela(table, livroScroll);
+		} 
+		catch (SQLException e1) {e1.printStackTrace();}
+		tpAbas.add("Livros", livroScroll);
+		
+		tpAbas.add("Monografias", monografiaPanel);
+		monografiaPanel = new JPanel();
+		monografiaScroll = new JScrollPane();
+		monografiaScroll.setBounds(50, 50, 500, 590);
+		monografiaPanel.add(monografiaScroll);
+		
+		tpAbas.add("Periódicos", periodicoPanel);
+		periodicoPanel = new JPanel();
+		periodicoScroll = new JScrollPane();
+		periodicoScroll.setBounds(50, 50, 500, 590);
+		periodicoPanel.add(periodicoScroll);
+		
+		tpAbas.add("Revistas", revistaPanel);
+		revistaPanel = new JPanel();
+		revistaScroll = new JScrollPane();
+		revistaScroll.setBounds(50, 50, 500, 590);
+		revistaPanel.add(revistaScroll);
+		
+		tpAbas.setBounds(50, 50, 500, 590);
+		frmPesquisa.getContentPane().add(tpAbas);
+		
+		
+		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setBounds(50, 9, 117, 29);
+		frmPesquisa.getContentPane().add(btnAdicionar);
+		
+		JButton btnRemover = new JButton("Remover");
+		btnRemover.setBounds(179, 9, 117, 29);
+		frmPesquisa.getContentPane().add(btnRemover);
+		
+		JButton btnEdita = new JButton("Editar");
+		btnEdita.setBounds(308, 9, 117, 29);
+		frmPesquisa.getContentPane().add(btnEdita);
+		
+		JButton btnRelatorio = new JButton("Relatório");
+		btnRelatorio.setBounds(437, 9, 117, 29);
+		frmPesquisa.getContentPane().add(btnRelatorio);
 	}
 }

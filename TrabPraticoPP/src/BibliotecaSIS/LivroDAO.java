@@ -2,6 +2,10 @@ package BibliotecaSIS;
 
 import java.sql.*;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 public class LivroDAO extends BancoDeDados {
 	
 	public Livro livro;
@@ -9,6 +13,8 @@ public class LivroDAO extends BancoDeDados {
 	private ResultSet resultSet;
 	private String men, sql;
 	public BancoDeDados bd;
+	
+	private String campoTitulo, campoAutor, campoEditora, campoIdioma, campoAno, campoEdicao, campoExemplares;
 	
 	public LivroDAO()
 	{
@@ -82,6 +88,40 @@ public class LivroDAO extends BancoDeDados {
 		}
 		catch(SQLException g){men = "Falha na operação";}
 		return men;
+	}
+	
+	public void setTabela(JTable tabela, JScrollPane scroll) throws SQLException
+	{
+		String sql = "SELECT * FROM Livros";
+		statement = bd.conexao.prepareStatement(sql);
+		resultSet = statement.executeQuery();	
+		
+		@SuppressWarnings("serial")
+		DefaultTableModel modelo = new DefaultTableModel(
+				new String[]{}, 0) {	
+				};
+				
+		
+		int qtdColunas = resultSet.getMetaData().getColumnCount() - 1;		
+		for(int indice = 1; indice <= qtdColunas; indice++)
+		{
+			modelo.addColumn(resultSet.getMetaData().getColumnName(indice+1));
+		}
+		
+		tabela = new JTable(modelo);
+		DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
+		
+		while(resultSet.next())
+		{
+			String[] dados = new String[qtdColunas];
+			for(int i = 1; i <= qtdColunas; i++)
+			{
+				dados[i-1] = resultSet.getString(i+1);
+			}
+			
+			dtm.addRow(dados);
+			scroll.setViewportView(tabela);
+		}
 	}
 
 }

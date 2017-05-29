@@ -1,0 +1,210 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+
+import java.sql.*;
+
+public class AddPeriodico extends Periodico {
+
+	private JFrame frame;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JFormattedTextField anoField, exemplarField, quantidadeField;
+	
+	private PeriodicoDAO periodicos;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AddPeriodico window = new AddPeriodico();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public AddPeriodico() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setBounds(6, 6, 93, 16);
+		frame.getContentPane().add(lblNome);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(6, 23, 368, 26);
+		frame.getContentPane().add(textField);
+		
+		JLabel lblEditora = new JLabel("Editora:");
+		lblEditora.setBounds(6, 61, 61, 16);
+		frame.getContentPane().add(lblEditora);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(6, 80, 230, 26);
+		frame.getContentPane().add(textField_1);
+		
+		JLabel lblTema = new JLabel("Tema:");
+		lblTema.setBounds(6, 118, 61, 16);
+		frame.getContentPane().add(lblTema);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(6, 138, 230, 26);
+		frame.getContentPane().add(textField_2);
+		
+		JLabel lblPerodo = new JLabel("Período:");
+		lblPerodo.setBounds(255, 61, 61, 16);
+		frame.getContentPane().add(lblPerodo);
+		
+		String[] periodo = {"", "Anual", "Semestral", "trimestral", "Mensal", "Quinzenal"};
+		JComboBox comboBox = new JComboBox(periodo);
+		comboBox.setBounds(248, 81, 147, 27);
+		frame.getContentPane().add(comboBox);
+		
+		JLabel lblAno = new JLabel("Ano:");
+		lblAno.setBounds(248, 123, 61, 16);
+		frame.getContentPane().add(lblAno);
+		
+		try    //FORMATA O TEXTFIELD PARA SOMENTE NUMEROS
+		{
+			 javax.swing.text.MaskFormatter ano = new javax.swing.text.MaskFormatter("####");
+
+			 anoField = new javax.swing.JFormattedTextField(ano);
+			 anoField.setHorizontalAlignment(SwingConstants.CENTER);
+			 anoField.setBounds(317, 118, 92, 26);
+		   	 frame.getContentPane().add(anoField);
+			 anoField.setColumns(10);
+		}catch(Exception e){}
+		
+		JLabel lblExemplar = new JLabel("Exemplar:");
+		lblExemplar.setBounds(248, 159, 68, 16);
+		frame.getContentPane().add(lblExemplar);
+		
+		try    //FORMATA O TEXTFIELD PARA SOMENTE NUMEROS
+		{
+			 javax.swing.text.MaskFormatter exemplar = new javax.swing.text.MaskFormatter("###");
+
+			 exemplarField = new javax.swing.JFormattedTextField(exemplar);
+			 exemplarField.setHorizontalAlignment(SwingConstants.CENTER);
+			 exemplarField.setBounds(317, 154, 92, 26);
+		   	 frame.getContentPane().add(exemplarField);
+			 exemplarField.setColumns(10);
+		}catch(Exception e){}
+		
+		JLabel lblQuantidade = new JLabel("Quantidade:");
+		lblQuantidade.setBounds(6, 176, 93, 16);
+		frame.getContentPane().add(lblQuantidade);
+		
+		try    //FORMATA O TEXTFIELD PARA SOMENTE NUMEROS
+		{
+			 javax.swing.text.MaskFormatter quantidade = new javax.swing.text.MaskFormatter("##");
+
+			 quantidadeField = new javax.swing.JFormattedTextField(quantidade);
+			 quantidadeField.setHorizontalAlignment(SwingConstants.CENTER);
+			 quantidadeField.setBounds(111, 171, 61, 26);
+		   	 frame.getContentPane().add(quantidadeField);
+		   	quantidadeField.setColumns(10);
+		}catch(Exception e){}
+		
+		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try
+				{
+					int exemplar = Integer.parseInt(exemplarField.getText());
+					int ano = Integer.parseInt(anoField.getText());
+					int quantidade = Integer.parseInt(quantidadeField.getText());
+//					periodico = new Periodico(textField.getText(), comboBox.getSelectedItem().toString(), textField_1.getText(),
+//							textField_2.getText(), ano, exemplar, quantidade);
+					periodico.setNome(textField.getText());
+					periodico.setPeriodo(comboBox.getSelectedItem().toString());
+					periodico.setEditora(textField_1.getText());
+					periodico.setTema(textField_2.getText());
+					periodico.setAno(ano);
+					periodico.setExemplar(exemplar);
+					periodico.setNumExemplares(quantidade);
+					
+//					periodico.setPeriodico(textField.getText(), comboBox.getSelectedItem().toString(),
+//								textField_1.getText(), textField_2.getText(), ano, exemplar, quantidade);
+					Statement st = conexao.createStatement();
+					ResultSet rs = st.executeQuery("SELECT * FROM Periodicos WHERE Nome='" + textField.getText() 
+													+ "' AND Exemplar='" + exemplar + "';");
+					if(!rs.first()) //SE NÃO HOUVER O LIVRO NO BD, ADICIONAR
+					{
+						periodico.atualizar(INCLUSAO);
+						//MOSTRAR INFORMAÇÃO DE ATUALIZADO COM SUCESSO
+						frame.dispose();
+						AdminWindow adminWindow = new AdminWindow();
+						adminWindow.main(null);
+						//LIVRO ADICIONADO, VOLTAR PARA A PÁGINA DO ADMIN
+					}
+					else
+					{
+						int numeroDeExemplaresAdicionados = Integer.parseInt(quantidadeField.getText()) + rs.getInt(8);
+						periodico.setNumExemplares(numeroDeExemplaresAdicionados);
+						periodico.atualizar(ALTERACAO);
+						//LIVRO ATUALIZADO, VOLTAR PARA A PÁGINA DO ADMIN	
+					}
+				}
+				catch(Exception j){j.printStackTrace();}
+				
+			}
+		});
+		btnAdicionar.setBounds(248, 206, 117, 29);
+		frame.getContentPane().add(btnAdicionar);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnMais = new JMenu("Mais");
+		menuBar.add(mnMais);
+		
+		JMenuItem mntmCancelar = new JMenuItem("Cancelar");
+		mnMais.add(mntmCancelar);
+		mntmCancelar.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.dispose();
+				AdminWindow adminWindow = new AdminWindow();
+				adminWindow.main(null);
+			}
+		});
+	}
+
+}

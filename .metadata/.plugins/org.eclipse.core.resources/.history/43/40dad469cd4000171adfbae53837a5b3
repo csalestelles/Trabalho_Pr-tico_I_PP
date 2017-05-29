@@ -1,0 +1,58 @@
+package BibliotecaSIS;
+
+public class Periodico {
+	
+	private String nome, periodo, editora, tema;
+	private int ano, exemplar, numExemplares;
+	
+	public void setPeriodico(String nome, String periodo, String editora, String tema, int ano, int exemplar, int numExemplares)
+	{
+		this.nome = nome;
+		this.periodo = periodo;
+		this.editora = editora;
+		this.tema = tema;
+		this.ano = ano;
+		this.exemplar = exemplar;
+		this.numExemplares = numExemplares; 
+	}
+	
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public String getPeriodo() {
+		return periodo;
+	}
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
+	}
+	public String getEditora() {
+		return editora;
+	}
+	public void setEditora(String editora) {
+		this.editora = editora;
+	}
+	public String getTema() {
+		return tema;
+	}
+	public void setTema(String tema) {
+		this.tema = tema;
+	}
+	public int getAno() {
+		return ano;
+	}
+	public void setAno(int ano) {
+		this.ano = ano;
+	}
+	public int getEdicao() {
+		return edicao;
+	}
+	public void setEdicao(int edicao) {
+		this.edicao = edicao;
+	}
+
+	
+	
+}

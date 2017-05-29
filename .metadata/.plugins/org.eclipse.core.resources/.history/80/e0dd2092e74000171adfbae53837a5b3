@@ -1,0 +1,89 @@
+package BibliotecaSIS;
+
+import java.sql.*;
+
+public class PeriodicoDAO {
+	
+	public Periodico periodico;
+	private PreparedStatement statement;
+	private ResultSet resultSet;
+	private String men, sql;
+	public BancoDeDados bd;
+	
+	public PeriodicoDAO()
+	{
+		bd = new BancoDeDados();
+		periodico = new Periodico();
+	}
+	
+	public boolean localizar()
+	{
+		sql = "SELECT * FROM Periodicos WHERE Nome='?' AND Exemplar='?'";
+		try
+		{
+			statement = bd.conexao.prepareStatement(sql);
+			statement.setString(1, periodico.getNome());
+			statement.setInt(2, periodico.getExemplar());
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			periodico.setNome(resultSet.getString(2));
+			periodico.setPeriodo(resultSet.getString(3));
+			periodico.setEditora(resultSet.getString(4));
+			periodico.setTema(resultSet.getString(5));
+			periodico.setAno(resultSet.getInt(6));
+			periodico.setExemplar(resultSet.getInt(7));
+			periodico.setNumExemplares(resultSet.getInt(8));
+			return true;
+		}
+		catch(SQLException e){return false;}
+	}
+	
+	public String atualizar(int operacao)
+	{
+		men = "Operação realizada com sucesso!";
+		
+		try
+		{
+			if (operacao == BancoDeDados.INCLUSAO)
+			{
+				sql = "INSERT INTO Periodicos values (NULL, '?', '?', '?', '?', '?', '?', '?');";
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, periodico.getNome());
+				statement.setString(2, periodico.getPeriodo());
+				statement.setString(3, periodico.getEditora());
+				statement.setString(4, periodico.getTema());
+				statement.setInt(5, periodico.getAno());
+				statement.setInt(6, periodico.getExemplar());
+				statement.setInt(7, periodico.getNumExemplares());
+			}
+			else if(operacao == BancoDeDados.ALTERACAO)
+			{
+				sql = "UPDATE Periodicos SET Periodo=?, Editora=?, Tema=?, Ano=?, Exemplar=?, Numero de exemplares=?"
+						+ " WHERE Nome=? AND Exemplar=?;";
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, periodico.getPeriodo());
+				statement.setString(2, periodico.getEditora());
+				statement.setString(3, periodico.getTema());
+				statement.setInt(4, periodico.getAno());
+				statement.setInt(5, periodico.getNumExemplares());
+				statement.setString(6, periodico.getNome());
+				statement.setInt(7, periodico.getExemplar());
+//				statement.executeUpdate();
+			}
+			else if (operacao == BancoDeDados.EXCLUSAO)
+			{
+				sql = "DELETE FROM Periodicos WHERE Nome=? AND Exemplar=?";
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, periodico.getNome());
+				statement.setInt(2, periodico.getExemplar());
+			}
+			if(statement.executeUpdate() == 0)
+			{
+				men = "Falha na operacao!";
+			}
+		}
+		catch(SQLException g){men = "Falha na operação";}
+		return men;
+	}
+
+}
