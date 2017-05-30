@@ -1,10 +1,15 @@
 package BibliotecaSIS;
 
 import java.sql.*;
+import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 
 public class LivroDAO extends BancoDeDados {
 	
@@ -90,7 +95,64 @@ public class LivroDAO extends BancoDeDados {
 		return men;
 	}
 	
-	public void setTabela(JTable tabela, JScrollPane scroll) throws SQLException
+	public ArrayList<Livro> listarLivros() throws SQLException
+	{
+		ArrayList<Livro> list = new ArrayList<Livro>();
+		
+		sql = "SELECT * FROM Livros";
+		statement = BancoDeDados.conexao.prepareStatement(sql);
+		resultSet = statement.executeQuery();
+		while(resultSet.next())
+		{
+			Livro livroAdd = new Livro();
+			livroAdd.setTitulo(resultSet.getString(2));
+			livroAdd.setAutor(resultSet.getString(3));
+			livroAdd.setEditora(resultSet.getString(4));
+			livroAdd.setIdioma(resultSet.getString(5));
+			livroAdd.setAno(resultSet.getInt(6));
+			livroAdd.setEdicao(resultSet.getInt(7));
+			livroAdd.setNumExemplaresDisponiveis(8);
+			list.add(livroAdd);
+		}
+		
+		return list;
+	}
+	
+	public void showLivrosTable(JTable table)
+	{
+		ArrayList<Livro> listLivros = new ArrayList<Livro>();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
+		table.setModel(new DefaultTableModel(
+				new String[]{"Título", "Autor", "Editora", "Idioma", "Ano", "Edição", "Exemplares"}, 0) {
+				public boolean isCellEditable(int row, int col)
+				{	
+					return false;
+				}
+				});
+		try 
+		{
+			listLivros = listarLivros();
+		} 
+		catch (SQLException e) {e.printStackTrace();}
+		
+		DefaultTableModel model =(DefaultTableModel)table.getModel();
+		model.setNumRows(0);
+		Object[] row = new Object[7];
+		for (int i=0; i<listLivros.size();i++)
+		{
+			row[0] = listLivros.get(i).getTitulo();
+			row[1] = listLivros.get(i).getAutor();
+			row[2] = listLivros.get(i).getEditora();
+			row[3] = listLivros.get(i).getIdioma();
+			row[4] = listLivros.get(i).getAno();
+			row[5] = listLivros.get(i).getEdicao();
+			row[6] = listLivros.get(i).getNumExemplaresDisponiveis();
+			
+			model.addRow(row);
+		}
+	}
+	
+	public void setTabela(JTable tabela) throws SQLException
 	{
 		String sql = "SELECT * FROM Livros";
 		statement = bd.conexao.prepareStatement(sql);
@@ -98,7 +160,11 @@ public class LivroDAO extends BancoDeDados {
 		
 		@SuppressWarnings("serial")
 		DefaultTableModel modelo = new DefaultTableModel(
-				new String[]{}, 0) {	
+				new String[]{}, 0) {
+				public boolean isCellEditable(int row, int col)
+				{	
+					return false;
+				}
 				};
 				
 		
@@ -109,6 +175,7 @@ public class LivroDAO extends BancoDeDados {
 		}
 		
 		tabela = new JTable(modelo);
+		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 		DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
 		
 		while(resultSet.next())
@@ -120,7 +187,24 @@ public class LivroDAO extends BancoDeDados {
 			}
 			
 			dtm.addRow(dados);
-			scroll.setViewportView(tabela);
+		}
+	}
+	
+	public void removeDaTabela(JTable table, LivroDAO livros) throws SQLException
+	{
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		
+		if (table.getSelectedRow() != -1)
+		{
+			int indice = table.getSelectedRow();
+			livros.livro.setTitulo((String) table.getValueAt(indice, 0));
+			livros.livro.setEdicao((int) table.getValueAt(indice, 5));
+			dtm.removeRow(table.getSelectedRow());
+			JOptionPane.showMessageDialog(null, livros.atualizar(BancoDeDados.EXCLUSAO));
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
 		}
 	}
 

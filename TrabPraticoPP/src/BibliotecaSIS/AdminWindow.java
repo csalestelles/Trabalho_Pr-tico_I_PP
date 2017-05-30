@@ -6,18 +6,25 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Observable;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.SystemColor;
@@ -30,18 +37,19 @@ public class AdminWindow extends JPanel
 {
 	private JTabbedPane tpAbas;
 	private JFrame frmPesquisa;
-	private JPanel livroPanel, monografiaPanel, periodicoPanel, usuarioPanel, revistaPanel;
-	private JScrollPane usuarioScroll, monografiaScroll, periodicoScroll, livroScroll, revistaScroll;
-	
-	private LivroDAO livros = new LivroDAO();
-	private MonografiaDAO monografias;
-	private PeriodicoDAO periodicos;
-	private RevistaDAO revistas;
 	private JTable table;
-
-	private PreparedStatement statement;
-	private ResultSet resultSet;
+	private JScrollPane livroScroll, usuarioScroll, monografiaScroll, periodicoScroll, revistaScroll;
+	private UsuarioDAO usuarios = new UsuarioDAO();
+	private LivroDAO livros = new LivroDAO();
+	private MonografiaDAO monografias = new MonografiaDAO();
+	private PeriodicoDAO periodicos = new PeriodicoDAO();
+	private RevistaDAO revistas = new RevistaDAO();
 	
+	private ArrayList<Livro> listLivros = new ArrayList<Livro>();
+	
+	private JButton btnAdicionar;
+	
+
 	/**
 	 * Launch the application.
 	 */
@@ -61,30 +69,155 @@ public class AdminWindow extends JPanel
 	/**
 	 * Create the application.
 	 */
-	public AdminWindow() {
+	public AdminWindow() 
+	{
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize() {		
 		frmPesquisa = new JFrame();
 		frmPesquisa.setTitle("Pesquisa");
-		frmPesquisa.setBounds(100, 100, 600, 690);
+		frmPesquisa.setBounds(100, 100, 700, 590);
 		frmPesquisa.setResizable(false);
 		frmPesquisa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmPesquisa.getContentPane().setLayout(null);
 		
+		/*
+		 * Criação dos objetos da interface
+		 */
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.GRAY);
-		frmPesquisa.setJMenuBar(menuBar);
 		
 		JMenu mnPesquisar = new JMenu("Adicionar");
 		mnPesquisar.setBackground(Color.GRAY);
-		menuBar.add(mnPesquisar);
 		
 		JMenuItem menuItem_1 = new JMenuItem("Livro");
+		
+		JMenuItem menuItem_2 = new JMenuItem("Monografia");
+		
+		JMenuItem menuItem_3 = new JMenuItem("Periódico");
+		
+		JMenuItem menuItem_4 = new JMenuItem("Revista");
+		
+		JMenu mnRemover = new JMenu("Remover");
+		mnRemover.setBackground(Color.GRAY);
+		
+		JMenuItem mntmUsurio = new JMenuItem("Usuário");
+		
+		JMenuItem mntmLivro = new JMenuItem("Livro");
+		
+		JMenuItem mntmMonografia = new JMenuItem("Monografia");
+		
+		JMenuItem mntmPeridico = new JMenuItem("Periódico");
+		
+		JMenuItem mntmRevista = new JMenuItem("Revista");
+		
+		JMenu mnSair = new JMenu("Sair");
+		
+		JMenuItem mntmLogOut = new JMenuItem("Log out");
+		
+		JMenu mnTeste = new JMenu("Arquivo");
+		
+		JMenu mnAdicionar = new JMenu("Adicionar");
+		
+		JMenuItem mntmMonografia_1 = new JMenuItem("Documento Acadêmico");
+		
+		JMenuItem mntmLivro_1 = new JMenuItem("Livro");
+		
+		JMenuItem mntmPeridico_1 = new JMenuItem("Periódico");
+		
+		JMenuItem mntmRevista_1 = new JMenuItem("Revista");
+		
+		JMenu mnRemover_1 = new JMenu("Remover");
+		
+		JMenuItem mntmUsurio_1 = new JMenuItem("Usuário");
+		
+		JMenuItem mntmDocumentoAcadmico = new JMenuItem("Documento Acadêmico");
+		
+		JMenuItem mntmLivro_2 = new JMenuItem("Livro");
+		
+		JMenuItem mntmPeridico_2 = new JMenuItem("Periódico");
+		
+		JMenuItem mntmRevista_2 = new JMenuItem("Revista");
+		
+		tpAbas = new JTabbedPane();
+		table = new JTable();
+		livroScroll = new JScrollPane();
+		usuarioScroll = new JScrollPane();
+		monografiaScroll = new JScrollPane();
+		periodicoScroll = new JScrollPane();
+		revistaScroll = new JScrollPane();
+		
+		JButton btnRemover = new JButton("Remover");
+		btnAdicionar = new JButton("Adicionar");
+		JButton btnRelatorio = new JButton("Relatório");
+		JButton btnEdita = new JButton("Editar");
+		
+		
+		
+		
+		/*
+		 * Adicionando à interface
+		 */
+		
+		frmPesquisa.setJMenuBar(menuBar);
+		
+		menuBar.add(mnPesquisar);
+		menuBar.add(mnRemover);
+		mnPesquisar.add(menuItem_2);
 		mnPesquisar.add(menuItem_1);
+		mnPesquisar.add(menuItem_3);
+		mnPesquisar.add(menuItem_4);
+		mnRemover.add(mntmUsurio);
+		mnRemover.add(mntmLivro);
+		mnRemover.add(mntmMonografia);
+		mnRemover.add(mntmPeridico);
+		mnRemover.add(mntmRevista);
+		menuBar.add(mnSair);
+		mnSair.add(mntmLogOut);
+		menuBar.add(mnTeste);
+		mnRemover_1.add(mntmRevista_2);
+		mnTeste.add(mnAdicionar);
+		mnAdicionar.add(mntmMonografia_1);
+		mnAdicionar.add(mntmLivro_1);
+		mnAdicionar.add(mntmPeridico_1);
+		mnAdicionar.add(mntmRevista_1);
+		mnTeste.add(mnRemover_1);
+		mnRemover_1.add(mntmUsurio_1);
+		mnRemover_1.add(mntmDocumentoAcadmico);
+		mnRemover_1.add(mntmLivro_2);
+		mnRemover_1.add(mntmPeridico_2);
+		
+		btnAdicionar.setBounds(50, 9, 117, 29);
+		btnAdicionar.setEnabled(false);
+		frmPesquisa.getContentPane().add(btnAdicionar);
+		
+		btnRemover.setBounds(179, 9, 117, 29);
+		frmPesquisa.getContentPane().add(btnRemover);
+		
+		btnEdita.setBounds(308, 9, 117, 29);
+		frmPesquisa.getContentPane().add(btnEdita);
+		
+		btnRelatorio.setBounds(437, 9, 117, 29);
+		frmPesquisa.getContentPane().add(btnRelatorio);
+		
+		livroScroll.setViewportView(table);
+		
+		tpAbas.add("Usuarios", usuarioScroll);
+		tpAbas.add("Livros", livroScroll);
+		tpAbas.add("Monografias", monografiaScroll);
+		tpAbas.add("Periódicos", periodicoScroll);
+		tpAbas.add("Revistas", revistaScroll);
+		tpAbas.setBounds(50, 50, 600, 490);
+		frmPesquisa.getContentPane().add(tpAbas);
+		
+		
+		/*
+		 * EVENTOS
+		 */
 		menuItem_1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
@@ -94,8 +227,6 @@ public class AdminWindow extends JPanel
 			}
 		});
 		
-		JMenuItem menuItem_2 = new JMenuItem("Monografia");
-		mnPesquisar.add(menuItem_2);
 		menuItem_2.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
@@ -105,8 +236,6 @@ public class AdminWindow extends JPanel
 			}
 		});
 		
-		JMenuItem menuItem_3 = new JMenuItem("Periódico");
-		mnPesquisar.add(menuItem_3);
 		menuItem_3.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
@@ -116,70 +245,6 @@ public class AdminWindow extends JPanel
 			}
 		});
 		
-		JMenuItem menuItem_4 = new JMenuItem("Revista");
-		mnPesquisar.add(menuItem_4);
-		
-		JMenu mnRemover = new JMenu("Remover");
-		mnRemover.setBackground(Color.GRAY);
-		menuBar.add(mnRemover);
-		
-		JMenuItem mntmUsurio = new JMenuItem("Usuário");
-		mnRemover.add(mntmUsurio);
-		
-		JMenuItem mntmLivro = new JMenuItem("Livro");
-		mnRemover.add(mntmLivro);
-		
-		JMenuItem mntmMonografia = new JMenuItem("Monografia");
-		mnRemover.add(mntmMonografia);
-		
-		JMenuItem mntmPeridico = new JMenuItem("Periódico");
-		mnRemover.add(mntmPeridico);
-		
-		JMenuItem mntmRevista = new JMenuItem("Revista");
-		mnRemover.add(mntmRevista);
-		
-		JMenu mnSair = new JMenu("Sair");
-		menuBar.add(mnSair);
-		
-		JMenuItem mntmLogOut = new JMenuItem("Log out");
-		mnSair.add(mntmLogOut);
-		
-		JMenu mnTeste = new JMenu("Arquivo");
-		menuBar.add(mnTeste);
-		
-		JMenu mnAdicionar = new JMenu("Adicionar");
-		mnTeste.add(mnAdicionar);
-		
-		JMenuItem mntmMonografia_1 = new JMenuItem("Documento Acadêmico");
-		mnAdicionar.add(mntmMonografia_1);
-		
-		JMenuItem mntmLivro_1 = new JMenuItem("Livro");
-		mnAdicionar.add(mntmLivro_1);
-		
-		JMenuItem mntmPeridico_1 = new JMenuItem("Periódico");
-		mnAdicionar.add(mntmPeridico_1);
-		
-		JMenuItem mntmRevista_1 = new JMenuItem("Revista");
-		mnAdicionar.add(mntmRevista_1);
-		
-		JMenu mnRemover_1 = new JMenu("Remover");
-		mnTeste.add(mnRemover_1);
-		
-		JMenuItem mntmUsurio_1 = new JMenuItem("Usuário");
-		mnRemover_1.add(mntmUsurio_1);
-		
-		JMenuItem mntmDocumentoAcadmico = new JMenuItem("Documento Acadêmico");
-		mnRemover_1.add(mntmDocumentoAcadmico);
-		
-		JMenuItem mntmLivro_2 = new JMenuItem("Livro");
-		mnRemover_1.add(mntmLivro_2);
-		
-		JMenuItem mntmPeridico_2 = new JMenuItem("Periódico");
-		mnRemover_1.add(mntmPeridico_2);
-		
-		JMenuItem mntmRevista_2 = new JMenuItem("Revista");
-		mnRemover_1.add(mntmRevista_2);
-		frmPesquisa.getContentPane().setLayout(null);
 		mntmLogOut.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -189,56 +254,107 @@ public class AdminWindow extends JPanel
 			}
 		});
 		
-//		String[] itens = {"", "Usuário", "Livro", "Monografia", "Periódico", "Revista", "Tese"};
-		tpAbas = new JTabbedPane();
-		
-		usuarioScroll = new JScrollPane();
-		tpAbas.addTab("Usuários", usuarioScroll);
-		
-		livroScroll = new JScrollPane();
-		try 
-		{
-			livros.setTabela(table, livroScroll);
-		} 
-		catch (SQLException e1) {e1.printStackTrace();}
-		tpAbas.add("Livros", livroScroll);
-		
-		tpAbas.add("Monografias", monografiaPanel);
-		monografiaPanel = new JPanel();
-		monografiaScroll = new JScrollPane();
-		monografiaScroll.setBounds(50, 50, 500, 590);
-		monografiaPanel.add(monografiaScroll);
-		
-		tpAbas.add("Periódicos", periodicoPanel);
-		periodicoPanel = new JPanel();
-		periodicoScroll = new JScrollPane();
-		periodicoScroll.setBounds(50, 50, 500, 590);
-		periodicoPanel.add(periodicoScroll);
-		
-		tpAbas.add("Revistas", revistaPanel);
-		revistaPanel = new JPanel();
-		revistaScroll = new JScrollPane();
-		revistaScroll.setBounds(50, 50, 500, 590);
-		revistaPanel.add(revistaScroll);
-		
-		tpAbas.setBounds(50, 50, 500, 590);
-		frmPesquisa.getContentPane().add(tpAbas);
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				adicionarBotao(tpAbas);
+			}
+		});
 		
 		
-		JButton btnAdicionar = new JButton("Adicionar");
-		btnAdicionar.setBounds(50, 9, 117, 29);
-		frmPesquisa.getContentPane().add(btnAdicionar);
+		 tpAbas.addChangeListener(new javax.swing.event.ChangeListener() {
+			    public void stateChanged(javax.swing.event.ChangeEvent e) {
+			        int aba = tpAbas.getSelectedIndex();
+			    	if (aba == 0) 
+			        {
+			            btnAdicionar.setEnabled(false);
+			        }
+			        else
+			        {
+			        	btnAdicionar.setEnabled(true);
+			        	if (aba == 1)
+			        	{
+			        		livros.showLivrosTable(table);
+			        	}
+			        }
+			    }
+			});
 		
-		JButton btnRemover = new JButton("Remover");
-		btnRemover.setBounds(179, 9, 117, 29);
-		frmPesquisa.getContentPane().add(btnRemover);
-		
-		JButton btnEdita = new JButton("Editar");
-		btnEdita.setBounds(308, 9, 117, 29);
-		frmPesquisa.getContentPane().add(btnEdita);
-		
-		JButton btnRelatorio = new JButton("Relatório");
-		btnRelatorio.setBounds(437, 9, 117, 29);
-		frmPesquisa.getContentPane().add(btnRelatorio);
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				try 
+				{
+					removerBotao(tpAbas);
+				} 
+				catch (SQLException e1) {e1.printStackTrace();}
+			}
+		});
 	}
+	
+	/*
+	 * 
+	 * FIM DO INITIALIZE
+	 * 
+	 * *******************************************************
+	 * 
+	 * MÉTODOS ADICIONAIS
+	 * 
+	 */
+	
+	private void adicionarBotao(JTabbedPane abas)
+	{
+		int valor = abas.getSelectedIndex();
+		switch(valor)
+		{
+			case 1:
+				frmPesquisa.dispose();
+				AddLivro.main(null);
+				break;
+			case 2:
+				frmPesquisa.dispose();
+				AddMonografia.main(null);
+				break;
+			case 3:
+				frmPesquisa.dispose();
+				AddPeriodico.main(null);
+				break;
+			case 4:
+				frmPesquisa.dispose();
+				AddRevista.main(null);
+				break;
+			default: 
+				System.out.println("erro\n");	
+		}
+	}
+	
+	private void removerBotao(JTabbedPane abas) throws SQLException
+	{
+		int valor = abas.getSelectedIndex();
+		switch(valor)
+		{
+			case 0:
+				//frmPesquisa.dispose();
+				//AddLivro.main(null);
+				break;
+			case 1:
+				//frmPesquisa.dispose();
+				livros.removeDaTabela(table, livros);
+				break;
+			case 2:
+				//frmPesquisa.dispose();
+				//AddPeriodico.main(null);
+				break;
+			case 3:
+				//frmPesquisa.dispose();
+				//AddRevista.main(null);
+				break;
+			case 4:
+				//frmPesquisa.dispose();
+				break;
+			default: 
+				System.out.println("erro\n");	
+		}
+	}
+	
 }

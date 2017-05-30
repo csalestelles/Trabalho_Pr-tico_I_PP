@@ -4,6 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 public class RevistaDAO 
 {
 	public Revista revista;
@@ -81,6 +86,45 @@ public class RevistaDAO
 		}
 		catch(SQLException g){men = "Falha na operação";}
 		return men;
+	}
+	
+	public void setTabela(JTable tabela, JScrollPane scroll) throws SQLException
+	{
+		String sql = "SELECT * FROM Revistas";
+		statement = bd.conexao.prepareStatement(sql);
+		resultSet = statement.executeQuery();	
+		
+		@SuppressWarnings("serial")
+		DefaultTableModel modelo = new DefaultTableModel(
+				new String[]{}, 0) 
+				{
+					public boolean isCellEditable(int row, int col)
+					{	
+						return false;
+					}	
+				};
+				
+		
+		int qtdColunas = resultSet.getMetaData().getColumnCount() - 1;		
+		for(int indice = 1; indice <= qtdColunas; indice++)
+		{
+			modelo.addColumn(resultSet.getMetaData().getColumnName(indice+1));
+		}
+		
+		tabela = new JTable(modelo);
+		DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
+		
+		while(resultSet.next())
+		{
+			String[] dados = new String[qtdColunas];
+			for(int i = 1; i <= qtdColunas; i++)
+			{
+				dados[i-1] = resultSet.getString(i+1);
+			}
+			
+			dtm.addRow(dados);
+			scroll.setViewportView(tabela);
+		}
 	}
 
 }
