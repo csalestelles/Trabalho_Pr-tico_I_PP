@@ -69,7 +69,7 @@ public class LivroDAO extends BancoDeDados {
 			}
 			else if(operacao == BancoDeDados.ALTERACAO)
 			{
-				sql = "UPDATE Livros SET Autor=?, Editora=?, Idioma=?, Ano=?, Total de exemplares=? WHERE Titulo=? AND Edicao=?";
+				sql = "UPDATE Livros SET Autor=?, Editora=?, Idioma=?, Ano=?, Exemplares=? WHERE Titulo=? AND Edicao=?";
 				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(1, livro.getAutor());
 				statement.setString(2, livro.getEditora());
@@ -176,8 +176,22 @@ public class LivroDAO extends BancoDeDados {
 		}
 	}
 	
-	public void editarTabela()
+	public void editarTabela(JTable table, LivroDAO livros)
 	{
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		
+		if (table.getSelectedRow() != -1)
+		{
+			int indice = table.getSelectedRow();
+			
+			EditarLivro editarLivro = new EditarLivro((String) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), 
+						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3), (int) table.getValueAt(indice, 4),
+						(int) table.getValueAt(indice, 5), (int) table.getValueAt(indice, 6));
+			editarLivro.main(null);		
+//			EditarUsuario editarUsuario = new EditarUsuario(((String) table.getValueAt(indice, 0)), (String) table.getValueAt(indice, 1), 
+//						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3));
+//			editarUsuario.main(null);
+		}
 		
 	}
 
