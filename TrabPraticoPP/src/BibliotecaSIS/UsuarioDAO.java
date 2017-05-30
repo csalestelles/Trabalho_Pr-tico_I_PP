@@ -1,10 +1,13 @@
 package BibliotecaSIS;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class UsuarioDAO extends BancoDeDados {
@@ -21,55 +24,147 @@ public class UsuarioDAO extends BancoDeDados {
 		usuario = new Usuario();
 	}
 	
-	public boolean adicionarUsuario(Usuario user)
+	public boolean localizar()
 	{
-		try 
+		sql = "SELECT * FROM Usuarios WHERE User=?";
+		try
 		{
-			Statement st = conexao.createStatement();
-			st.executeUpdate("INSERT INTO Usuarios VALUES (NULL ,'" + user.getNomeDeUsuario() + "', '" 
-					+ user.getSenha() + "', " + user.getAnoDeNascimento());
+			statement = BancoDeDados.conexao.prepareStatement(sql);
+			statement.setString(1, usuario.getNomeDeUsuario());
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			usuario.setNomeCompleto(resultSet.getString(2));
+			usuario.setNomeDeUsuario(resultSet.getString(3));
+			usuario.setSenha(resultSet.getString(4));
+			usuario.setAnoDeNascimento(resultSet.getString(5));
 			return true;
 		}
-		catch (SQLException e){return false;}
+		catch(SQLException erro){return false;}
 	}
 	
-	public void setTabela(JTable tabela, JScrollPane scroll) throws SQLException
+	public String atualizar(int operacao)
 	{
-		String sql = "SELECT * FROM Usuarios";
-		statement = bd.conexao.prepareStatement(sql);
-		resultSet = statement.executeQuery();	
+		men = "Operação realizada com sucesso!";
 		
-		@SuppressWarnings("serial")
-		DefaultTableModel modelo = new DefaultTableModel(
-				new String[]{}, 0) 
-				{
-					public boolean isCellEditable(int row, int col)
-					{		
-						return false;
-					}
-				};
-				
-		
-		int qtdColunas = resultSet.getMetaData().getColumnCount() - 1;		
-		for(int indice = 1; indice <= qtdColunas; indice++)
+		try
 		{
-			modelo.addColumn(resultSet.getMetaData().getColumnName(indice+1));
+			if (operacao == BancoDeDados.INCLUSAO)
+			{
+				sql = "INSERT INTO Usuarios VALUES (NULL, ?, ?, ?, ?)";
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, usuario.getNomeCompleto());
+				statement.setString(2, usuario.getNomeDeUsuario());
+				statement.setString(3, usuario.getSenha());
+				statement.setString(4, usuario.getAnoDeNascimento());
+			}
+			else if(operacao == BancoDeDados.ALTERACAO)
+			{
+				sql = "UPDATE Usuarios SET NomeCompleto=?, Pass=?, Data de nascimento=? WHERE User=?";
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, usuario.getNomeCompleto());
+				statement.setString(2, usuario.getSenha());
+				statement.setString(3, usuario.getAnoDeNascimento());
+				statement.setString(4, usuario.getNomeDeUsuario());
+			}
+			else if (operacao == BancoDeDados.EXCLUSAO)
+			{
+				sql = "DELETE FROM Usuarios WHERE User=?";
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, usuario.getNomeDeUsuario());
+			}
+			if(statement.executeUpdate() == 0)
+			{
+				men = "Falha na operacao!";
+			}
 		}
+		catch(SQLException g){men = "Falha na operação";}
+		return men;
+	}
+	
+	/*
+	 * 
+	 * OPERAÇÕES NA TABELA
+	 * 
+	 */
+	
+	public ArrayList<Usuario> listarUsuarios() throws SQLException
+	{
+		ArrayList<Usuario> list = new ArrayList<Usuario>();
 		
-		tabela = new JTable(modelo);
-		DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
-		
+		sql = "SELECT * FROM Usuarios";
+		statement = BancoDeDados.conexao.prepareStatement(sql);
+		resultSet = statement.executeQuery();
 		while(resultSet.next())
 		{
-			String[] dados = new String[qtdColunas];
-			for(int i = 1; i <= qtdColunas; i++)
-			{
-				dados[i-1] = resultSet.getString(i+1);
-			}
+			Usuario usuarioAdd = new Usuario();
+			usuarioAdd.setNomeCompleto(resultSet.getString(2));
+			usuarioAdd.setNomeDeUsuario(resultSet.getString(3));
+			usuarioAdd.setSenha(resultSet.getString(4));
+			usuarioAdd.setAnoDeNascimento(resultSet.getString(5));
+			list.add(usuarioAdd);
+		}
+		return list;
+	}
+	
+	public void showUsuariosTable(JTable table)
+	{
+		ArrayList<Usuario> listUsuarios = new ArrayList<Usuario>();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
+		table.setModel(new DefaultTableModel(
+				new String[]{"Nome Completo", "Nome de Usuário", "Senha", "Data de nascimento"}, 0) {
+				public boolean isCellEditable(int row, int col)
+				{	
+					return false;
+				}
+				});
+		try 
+		{
+			listUsuarios = listarUsuarios();
+		} 
+		catch (SQLException e) {e.printStackTrace();}
+		
+		DefaultTableModel model =(DefaultTableModel)table.getModel();
+		model.setNumRows(0);
+		Object[] row = new Object[4];
+		for (int i=0; i<listUsuarios.size();i++)
+		{
+			row[0] = listUsuarios.get(i).getNomeCompleto();
+			row[1] = listUsuarios.get(i).getNomeDeUsuario();
+			row[2] = listUsuarios.get(i).getSenha();
+			row[3] = listUsuarios.get(i).getAnoDeNascimento();
 			
-			dtm.addRow(dados);
-			scroll.setViewportView(tabela);
+			model.addRow(row);
 		}
 	}
-
+	
+	public void removeDaTabela(JTable table, UsuarioDAO usuarios) throws SQLException
+	{
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		
+		if (table.getSelectedRow() != -1)
+		{
+			int indice = table.getSelectedRow();
+			usuarios.usuario.setNomeDeUsuario((String) table.getValueAt(indice, 0));
+			dtm.removeRow(table.getSelectedRow());
+			JOptionPane.showMessageDialog(null, usuarios.atualizar(BancoDeDados.EXCLUSAO));
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
+		}
+	}
+	
+	public void editarTabela(JTable table, UsuarioDAO usuarios)
+	{
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		
+		if (table.getSelectedRow() != -1)
+		{
+			int indice = table.getSelectedRow();
+			EditarUsuario editarUsuario = new EditarUsuario(((String) table.getValueAt(indice, 0)), (String) table.getValueAt(indice, 1), 
+						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3));
+			editarUsuario.main(null);
+		}
+		
+	}
 }

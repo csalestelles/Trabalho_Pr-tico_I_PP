@@ -95,7 +95,13 @@ public class LivroDAO extends BancoDeDados {
 		return men;
 	}
 	
-	public ArrayList<Livro> listarLivros() throws SQLException
+	/*
+	 * 
+	 * OPERAÇÕES NA TABELA
+	 * 
+	 */
+	
+	private ArrayList<Livro> listarLivros() throws SQLException
 	{
 		ArrayList<Livro> list = new ArrayList<Livro>();
 		
@@ -111,7 +117,7 @@ public class LivroDAO extends BancoDeDados {
 			livroAdd.setIdioma(resultSet.getString(5));
 			livroAdd.setAno(resultSet.getInt(6));
 			livroAdd.setEdicao(resultSet.getInt(7));
-			livroAdd.setNumExemplaresDisponiveis(8);
+			livroAdd.setNumExemplaresDisponiveis(resultSet.getInt(8));
 			list.add(livroAdd);
 		}
 		
@@ -152,44 +158,6 @@ public class LivroDAO extends BancoDeDados {
 		}
 	}
 	
-	public void setTabela(JTable tabela) throws SQLException
-	{
-		String sql = "SELECT * FROM Livros";
-		statement = bd.conexao.prepareStatement(sql);
-		resultSet = statement.executeQuery();	
-		
-		@SuppressWarnings("serial")
-		DefaultTableModel modelo = new DefaultTableModel(
-				new String[]{}, 0) {
-				public boolean isCellEditable(int row, int col)
-				{	
-					return false;
-				}
-				};
-				
-		
-		int qtdColunas = resultSet.getMetaData().getColumnCount() - 1;		
-		for(int indice = 1; indice <= qtdColunas; indice++)
-		{
-			modelo.addColumn(resultSet.getMetaData().getColumnName(indice+1));
-		}
-		
-		tabela = new JTable(modelo);
-		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
-		DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
-		
-		while(resultSet.next())
-		{
-			String[] dados = new String[qtdColunas];
-			for(int i = 1; i <= qtdColunas; i++)
-			{
-				dados[i-1] = resultSet.getString(i+1);
-			}
-			
-			dtm.addRow(dados);
-		}
-	}
-	
 	public void removeDaTabela(JTable table, LivroDAO livros) throws SQLException
 	{
 		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
@@ -206,6 +174,11 @@ public class LivroDAO extends BancoDeDados {
 		{
 			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
 		}
+	}
+	
+	public void editarTabela()
+	{
+		
 	}
 
 }

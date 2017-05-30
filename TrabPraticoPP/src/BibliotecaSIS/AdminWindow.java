@@ -37,7 +37,7 @@ public class AdminWindow extends JPanel
 {
 	private JTabbedPane tpAbas;
 	private JFrame frmPesquisa;
-	private JTable table;
+	protected JTable table;
 	private JScrollPane livroScroll, usuarioScroll, monografiaScroll, periodicoScroll, revistaScroll;
 	private UsuarioDAO usuarios = new UsuarioDAO();
 	private LivroDAO livros = new LivroDAO();
@@ -204,8 +204,6 @@ public class AdminWindow extends JPanel
 		btnRelatorio.setBounds(414, 9, 104, 29);
 		frmPesquisa.getContentPane().add(btnRelatorio);
 		
-		livroScroll.setViewportView(table);
-		
 		tpAbas.add("Usuarios", usuarioScroll);
 		tpAbas.add("Livros", livroScroll);
 		tpAbas.add("Monografias", monografiaScroll);
@@ -217,6 +215,9 @@ public class AdminWindow extends JPanel
 		JButton btnInfo = new JButton("Info");
 		btnInfo.setBounds(530, 9, 104, 29);
 		frmPesquisa.getContentPane().add(btnInfo);
+		
+		usuarioScroll.setViewportView(table);
+		usuarios.showUsuariosTable(table);
 		
 		
 		/*
@@ -271,14 +272,32 @@ public class AdminWindow extends JPanel
 			        int aba = tpAbas.getSelectedIndex();
 			    	if (aba == 0) 
 			        {
+			    		usuarioScroll.setViewportView(table);
 			            btnAdicionar.setEnabled(false);
+			            usuarios.showUsuariosTable(table);
 			        }
 			        else
 			        {
 			        	btnAdicionar.setEnabled(true);
 			        	if (aba == 1)
 			        	{
+			        		livroScroll.setViewportView(table);
 			        		livros.showLivrosTable(table);
+			        	}
+			        	else if (aba == 2)
+			        	{
+			        		monografiaScroll.setViewportView(table);
+			        		monografias.showDocsTable(table);
+			        	}
+			        	else if (aba == 3)
+			        	{
+			        		periodicoScroll.setViewportView(table);
+			        		periodicos.showPeriodicosTable(table);
+			        	}
+			        	else
+			        	{
+			        		revistaScroll.setViewportView(table);
+			        		revistas.showRevistasTable(table);
 			        	}
 			        }
 			    }
@@ -292,6 +311,13 @@ public class AdminWindow extends JPanel
 					removerBotao(tpAbas);
 				} 
 				catch (SQLException e1) {e1.printStackTrace();}
+			}
+		});
+	
+		btnEdita.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				editarBotao(tpAbas);
 			}
 		});
 	}
@@ -338,23 +364,45 @@ public class AdminWindow extends JPanel
 		switch(valor)
 		{
 			case 0:
-				//frmPesquisa.dispose();
-				//AddLivro.main(null);
+				usuarios.removeDaTabela(table, usuarios);
 				break;
 			case 1:
-				//frmPesquisa.dispose();
 				livros.removeDaTabela(table, livros);
 				break;
 			case 2:
-				//frmPesquisa.dispose();
-				//AddPeriodico.main(null);
+				monografias.removeDaTabela(table, monografias);
 				break;
 			case 3:
-				//frmPesquisa.dispose();
-				//AddRevista.main(null);
+				periodicos.removeDaTabela(table, periodicos);
 				break;
 			case 4:
-				//frmPesquisa.dispose();
+				revistas.removeDaTabela(table, revistas);
+				break;
+			default: 
+				System.out.println("erro\n");	
+		}
+	}
+	
+	private void editarBotao(JTabbedPane abas)
+	{
+		int valor = abas.getSelectedIndex();
+		switch(valor)
+		{
+			case 0:
+				usuarios.editarTabela(table, usuarios);
+				frmPesquisa.dispose();
+				break;
+			case 1:
+//				livros.removeDaTabela(table, livros);
+				break;
+			case 2:
+//				monografias.removeDaTabela(table, monografias);
+				break;
+			case 3:
+//				periodicos.removeDaTabela(table, periodicos);
+				break;
+			case 4:
+//				revistas.removeDaTabela(table, revistas);
 				break;
 			default: 
 				System.out.println("erro\n");	

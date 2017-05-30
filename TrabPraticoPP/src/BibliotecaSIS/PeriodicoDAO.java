@@ -1,10 +1,13 @@
 package BibliotecaSIS;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class PeriodicoDAO {
@@ -91,42 +94,82 @@ public class PeriodicoDAO {
 		return men;
 	}
 	
-	public void setTabela(JTable tabela, JScrollPane scroll) throws SQLException
+	/*
+	 * 
+	 * OPERAÇÕES NA TABELA
+	 * 
+	 */
+	
+	public ArrayList<Periodico> listarPeriodicos() throws SQLException
 	{
-		String sql = "SELECT * FROM Periodicos";
-		statement = bd.conexao.prepareStatement(sql);
-		resultSet = statement.executeQuery();	
+		ArrayList<Periodico> listPeriodicos = new ArrayList<Periodico>();
 		
-		@SuppressWarnings("serial")
-		DefaultTableModel modelo = new DefaultTableModel(
-				new String[]{}, 0) 
-				{	
-					public boolean isCellEditable(int row, int col)
-					{	
-						return false;
-					}
-				};
-				
-		
-		int qtdColunas = resultSet.getMetaData().getColumnCount() - 1;		
-		for(int indice = 1; indice <= qtdColunas; indice++)
-		{
-			modelo.addColumn(resultSet.getMetaData().getColumnName(indice+1));
-		}
-		
-		tabela = new JTable(modelo);
-		DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
-		
+		sql = "SELECT * FROM Periodicos";
+		statement = BancoDeDados.conexao.prepareStatement(sql);
+		resultSet = statement.executeQuery();
 		while(resultSet.next())
 		{
-			String[] dados = new String[qtdColunas];
-			for(int i = 1; i <= qtdColunas; i++)
-			{
-				dados[i-1] = resultSet.getString(i+1);
-			}
-			
-			dtm.addRow(dados);
-			scroll.setViewportView(tabela);
+			Periodico periodicoAdd = new Periodico();
+			periodicoAdd.setNome(resultSet.getString(2));
+			periodicoAdd.setPeriodo(resultSet.getString(3));
+			periodicoAdd.setEditora(resultSet.getString(4));
+			periodicoAdd.setTema(resultSet.getString(5));
+			periodicoAdd.setAno(resultSet.getInt(6));
+			periodicoAdd.setExemplar(resultSet.getInt(7));
+			periodicoAdd.setNumExemplares(resultSet.getInt(8));
+			listPeriodicos.add(periodicoAdd);
+		}
+		return listPeriodicos;
+	}
+	
+	public void showPeriodicosTable(JTable table)
+	{
+		ArrayList<Periodico> listPeriodicos = new ArrayList<Periodico>();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
+		table.setModel(new DefaultTableModel(
+				new String[]{"Nome", "Período", "Editora", "Tema","Ano", "Exemplar", "Exemplares"}, 0) {
+				public boolean isCellEditable(int row, int col)
+				{	
+					return false;
+				}
+				});
+		try 
+		{
+			listPeriodicos = listarPeriodicos();
+		} 
+		catch (SQLException e) {e.printStackTrace();}
+		
+		DefaultTableModel model =(DefaultTableModel)table.getModel();
+		model.setNumRows(0);
+		Object[] row = new Object[7];
+		for (int i=0; i<listPeriodicos.size();i++)
+		{
+			row[0] = listPeriodicos.get(i).getNome();
+			row[1] = listPeriodicos.get(i).getPeriodo();
+			row[2] = listPeriodicos.get(i).getEditora();
+			row[3] = listPeriodicos.get(i).getTema();
+			row[4] = listPeriodicos.get(i).getAno();
+			row[5] = listPeriodicos.get(i).getExemplar();
+			row[6] = listPeriodicos.get(i).getNumExemplares();
+			model.addRow(row);
+		}
+	}
+	
+	public void removeDaTabela(JTable table, PeriodicoDAO periodicos) throws SQLException
+	{
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		
+		if (table.getSelectedRow() != -1)
+		{
+			int indice = table.getSelectedRow();
+			periodicos.periodico.setNome((String) table.getValueAt(indice, 0));
+			periodicos.periodico.setExemplar((int) table.getValueAt(indice, 5));
+			dtm.removeRow(table.getSelectedRow());
+			JOptionPane.showMessageDialog(null, periodicos.atualizar(BancoDeDados.EXCLUSAO));
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
 		}
 	}
 

@@ -3,10 +3,13 @@ package BibliotecaSIS;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class MonografiaDAO 
@@ -91,42 +94,83 @@ public class MonografiaDAO
 		return men;
 	}
 	
-	public void setTabela(JTable tabela, JScrollPane scroll) throws SQLException
+	/*
+	 * 
+	 * OPERAÇÕES NA TABELA
+	 * 
+	 */
+	
+	private ArrayList<Monografia> listarDocs() throws SQLException
 	{
-		String sql = "SELECT * FROM Monografias";
-		statement = bd.conexao.prepareStatement(sql);
-		resultSet = statement.executeQuery();	
+		ArrayList<Monografia> list = new ArrayList<Monografia>();
 		
-		@SuppressWarnings("serial")
-		DefaultTableModel modelo = new DefaultTableModel(
-				new String[]{}, 0) 
-				{
-					public boolean isCellEditable(int row, int col)
-					{	
-						return false;
-					}
-				};
-				
-		
-		int qtdColunas = resultSet.getMetaData().getColumnCount() - 1;		
-		for(int indice = 1; indice <= qtdColunas; indice++)
-		{
-			modelo.addColumn(resultSet.getMetaData().getColumnName(indice+1));
-		}
-		
-		tabela = new JTable(modelo);
-		DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
-		
+		sql = "SELECT * FROM Monografias";
+		statement = BancoDeDados.conexao.prepareStatement(sql);
+		resultSet = statement.executeQuery();
 		while(resultSet.next())
 		{
-			String[] dados = new String[qtdColunas];
-			for(int i = 1; i <= qtdColunas; i++)
-			{
-				dados[i-1] = resultSet.getString(i+1);
-			}
+			Monografia docAdd = new Monografia();
+			docAdd.setTitulo(resultSet.getString(2));
+			docAdd.setAutor(resultSet.getString(3));
+			docAdd.setOrientador(resultSet.getString(4));
+			docAdd.setTema(resultSet.getString(5));
+			docAdd.setTipo(resultSet.getString(6));
+			docAdd.setInstituicao(resultSet.getString(7));
+			docAdd.setAno(resultSet.getInt(8));
+			list.add(docAdd);
+		}
+		return list;
+	}
+	
+	public void showDocsTable(JTable table)
+	{
+		ArrayList<Monografia> listDocs = new ArrayList<Monografia>();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
+		table.setModel(new DefaultTableModel(
+				new String[]{"Título", "Autor", "Orientador", "Tema", "Tipo", "Instituição", "Ano"}, 0) {
+				public boolean isCellEditable(int row, int col)
+				{	
+					return false;
+				}
+				});
+		try 
+		{
+			listDocs = listarDocs();
+		} 
+		catch (SQLException e) {e.printStackTrace();}
+		
+		DefaultTableModel model =(DefaultTableModel)table.getModel();
+		model.setNumRows(0);
+		Object[] row = new Object[7];
+		for (int i=0; i<listDocs.size();i++)
+		{
+			row[0] = listDocs.get(i).getTitulo();
+			row[1] = listDocs.get(i).getAutor();
+			row[2] = listDocs.get(i).getOrientador();
+			row[3] = listDocs.get(i).getTema();
+			row[4] = listDocs.get(i).getTipo();
+			row[5] = listDocs.get(i).getInstituicao();
+			row[6] = listDocs.get(i).getAno();
 			
-			dtm.addRow(dados);
-			scroll.setViewportView(tabela);
+			model.addRow(row);
+		}
+	}
+	
+	public void removeDaTabela(JTable table, MonografiaDAO docs) throws SQLException
+	{
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		
+		if (table.getSelectedRow() != -1)
+		{
+			int indice = table.getSelectedRow();
+			docs.monografia.setTitulo((String) table.getValueAt(indice, 0));
+			docs.monografia.setAutor((String) table.getValueAt(indice, 1));
+			dtm.removeRow(table.getSelectedRow());
+			JOptionPane.showMessageDialog(null, docs.atualizar(BancoDeDados.EXCLUSAO));
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
 		}
 	}
 

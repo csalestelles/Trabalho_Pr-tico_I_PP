@@ -3,10 +3,13 @@ package BibliotecaSIS;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class RevistaDAO 
@@ -88,43 +91,80 @@ public class RevistaDAO
 		return men;
 	}
 	
-	public void setTabela(JTable tabela, JScrollPane scroll) throws SQLException
+	/*
+	 * 
+	 * OPERAÇÕES NA TABELA
+	 * 
+	 */
+	
+	public ArrayList<Revista> listarRevistas() throws SQLException
 	{
-		String sql = "SELECT * FROM Revistas";
-		statement = bd.conexao.prepareStatement(sql);
-		resultSet = statement.executeQuery();	
+		ArrayList<Revista> listRevistas = new ArrayList<Revista>();
 		
-		@SuppressWarnings("serial")
-		DefaultTableModel modelo = new DefaultTableModel(
-				new String[]{}, 0) 
-				{
-					public boolean isCellEditable(int row, int col)
-					{	
-						return false;
-					}	
-				};
-				
-		
-		int qtdColunas = resultSet.getMetaData().getColumnCount() - 1;		
-		for(int indice = 1; indice <= qtdColunas; indice++)
-		{
-			modelo.addColumn(resultSet.getMetaData().getColumnName(indice+1));
-		}
-		
-		tabela = new JTable(modelo);
-		DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
-		
+		sql = "SELECT * FROM Revistas";
+		statement = BancoDeDados.conexao.prepareStatement(sql);
+		resultSet = statement.executeQuery();
 		while(resultSet.next())
 		{
-			String[] dados = new String[qtdColunas];
-			for(int i = 1; i <= qtdColunas; i++)
-			{
-				dados[i-1] = resultSet.getString(i+1);
-			}
-			
-			dtm.addRow(dados);
-			scroll.setViewportView(tabela);
+			Revista revistaAdd = new Revista();
+			revistaAdd.setNome(resultSet.getString(2));
+			revistaAdd.setEdicao(resultSet.getInt(5));
+			revistaAdd.setEditora(resultSet.getString(3));
+			revistaAdd.setTema(resultSet.getString(4));
+			revistaAdd.setAno(resultSet.getInt(6));
+			revistaAdd.setNumExemplares(resultSet.getInt(7));
+			listRevistas.add(revistaAdd);
+		}
+		return listRevistas;
+	}
+	
+	public void showRevistasTable(JTable table)
+	{
+		ArrayList<Revista> listRevistas = new ArrayList<Revista>();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
+		table.setModel(new DefaultTableModel(
+				new String[]{"Nome", "Edicao", "Editora", "Tema", "Ano", "Exemplares"}, 0) {
+				public boolean isCellEditable(int row, int col)
+				{	
+					return false;
+				}
+				});
+		try 
+		{
+			listRevistas = listarRevistas();
+		} 
+		catch (SQLException e) {e.printStackTrace();}
+		
+		DefaultTableModel model =(DefaultTableModel)table.getModel();
+		model.setNumRows(0);
+		Object[] row = new Object[7];
+		for (int i=0; i<listRevistas.size();i++)
+		{
+			row[0] = listRevistas.get(i).getNome();
+			row[1] = listRevistas.get(i).getEdicao();
+			row[2] = listRevistas.get(i).getEditora();
+			row[3] = listRevistas.get(i).getTema();
+			row[4] = listRevistas.get(i).getAno();
+			row[5] = listRevistas.get(i).getNumExemplares();
+			model.addRow(row);
 		}
 	}
-
+	
+	public void removeDaTabela(JTable table, RevistaDAO revistas) throws SQLException
+	{
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		
+		if (table.getSelectedRow() != -1)
+		{
+			int indice = table.getSelectedRow();
+			revistas.revista.setNome((String) table.getValueAt(indice, 0));
+			revistas.revista.setEdicao((int) table.getValueAt(indice, 1));
+			dtm.removeRow(table.getSelectedRow());
+			JOptionPane.showMessageDialog(null, revistas.atualizar(BancoDeDados.EXCLUSAO));
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
+		}
+	}
 }
