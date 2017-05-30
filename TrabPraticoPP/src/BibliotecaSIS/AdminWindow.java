@@ -191,17 +191,17 @@ public class AdminWindow extends JPanel
 		mnRemover_1.add(mntmLivro_2);
 		mnRemover_1.add(mntmPeridico_2);
 		
-		btnAdicionar.setBounds(50, 9, 117, 29);
+		btnAdicionar.setBounds(66, 9, 104, 29);
 		btnAdicionar.setEnabled(false);
 		frmPesquisa.getContentPane().add(btnAdicionar);
 		
-		btnRemover.setBounds(179, 9, 117, 29);
+		btnRemover.setBounds(182, 9, 104, 29);
 		frmPesquisa.getContentPane().add(btnRemover);
 		
-		btnEdita.setBounds(308, 9, 117, 29);
+		btnEdita.setBounds(298, 9, 104, 29);
 		frmPesquisa.getContentPane().add(btnEdita);
 		
-		btnRelatorio.setBounds(437, 9, 117, 29);
+		btnRelatorio.setBounds(414, 9, 104, 29);
 		frmPesquisa.getContentPane().add(btnRelatorio);
 		
 		livroScroll.setViewportView(table);
@@ -213,6 +213,10 @@ public class AdminWindow extends JPanel
 		tpAbas.add("Revistas", revistaScroll);
 		tpAbas.setBounds(50, 50, 600, 490);
 		frmPesquisa.getContentPane().add(tpAbas);
+		
+		JButton btnInfo = new JButton("Info");
+		btnInfo.setBounds(530, 9, 104, 29);
+		frmPesquisa.getContentPane().add(btnInfo);
 		
 		
 		/*
@@ -356,5 +360,4 @@ public class AdminWindow extends JPanel
 				System.out.println("erro\n");	
 		}
 	}
-	
 }
