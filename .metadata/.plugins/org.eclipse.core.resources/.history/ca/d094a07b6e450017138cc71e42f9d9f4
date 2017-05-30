@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -12,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class UsuarioDAO extends BancoDeDados {
 	
-	public Usuario usuario;
+	private Usuario usuario;
 	private PreparedStatement statement;
 	private ResultSet resultSet;
 	private String men, sql;
@@ -59,7 +58,7 @@ public class UsuarioDAO extends BancoDeDados {
 			}
 			else if(operacao == BancoDeDados.ALTERACAO)
 			{
-				sql = "UPDATE Usuarios SET NomeCompleto=?, Pass=?, DataNascimento=? WHERE User=?";
+				sql = "UPDATE Usuarios SET NomeCompleto=?, Pass=?, Data de nascimento=? WHERE User=?";
 				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(1, usuario.getNomeCompleto());
 				statement.setString(2, usuario.getSenha());
@@ -81,12 +80,6 @@ public class UsuarioDAO extends BancoDeDados {
 		return men;
 	}
 	
-	/*
-	 * 
-	 * OPERAÇÕES NA TABELA
-	 * 
-	 */
-	
 	public ArrayList<Usuario> listarUsuarios() throws SQLException
 	{
 		ArrayList<Usuario> list = new ArrayList<Usuario>();
@@ -103,15 +96,16 @@ public class UsuarioDAO extends BancoDeDados {
 			usuarioAdd.setAnoDeNascimento(resultSet.getString(5));
 			list.add(usuarioAdd);
 		}
+		
 		return list;
 	}
 	
-	public void showUsuariosTable(JTable table)
+	public void showLivrosTable(JTable table)
 	{
-		ArrayList<Usuario> listUsuarios = new ArrayList<Usuario>();
+		ArrayList<Livro> listLivros = new ArrayList<Livro>();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 		table.setModel(new DefaultTableModel(
-				new String[]{"Nome Completo", "Nome de Usuário", "Senha", "Data de nascimento"}, 0) {
+				new String[]{"Título", "Autor", "Editora", "Idioma", "Ano", "Edição", "Exemplares"}, 0) {
 				public boolean isCellEditable(int row, int col)
 				{	
 					return false;
@@ -119,52 +113,79 @@ public class UsuarioDAO extends BancoDeDados {
 				});
 		try 
 		{
-			listUsuarios = listarUsuarios();
+			listLivros = listarLivros();
 		} 
 		catch (SQLException e) {e.printStackTrace();}
 		
 		DefaultTableModel model =(DefaultTableModel)table.getModel();
 		model.setNumRows(0);
-		Object[] row = new Object[4];
-		for (int i=0; i<listUsuarios.size();i++)
+		Object[] row = new Object[7];
+		for (int i=0; i<listLivros.size();i++)
 		{
-			row[0] = listUsuarios.get(i).getNomeCompleto();
-			row[1] = listUsuarios.get(i).getNomeDeUsuario();
-			row[2] = listUsuarios.get(i).getSenha();
-			row[3] = listUsuarios.get(i).getAnoDeNascimento();
+			row[0] = listLivros.get(i).getTitulo();
+			row[1] = listLivros.get(i).getAutor();
+			row[2] = listLivros.get(i).getEditora();
+			row[3] = listLivros.get(i).getIdioma();
+			row[4] = listLivros.get(i).getAno();
+			row[5] = listLivros.get(i).getEdicao();
+			row[6] = listLivros.get(i).getNumExemplaresDisponiveis();
 			
 			model.addRow(row);
 		}
 	}
 	
-	public void removeDaTabela(JTable table, UsuarioDAO usuarios) throws SQLException
-	{
-		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-		
-		if (table.getSelectedRow() != -1)
-		{
-			int indice = table.getSelectedRow();
-			usuarios.usuario.setNomeDeUsuario((String) table.getValueAt(indice, 0));
-			dtm.removeRow(table.getSelectedRow());
-			JOptionPane.showMessageDialog(null, usuarios.atualizar(BancoDeDados.EXCLUSAO));
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
-		}
-	}
 	
-	public void editarTabela(JTable table, UsuarioDAO usuarios)
-	{
-		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-		
-		if (table.getSelectedRow() != -1)
-		{
-			int indice = table.getSelectedRow();
-			EditarUsuario editarUsuario = new EditarUsuario(((String) table.getValueAt(indice, 0)), (String) table.getValueAt(indice, 1), 
-						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3));
-			editarUsuario.main(null);
-		}
-		
-	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	public void setTabela(JTable tabela, JScrollPane scroll) throws SQLException
+//	{
+//		String sql = "SELECT * FROM Usuarios";
+//		statement = bd.conexao.prepareStatement(sql);
+//		resultSet = statement.executeQuery();	
+//		
+//		@SuppressWarnings("serial")
+//		DefaultTableModel modelo = new DefaultTableModel(
+//				new String[]{}, 0) 
+//				{
+//					public boolean isCellEditable(int row, int col)
+//					{		
+//						return false;
+//					}
+//				};
+//				
+//		
+//		int qtdColunas = resultSet.getMetaData().getColumnCount() - 1;		
+//		for(int indice = 1; indice <= qtdColunas; indice++)
+//		{
+//			modelo.addColumn(resultSet.getMetaData().getColumnName(indice+1));
+//		}
+//		
+//		tabela = new JTable(modelo);
+//		DefaultTableModel dtm = (DefaultTableModel) tabela.getModel();
+//		
+//		while(resultSet.next())
+//		{
+//			String[] dados = new String[qtdColunas];
+//			for(int i = 1; i <= qtdColunas; i++)
+//			{
+//				dados[i-1] = resultSet.getString(i+1);
+//			}
+//			
+//			dtm.addRow(dados);
+//			scroll.setViewportView(tabela);
+//		}
+//	}
+
 }

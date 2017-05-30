@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class UsuarioDAO extends BancoDeDados {
 	
-	public Usuario usuario;
+	private Usuario usuario;
 	private PreparedStatement statement;
 	private ResultSet resultSet;
 	private String men, sql;
@@ -59,7 +59,7 @@ public class UsuarioDAO extends BancoDeDados {
 			}
 			else if(operacao == BancoDeDados.ALTERACAO)
 			{
-				sql = "UPDATE Usuarios SET NomeCompleto=?, Pass=?, DataNascimento=? WHERE User=?";
+				sql = "UPDATE Usuarios SET NomeCompleto=?, Pass=?, Data de nascimento=? WHERE User=?";
 				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(1, usuario.getNomeCompleto());
 				statement.setString(2, usuario.getSenha());
@@ -80,12 +80,6 @@ public class UsuarioDAO extends BancoDeDados {
 		catch(SQLException g){men = "Falha na operação";}
 		return men;
 	}
-	
-	/*
-	 * 
-	 * OPERAÇÕES NA TABELA
-	 * 
-	 */
 	
 	public ArrayList<Usuario> listarUsuarios() throws SQLException
 	{
@@ -152,19 +146,5 @@ public class UsuarioDAO extends BancoDeDados {
 		{
 			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
 		}
-	}
-	
-	public void editarTabela(JTable table, UsuarioDAO usuarios)
-	{
-		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-		
-		if (table.getSelectedRow() != -1)
-		{
-			int indice = table.getSelectedRow();
-			EditarUsuario editarUsuario = new EditarUsuario(((String) table.getValueAt(indice, 0)), (String) table.getValueAt(indice, 1), 
-						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3));
-			editarUsuario.main(null);
-		}
-		
 	}
 }
