@@ -2,8 +2,7 @@ package BibliotecaSIS;
 
 public class Revista 
 {
-	private String nome, editora, tema;
-	private int edicao, ano, numExemplares;
+	private String nome, editora, tema, edicao, ano, exemplares;
 	public String getNome() {
 		return nome;
 	}
@@ -22,23 +21,23 @@ public class Revista
 	public void setTema(String tema) {
 		this.tema = tema;
 	}
-	public int getEdicao() {
+	public String getEdicao() {
 		return edicao;
 	}
-	public void setEdicao(int edicao) {
+	public void setEdicao(String edicao) {
 		this.edicao = edicao;
 	}
-	public int getAno() {
+	public String getAno() {
 		return ano;
 	}
-	public void setAno(int ano) {
+	public void setAno(String ano) {
 		this.ano = ano;
 	}
-	public int getNumExemplares() {
-		return numExemplares;
+	public String getExemplares() {
+		return exemplares;
 	}
-	public void setNumExemplares(int numExemplares) {
-		this.numExemplares = numExemplares;
+	public void setExemplares(String exemplares) {
+		this.exemplares = exemplares;
 	}
 	
 	

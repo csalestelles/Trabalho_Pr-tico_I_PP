@@ -42,7 +42,7 @@ public class MonografiaDAO
 			monografia.setTema(resultSet.getString(5));
 			monografia.setTipo(resultSet.getString(6));
 			monografia.setInstituicao(resultSet.getString(7));
-			monografia.setAno(resultSet.getInt(8));
+			monografia.setAno(resultSet.getString(8));
 			return true;
 		}
 		catch(SQLException e){return false;}
@@ -64,7 +64,7 @@ public class MonografiaDAO
 				statement.setString(4, monografia.getTema());
 				statement.setString(5, monografia.getTipo());
 				statement.setString(6, monografia.getInstituicao());
-				statement.setInt(7, monografia.getAno());
+				statement.setString(7, monografia.getAno());
 			}
 			else if(operacao == BancoDeDados.ALTERACAO)
 			{
@@ -75,7 +75,7 @@ public class MonografiaDAO
 				statement.setString(2, monografia.getTema());
 				statement.setString(3, monografia.getTipo());
 				statement.setString(4, monografia.getInstituicao());
-				statement.setInt(5, monografia.getAno());
+				statement.setString(5, monografia.getAno());
 				statement.setString(6, monografia.getTitulo());
 			}
 			else if (operacao == BancoDeDados.EXCLUSAO)
@@ -116,7 +116,7 @@ public class MonografiaDAO
 			docAdd.setTema(resultSet.getString(5));
 			docAdd.setTipo(resultSet.getString(6));
 			docAdd.setInstituicao(resultSet.getString(7));
-			docAdd.setAno(resultSet.getInt(8));
+			docAdd.setAno(resultSet.getString(8));
 			list.add(docAdd);
 		}
 		return list;
@@ -173,5 +173,22 @@ public class MonografiaDAO
 			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
 		}
 	}
+	
+	public void editarTabela(JTable table, MonografiaDAO docs)
+	{
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		
+		if (table.getSelectedRow() != -1)
+		{
+			int indice = table.getSelectedRow();
+			
+			EditarMonografia editarMonografia = new EditarMonografia((String) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), 
+						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3), (String) table.getValueAt(indice, 4),
+						(String) table.getValueAt(indice, 5), (String) table.getValueAt(indice, 6));
+			editarMonografia.main(null);
+		}
+		
+	}
+
 
 }

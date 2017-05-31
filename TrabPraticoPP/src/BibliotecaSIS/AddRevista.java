@@ -85,24 +85,22 @@ public class AddRevista {
 		String[] tema = {"", "Científica", "Culinária", "Curiosidades", "Educativa", 
 							 "Esportes", "Financeira", "Fofoca", 
 						 	 "Humor", "Política"};
-		JComboBox<String> comboBox = new JComboBox<String>(tema);
+		JComboBox comboBox = new JComboBox(tema);
 		comboBox.setBounds(256, 101, 154, 27);
 		frame.getContentPane().add(comboBox);
 		
 		JLabel lblEdio = new JLabel("Edição:");
-		lblEdio.setBounds(330, 6, 61, 16);
+		lblEdio.setBounds(324, 6, 61, 16);
 		frame.getContentPane().add(lblEdio);
 		
-		try    //FORMATA O TEXTFIELD PARA SOMENTE NUMEROS
-		{
-			 javax.swing.text.MaskFormatter edicao = new javax.swing.text.MaskFormatter("###");
-
-			 edicaoField = new javax.swing.JFormattedTextField(edicao);
-			 edicaoField.setHorizontalAlignment(SwingConstants.CENTER);
-			 edicaoField.setBounds(330, 34, 66, 26);
-		   	 frame.getContentPane().add(edicaoField);
-			 edicaoField.setColumns(10);
-		}catch(Exception e){}
+		String[] edicaoVetor = {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", 
+				   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+				   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+				   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
+		JComboBox cbEdicao = new JComboBox(edicaoVetor);
+		cbEdicao.setBounds(324, 34, 86, 26);
+		frame.getContentPane().add(cbEdicao);
 		
 		JLabel lblAno = new JLabel("Ano:");
 		lblAno.setBounds(50, 138, 61, 16);
@@ -112,16 +110,15 @@ public class AddRevista {
 		lblNmeroDeExemplares.setBounds(163, 138, 154, 16);
 		frame.getContentPane().add(lblNmeroDeExemplares);
 		
-		try    //FORMATA O TEXTFIELD PARA SOMENTE NUMEROS
-		{
-			 javax.swing.text.MaskFormatter numExemplares = new javax.swing.text.MaskFormatter("##");
-
-			 numExemplaresField = new javax.swing.JFormattedTextField(numExemplares);
-			 numExemplaresField.setHorizontalAlignment(SwingConstants.CENTER);
-			 numExemplaresField.setBounds(163, 166, 94, 26);
-		   	 frame.getContentPane().add(numExemplaresField);
-			 numExemplaresField.setColumns(10);
-		}catch(Exception e){}
+		String[] exemplaresVetor = {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", 
+				   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+				   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+				   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
+		
+		JComboBox cbExemplares = new JComboBox(exemplaresVetor);
+		cbExemplares.setBounds(163, 166, 94, 26);
+		frame.getContentPane().add(cbExemplares);
 		
 		String[] ano = {"",
 		        "1921", "1922", "1923", "1924", "1925", "1926", "1927", "1928", "1929", "1930",
@@ -134,7 +131,7 @@ public class AddRevista {
 		        "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000",
 		        "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010",
 		        "2011", "2012", "2013", "2014", "2015", "2016", "2017"}; 
-		JComboBox<String> comboBox_1 = new JComboBox<String>(ano);
+		JComboBox comboBox_1 = new JComboBox(ano);
 		comboBox_1.setBounds(50, 167, 94, 27);
 		frame.getContentPane().add(comboBox_1);
 		
@@ -144,16 +141,12 @@ public class AddRevista {
 			{
 				try
 				{
-					int edicao = Integer.parseInt(edicaoField.getText());
-					int ano = Integer.parseInt(comboBox_1.getSelectedItem().toString());
-					int numExemplares = Integer.parseInt(numExemplaresField.getText());
-					
 					revistas.revista.setNome(textField.getText());
 					revistas.revista.setEditora(textField_1.getText());
 					revistas.revista.setTema(comboBox.getSelectedItem().toString());
-					revistas.revista.setEdicao(edicao);
-					revistas.revista.setAno(ano);
-					revistas.revista.setNumExemplares(numExemplares);
+					revistas.revista.setEdicao(cbEdicao.getSelectedItem().toString());
+					revistas.revista.setAno(comboBox_1.getSelectedItem().toString());
+					revistas.revista.setExemplares(cbExemplares.getSelectedItem().toString());
 					
 					JOptionPane.showMessageDialog(null, revistas.atualizar(BancoDeDados.INCLUSAO));
 					frame.dispose();

@@ -142,14 +142,13 @@ public class AddMonografia
 			public void actionPerformed(ActionEvent e) {
 				try
 				{
-					int ano = Integer.parseInt(comboBox_1.getSelectedItem().toString());
 					monografias.monografia.setTitulo(textField.getText());
 					monografias.monografia.setAutor(textField_1.getText());
 					monografias.monografia.setOrientador(textField_2.getText());
 					monografias.monografia.setTema(textField_3.getText());
 					monografias.monografia.setTipo(comboBox.getSelectedItem().toString());
 					monografias.monografia.setInstituicao(textField_4.getText());
-					monografias.monografia.setAno(ano);
+					monografias.monografia.setAno(comboBox_1.getSelectedItem().toString());
 					
 					JOptionPane.showMessageDialog(null, monografias.atualizar(BancoDeDados.INCLUSAO));
 					frame.dispose();

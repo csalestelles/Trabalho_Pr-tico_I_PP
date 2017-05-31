@@ -3,8 +3,7 @@ package BibliotecaSIS;
 public class Periodico 
 {
 	
-	private String nome, periodo, editora, tema;
-	private int ano, exemplar, numExemplares;
+	private String nome, periodo, editora, tema, ano, exemplar, exemplares;
 	
 	
 	public String getNome() {
@@ -31,25 +30,25 @@ public class Periodico
 	public void setTema(String tema) {
 		this.tema = tema;
 	}
-	public int getAno() {
+	public String getAno() {
 		return ano;
 	}
-	public void setAno(int ano) {
+	public void setAno(String ano) {
 		this.ano = ano;
 	}
-	public int getExemplar() {
+	public String getExemplar() {
 		return exemplar;
 	}
-	public void setExemplar(int exemplar) {
+	public void setExemplar(String exemplar) {
 		this.exemplar = exemplar;
 	}
 
-	public int getNumExemplares() {
-		return numExemplares;
+	public String getExemplares() {
+		return exemplares;
 	}
 
-	public void setNumExemplares(int numExemplares) {
-		this.numExemplares = numExemplares;
+	public void setExemplares(String exemplares) {
+		this.exemplares = exemplares;
 	}
 
 	

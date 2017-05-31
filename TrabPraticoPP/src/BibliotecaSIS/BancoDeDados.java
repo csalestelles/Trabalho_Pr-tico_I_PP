@@ -12,6 +12,7 @@ public class BancoDeDados {
 	public static final byte INCLUSAO = 1;
 	public static final byte ALTERACAO = 2;
 	public static final byte EXCLUSAO = 3;
+	public static int CODIGO = 0;
 	
 	public BancoDeDados()
 	{

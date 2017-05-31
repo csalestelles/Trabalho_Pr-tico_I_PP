@@ -3,8 +3,7 @@ package BibliotecaSIS;
 public class Monografia 
 {
 	
-	private String titulo, autor, orientador, tema, tipo, instituicao;
-	private int ano, codigo;
+	private String titulo, autor, orientador, tema, tipo, instituicao, ano, codigo;
 	
 	public String getTitulo() {
 		return titulo;
@@ -54,19 +53,19 @@ public class Monografia
 		this.instituicao = instituicao;
 	}
 
-	public int getAno() {
+	public String getAno() {
 		return ano;
 	}
 
-	public void setAno(int ano) {
+	public void setAno(String ano) {
 		this.ano = ano;
 	}
 
-	public int getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(int codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 	

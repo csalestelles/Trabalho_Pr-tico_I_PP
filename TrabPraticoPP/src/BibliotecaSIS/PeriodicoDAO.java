@@ -31,16 +31,16 @@ public class PeriodicoDAO {
 		{
 			statement = bd.conexao.prepareStatement(sql);
 			statement.setString(1, periodico.getNome());
-			statement.setInt(2, periodico.getExemplar());
+			statement.setString(2, periodico.getExemplar());
 			resultSet = statement.executeQuery();
 			resultSet.next();
 			periodico.setNome(resultSet.getString(2));
 			periodico.setPeriodo(resultSet.getString(3));
 			periodico.setEditora(resultSet.getString(4));
 			periodico.setTema(resultSet.getString(5));
-			periodico.setAno(resultSet.getInt(6));
-			periodico.setExemplar(resultSet.getInt(7));
-			periodico.setNumExemplares(resultSet.getInt(8));
+			periodico.setAno(resultSet.getString(6));
+			periodico.setExemplar(resultSet.getString(7));
+			periodico.setExemplares(resultSet.getString(8));
 			return true;
 		}
 		catch(SQLException e){return false;}
@@ -60,22 +60,22 @@ public class PeriodicoDAO {
 				statement.setString(2, periodico.getPeriodo());
 				statement.setString(3, periodico.getEditora());
 				statement.setString(4, periodico.getTema());
-				statement.setInt(5, periodico.getAno());
-				statement.setInt(6, periodico.getExemplar());
-				statement.setInt(7, periodico.getNumExemplares());
+				statement.setString(5, periodico.getAno());
+				statement.setString(6, periodico.getExemplar());
+				statement.setString(7, periodico.getExemplares());
 			}
 			else if(operacao == BancoDeDados.ALTERACAO)
 			{
-				sql = "UPDATE Periodicos SET Periodo=?, Editora=?, Tema=?, Ano=?, Exemplar=?, Numero de exemplares=?"
+				sql = "UPDATE Periodicos SET Periodo=?, Editora=?, Tema=?, Ano=?, Exemplares=?"
 						+ " WHERE Nome=? AND Exemplar=?;";
 				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(1, periodico.getPeriodo());
 				statement.setString(2, periodico.getEditora());
 				statement.setString(3, periodico.getTema());
-				statement.setInt(4, periodico.getAno());
-				statement.setInt(5, periodico.getNumExemplares());
+				statement.setString(4, periodico.getAno());
+				statement.setString(5, periodico.getExemplares());
 				statement.setString(6, periodico.getNome());
-				statement.setInt(7, periodico.getExemplar());
+				statement.setString(7, periodico.getExemplar());
 //				statement.executeUpdate();
 			}
 			else if (operacao == BancoDeDados.EXCLUSAO)
@@ -83,7 +83,7 @@ public class PeriodicoDAO {
 				sql = "DELETE FROM Periodicos WHERE Nome=? AND Exemplar=?";
 				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(1, periodico.getNome());
-				statement.setInt(2, periodico.getExemplar());
+				statement.setString(2, periodico.getExemplar());
 			}
 			if(statement.executeUpdate() == 0)
 			{
@@ -114,9 +114,9 @@ public class PeriodicoDAO {
 			periodicoAdd.setPeriodo(resultSet.getString(3));
 			periodicoAdd.setEditora(resultSet.getString(4));
 			periodicoAdd.setTema(resultSet.getString(5));
-			periodicoAdd.setAno(resultSet.getInt(6));
-			periodicoAdd.setExemplar(resultSet.getInt(7));
-			periodicoAdd.setNumExemplares(resultSet.getInt(8));
+			periodicoAdd.setAno(resultSet.getString(6));
+			periodicoAdd.setExemplar(resultSet.getString(7));
+			periodicoAdd.setExemplares(resultSet.getString(8));
 			listPeriodicos.add(periodicoAdd);
 		}
 		return listPeriodicos;
@@ -127,7 +127,7 @@ public class PeriodicoDAO {
 		ArrayList<Periodico> listPeriodicos = new ArrayList<Periodico>();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 		table.setModel(new DefaultTableModel(
-				new String[]{"Nome", "Período", "Editora", "Tema","Ano", "Exemplar", "Exemplares"}, 0) {
+				new String[]{"Nome", "Período", "Editora", "Tema", "Ano", "Exemplar", "Exemplares"}, 0) {
 				public boolean isCellEditable(int row, int col)
 				{	
 					return false;
@@ -150,7 +150,7 @@ public class PeriodicoDAO {
 			row[3] = listPeriodicos.get(i).getTema();
 			row[4] = listPeriodicos.get(i).getAno();
 			row[5] = listPeriodicos.get(i).getExemplar();
-			row[6] = listPeriodicos.get(i).getNumExemplares();
+			row[6] = listPeriodicos.get(i).getExemplares();
 			model.addRow(row);
 		}
 	}
@@ -163,7 +163,7 @@ public class PeriodicoDAO {
 		{
 			int indice = table.getSelectedRow();
 			periodicos.periodico.setNome((String) table.getValueAt(indice, 0));
-			periodicos.periodico.setExemplar((int) table.getValueAt(indice, 5));
+			periodicos.periodico.setExemplar((String) table.getValueAt(indice, 5));
 			dtm.removeRow(table.getSelectedRow());
 			JOptionPane.showMessageDialog(null, periodicos.atualizar(BancoDeDados.EXCLUSAO));
 		}
@@ -171,6 +171,22 @@ public class PeriodicoDAO {
 		{
 			JOptionPane.showMessageDialog(null, "Selecione uma linha!");
 		}
+	}
+	
+	public void editarTabela(JTable table, PeriodicoDAO periodicos)
+	{
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		
+		if (table.getSelectedRow() != -1)
+		{
+			int indice = table.getSelectedRow();
+			
+			EditarPeriodico editarPeriodico = new EditarPeriodico((String) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), 
+						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3), (String) table.getValueAt(indice, 4),
+						(String) table.getValueAt(indice, 5), (String) table.getValueAt(indice, 6));
+			editarPeriodico.main(null);
+		}
+		
 	}
 
 }

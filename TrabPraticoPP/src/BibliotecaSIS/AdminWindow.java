@@ -398,9 +398,13 @@ public class AdminWindow extends JPanel
 //				livros.removeDaTabela(table, livros);
 				break;
 			case 2:
+				monografias.editarTabela(table, monografias);
+				frmPesquisa.dispose();
 //				monografias.removeDaTabela(table, monografias);
 				break;
 			case 3:
+				periodicos.editarTabela(table, periodicos);
+				frmPesquisa.dispose();
 //				periodicos.removeDaTabela(table, periodicos);
 				break;
 			case 4:
