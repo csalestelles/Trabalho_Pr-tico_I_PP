@@ -1,0 +1,130 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+
+public class EditarMonografia {
+
+	private static JFrame frame;
+	
+	private String titulo, autor, orientador, tema, tipo, instituicao, ano;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					frame.getContentPane().setLayout(null);
+//					EditarMonografia window = new EditarMonografia();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * @wbp.parser.entryPoint
+	 */
+	public EditarMonografia(String titulo, String autor, String orientador, String tema, String tipo,
+			String instituicao, String ano) 
+	{
+		this.titulo = titulo;
+		this.autor = autor;
+		this.orientador = orientador;
+		this.tema = tema;
+		this.tipo = tipo;
+		this.instituicao = instituicao;
+		this.ano = ano;
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(21, 51, 368, 26);
+		frame.getContentPane().add(textField);
+		
+		JLabel label = new JLabel("Título:");
+		label.setBounds(21, 34, 93, 16);
+		frame.getContentPane().add(label);
+		
+		JLabel label_1 = new JLabel("Autor:");
+		label_1.setBounds(21, 80, 61, 16);
+		frame.getContentPane().add(label_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(21, 98, 230, 26);
+		frame.getContentPane().add(textField_1);
+		
+		JLabel label_2 = new JLabel("Orientador:");
+		label_2.setBounds(21, 133, 93, 16);
+		frame.getContentPane().add(label_2);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(21, 156, 230, 26);
+		frame.getContentPane().add(textField_2);
+		
+		JComboBox comboBox = new JComboBox(new Object[]{});
+		comboBox.setBounds(263, 157, 93, 27);
+		frame.getContentPane().add(comboBox);
+		
+		JLabel label_3 = new JLabel("Ano:");
+		label_3.setBounds(263, 133, 61, 16);
+		frame.getContentPane().add(label_3);
+		
+		JLabel label_4 = new JLabel("Tipo:");
+		label_4.setBounds(263, 80, 61, 16);
+		frame.getContentPane().add(label_4);
+		
+		JComboBox comboBox_1 = new JComboBox(new Object[]{});
+		comboBox_1.setBounds(263, 99, 168, 27);
+		frame.getContentPane().add(comboBox_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(114, 189, 317, 26);
+		frame.getContentPane().add(textField_3);
+		
+		JLabel label_5 = new JLabel("Instituição:");
+		label_5.setBounds(21, 194, 81, 16);
+		frame.getContentPane().add(label_5);
+		
+		JLabel label_6 = new JLabel("Tema:");
+		label_6.setBounds(21, 222, 61, 16);
+		frame.getContentPane().add(label_6);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(21, 243, 230, 26);
+		frame.getContentPane().add(textField_4);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setBounds(314, 243, 117, 29);
+		frame.getContentPane().add(btnAtualizar);
+	}
+}

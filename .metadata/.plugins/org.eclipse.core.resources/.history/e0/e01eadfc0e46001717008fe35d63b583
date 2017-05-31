@@ -1,0 +1,45 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+
+public class EditarMonografia {
+
+	private JFrame frame;
+	
+	private String titulo, autor, orientador, tema, tipo, instituicao, ano;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+//					EditarMonografia window = new EditarMonografia();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public EditarMonografia() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+}
