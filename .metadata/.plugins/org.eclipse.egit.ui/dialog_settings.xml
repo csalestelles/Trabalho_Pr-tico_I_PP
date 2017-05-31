@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<list key="EGit.KnownHosts">
+		<item value="bitbucket.org"/>
+		<item value="git.eclipse.org"/>
+		<item value="github.com"/>
+	</list>
+	<list key="RepositorySelectionPage.UsedUris">
+		<item value="https://github.com/csalestelles/Trabalho_Pr-tico_I_PP.git"/>
+	</list>
 	<list key="CommitDialog.authorValues">
 		<item value="caiotelles &lt;caiotelles@192.168.0.11&gt;"/>
 		<item value="caiotelles &lt;caiotelles@10.30.173.190&gt;"/>

@@ -5,7 +5,6 @@
 <fullyQualifiedTypeName name="com.mysql.jdbc.Statement"/>
 <fullyQualifiedTypeName name="BibliotecaSIS.AddLivro"/>
 <fullyQualifiedTypeName name="BibliotecaSIS.MainWindow"/>
-<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="javax.swing.JFormattedTextField"/>
 <fullyQualifiedTypeName name="javax.swing.JPanel"/>
 <fullyQualifiedTypeName name="javax.swing.JTabbedPane"/>
@@ -18,4 +17,6 @@
 <fullyQualifiedTypeName name="BibliotecaSIS.AdminWindow"/>
 <fullyQualifiedTypeName name="javax.swing.JFormattedTextField.AbstractFormatter"/>
 <fullyQualifiedTypeName name="javax.swing.text.MaskFormatter"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="BibliotecaSIS.RelatorioDAO"/>
 </qualifiedTypeNameHistroy>

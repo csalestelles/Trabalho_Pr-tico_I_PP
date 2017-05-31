@@ -122,6 +122,7 @@ public class JanelaDeCadastro extends BancoDeDados {
 								+ dataField.getText() + "');");
 						//USUÁRIO CADASTRADO COM SUCESSO
 						frame.dispose();
+						RelatorioDAO.atualizarAdicao(0);
 						MainWindow mainWindow = new MainWindow();
 						mainWindow.main(null);
 					} 

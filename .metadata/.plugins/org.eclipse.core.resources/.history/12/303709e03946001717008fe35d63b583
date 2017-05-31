@@ -1,0 +1,63 @@
+package BibliotecaSIS;
+
+public class Relatorio 
+{	
+	private static String usuarios, administradores, emprestimosRealizados, emprestimosAndamento, devolucoesAtrasadas, exemplares;
+
+	public static String getUsuarios() {
+		return usuarios;
+	}
+
+	public static void setUsuarios(String usuarios) {
+		Relatorio.usuarios = usuarios;
+	}
+
+	public static String getAdministradores() {
+		return administradores;
+	}
+
+	public static void setAdministradores(String administradores) {
+		Relatorio.administradores = administradores;
+	}
+
+	public static String getEmprestimosRealizados() {
+		return emprestimosRealizados;
+	}
+
+	public static void setEmprestimosRealizados(String emprestimosRealizados) {
+		Relatorio.emprestimosRealizados = emprestimosRealizados;
+	}
+
+	public static String getEmprestimosAndamento() {
+		return emprestimosAndamento;
+	}
+
+	public static void setEmprestimosAndamento(String emprestimosAndamento) {
+		Relatorio.emprestimosAndamento = emprestimosAndamento;
+	}
+
+	public static String getDevolucoesAtrasadas() {
+		return devolucoesAtrasadas;
+	}
+
+	public static void setDevolucoesAtrasadas(String devolucoesAtrasadas) {
+		Relatorio.devolucoesAtrasadas = devolucoesAtrasadas;
+	}
+	
+	public static String somaUm(String valor)
+	{
+		int x = Integer.parseInt(valor);
+		x++;
+		valor = ""+x;
+		return valor;
+	}
+	
+	public static String somaExemplares(String valor, int soma)
+	{
+		int x = Integer.parseInt(valor);
+		x += soma;
+		valor = ""+x;
+		return valor;
+	}
+
+}

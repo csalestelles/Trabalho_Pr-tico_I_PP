@@ -1,0 +1,120 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+
+public class EditarRevista {
+
+	private static JFrame frame;
+	private JTextField textField;
+	private JTextField textField_1;
+	
+	private RevistaDAO revistas;
+	private String nome, editora, tema, edicao, ano, exemplares;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+//					EditarRevista window = new EditarRevista();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * @wbp.parser.entryPoint
+	 */
+	public EditarRevista(String nome, String editora, String tema, String edicao, String ano, String exemplares)
+	{
+		this.nome = nome;
+		this.editora = editora;
+		this.tema = tema;
+		this.edicao = edicao;
+		this.ano = ano;
+		this.exemplares = exemplares;
+		
+		revistas = new RevistaDAO();
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel label = new JLabel("Nome:");
+		label.setBounds(45, 36, 61, 16);
+		frame.getContentPane().add(label);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setText(nome);
+		textField.setBounds(45, 64, 248, 26);
+		
+		frame.getContentPane().add(textField);
+		
+		JLabel label_1 = new JLabel("Editora:");
+		label_1.setBounds(45, 102, 61, 16);
+		frame.getContentPane().add(label_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setText(editora);
+		textField_1.setBounds(45, 130, 154, 26);
+		frame.getContentPane().add(textField_1);
+		
+		JComboBox comboBox = new JComboBox(new Object[]{});
+		comboBox.setBounds(251, 131, 154, 27);
+		frame.getContentPane().add(comboBox);
+		
+		JLabel label_2 = new JLabel("Tema:");
+		label_2.setBounds(251, 102, 61, 16);
+		frame.getContentPane().add(label_2);
+		
+		JLabel label_3 = new JLabel("Edição:");
+		label_3.setBounds(319, 36, 61, 16);
+		frame.getContentPane().add(label_3);
+		
+		JComboBox comboBox_1 = new JComboBox(new Object[]{});
+		comboBox_1.setBounds(319, 64, 86, 26);
+		frame.getContentPane().add(comboBox_1);
+		
+		JLabel label_4 = new JLabel("Ano:");
+		label_4.setBounds(45, 168, 61, 16);
+		frame.getContentPane().add(label_4);
+		
+		JComboBox comboBox_2 = new JComboBox(new Object[]{});
+		comboBox_2.setBounds(45, 197, 94, 27);
+		frame.getContentPane().add(comboBox_2);
+		
+		JLabel label_5 = new JLabel("Total de exemplares:");
+		label_5.setBounds(158, 168, 154, 16);
+		frame.getContentPane().add(label_5);
+		
+		JComboBox comboBox_3 = new JComboBox(new Object[]{});
+		comboBox_3.setBounds(158, 196, 94, 26);
+		frame.getContentPane().add(comboBox_3);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setBounds(288, 196, 117, 29);
+		frame.getContentPane().add(btnAtualizar);
+	}
+
+}

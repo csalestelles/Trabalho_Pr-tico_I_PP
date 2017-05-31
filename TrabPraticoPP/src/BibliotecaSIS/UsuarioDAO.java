@@ -3,9 +3,7 @@ package BibliotecaSIS;
 import java.sql.*;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -76,6 +74,13 @@ public class UsuarioDAO extends BancoDeDados {
 			{
 				men = "Falha na operacao!";
 			}
+			else
+			{
+				if(operacao == BancoDeDados.INCLUSAO)
+					RelatorioDAO.atualizarAdicao(0);
+				else if (operacao == BancoDeDados.EXCLUSAO)
+					RelatorioDAO.atualizarRemocao(0);
+			}
 		}
 		catch(SQLException g){men = "Falha na operação";}
 		return men;
@@ -144,7 +149,7 @@ public class UsuarioDAO extends BancoDeDados {
 		if (table.getSelectedRow() != -1)
 		{
 			int indice = table.getSelectedRow();
-			usuarios.usuario.setNomeDeUsuario((String) table.getValueAt(indice, 0));
+			usuarios.usuario.setNomeDeUsuario((String) table.getValueAt(indice, 1));
 			dtm.removeRow(table.getSelectedRow());
 			JOptionPane.showMessageDialog(null, usuarios.atualizar(BancoDeDados.EXCLUSAO));
 		}
@@ -161,7 +166,7 @@ public class UsuarioDAO extends BancoDeDados {
 		if (table.getSelectedRow() != -1)
 		{
 			int indice = table.getSelectedRow();
-			EditarUsuario editarUsuario = new EditarUsuario(((String) table.getValueAt(indice, 0)), (String) table.getValueAt(indice, 1), 
+			EditarUsuario editarUsuario = new EditarUsuario((String) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), 
 						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3));
 			editarUsuario.main(null);
 		}

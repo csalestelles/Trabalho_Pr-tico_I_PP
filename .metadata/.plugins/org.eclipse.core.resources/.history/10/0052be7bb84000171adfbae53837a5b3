@@ -1,7 +1,0 @@
-package BibliotecaSIS;
-
-import java.sql.*;
-
-public class Monografia extends MonografiaDAO {
-
-}

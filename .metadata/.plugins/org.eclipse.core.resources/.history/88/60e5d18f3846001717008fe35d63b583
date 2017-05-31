@@ -1,0 +1,109 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+public class RelatorioWindow {
+
+	private JFrame frame;
+
+	private RelatorioDAO relatorio;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RelatorioWindow window = new RelatorioWindow();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public RelatorioWindow() {
+		relatorio = new RelatorioDAO();
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Usuários cadastrados no sistema:");
+		lblNewLabel.setBounds(23, 58, 212, 24);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblAdministradoresCadastradosNo = new JLabel("Administradores cadastrados no sistema:");
+		lblAdministradoresCadastradosNo.setBounds(23, 94, 261, 24);
+		frame.getContentPane().add(lblAdministradoresCadastradosNo);
+		
+		JLabel lblEmprstimosRealizados = new JLabel("Empréstimos realizados:");
+		lblEmprstimosRealizados.setBounds(23, 130, 212, 24);
+		frame.getContentPane().add(lblEmprstimosRealizados);
+		
+		JLabel lblEmprstimosEmAndamento = new JLabel("Empréstimos em andamento:");
+		lblEmprstimosEmAndamento.setBounds(23, 166, 183, 24);
+		frame.getContentPane().add(lblEmprstimosEmAndamento);
+		
+		JLabel lblDevoluesAtrasadas = new JLabel("Devoluções atrasadas:");
+		lblDevoluesAtrasadas.setBounds(23, 202, 141, 24);
+		frame.getContentPane().add(lblDevoluesAtrasadas);
+		
+		JLabel lblUsers = new JLabel("New label");
+		lblUsers.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblUsers.setBounds(337, 62, 86, 24);
+		frame.getContentPane().add(lblUsers);
+		
+		JLabel lblAdmins = new JLabel("New label");
+		lblAdmins.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblAdmins.setBounds(337, 98, 86, 24);
+		frame.getContentPane().add(lblAdmins);
+		
+		JLabel lblEmpReal = new JLabel("New label");
+		lblEmpReal.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEmpReal.setBounds(337, 134, 86, 24);
+		frame.getContentPane().add(lblEmpReal);
+		
+		JLabel lblEmpreAnd = new JLabel("New label");
+		lblEmpreAnd.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEmpreAnd.setBounds(337, 170, 86, 24);
+		frame.getContentPane().add(lblEmpreAnd);
+		
+		JLabel lblDevAtras = new JLabel("New label");
+		lblDevAtras.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblDevAtras.setBounds(337, 202, 86, 24);
+		frame.getContentPane().add(lblDevAtras);
+		
+		JLabel lblRelatrioDeAcessos = new JLabel("Relatório de acessos do Sistema");
+		lblRelatrioDeAcessos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRelatrioDeAcessos.setBounds(124, 6, 202, 16);
+		frame.getContentPane().add(lblRelatrioDeAcessos);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnMais = new JMenu("Mais");
+		menuBar.add(mnMais);
+		
+		JMenuItem mntmVoltar = new JMenuItem("Voltar");
+		mnMais.add(mntmVoltar);
+	}
+}

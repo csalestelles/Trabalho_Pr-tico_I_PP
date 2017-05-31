@@ -1,0 +1,26 @@
+package BibliotecaSIS;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class RelatorioDAO 
+{
+	private PreparedStatement statement;
+	private ResultSet resultSet;
+	private String men, sql;
+	private BancoDeDados bd;
+
+	public RelatorioDAO()
+	{
+		bd = new BancoDeDados();
+	}
+	
+	public void acessarRelatorio()
+	{
+		sql = "SELECT * FROM Relatório";
+		
+		resultSet = statement.executeQuery();
+		resultSet.next();
+		
+	}
+}

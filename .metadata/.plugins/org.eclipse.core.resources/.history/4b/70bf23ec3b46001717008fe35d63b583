@@ -1,0 +1,40 @@
+package BibliotecaSIS;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class RelatorioDAO 
+{
+	private PreparedStatement statement;
+	private ResultSet resultSet;
+	private String men, sql;
+	private BancoDeDados bd;
+	public Relatorio relatorio;
+
+	public RelatorioDAO()
+	{
+		relatorio = new Relatorio();
+		try {
+			acessarRelatorio();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bd = new BancoDeDados();
+	}
+	
+	public void acessarRelatorio() throws SQLException
+	{
+		sql = "SELECT * FROM Relatório";
+		
+		resultSet = statement.executeQuery();
+		resultSet.next();
+		Relatorio.setUsuarios(resultSet.getString(0));
+		Relatorio.setAdministradores(resultSet.getString(2));
+		Relatorio.setEmprestimosRealizados(resultSet.getString(3));
+		Relatorio.setEmprestimosAndamento(resultSet.getString(4));
+		Relatorio.setDevolucoesAtrasadas(resultSet.getString(5));
+		Relatorio.setExemplares(resultSet.getString(6));
+	}
+}

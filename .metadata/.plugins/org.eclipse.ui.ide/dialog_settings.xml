@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="/Users/caiotelles/Documents/UFAM/Projeto de Programas/TrabPraticoWS/Trabalho_Pr-tico_I_PP_importado"/>
 		<item value="/Users/caiotelles/Downloads/ProjetoOseas-master"/>
 		<item value="/Users/caiotelles/Documents/UFAM/Projeto de Programas/TrabPraticoWS/Trabalho_Pr-tico_I_PP/TrabPraticoPP"/>
 	</list>
+	<section name="NewWizardAction">
+	</section>
 </section>

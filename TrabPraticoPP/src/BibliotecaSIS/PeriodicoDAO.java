@@ -76,7 +76,6 @@ public class PeriodicoDAO {
 				statement.setString(5, periodico.getExemplares());
 				statement.setString(6, periodico.getNome());
 				statement.setString(7, periodico.getExemplar());
-//				statement.executeUpdate();
 			}
 			else if (operacao == BancoDeDados.EXCLUSAO)
 			{
@@ -88,6 +87,13 @@ public class PeriodicoDAO {
 			if(statement.executeUpdate() == 0)
 			{
 				men = "Falha na operacao!";
+			}
+			else
+			{
+				if(operacao == BancoDeDados.INCLUSAO)
+					RelatorioDAO.atualizarAdicao(5);
+				else if (operacao == BancoDeDados.EXCLUSAO)
+					RelatorioDAO.atualizarRemocao(5);
 			}
 		}
 		catch(SQLException g){men = "Falha na operação";}
@@ -166,6 +172,7 @@ public class PeriodicoDAO {
 			periodicos.periodico.setExemplar((String) table.getValueAt(indice, 5));
 			dtm.removeRow(table.getSelectedRow());
 			JOptionPane.showMessageDialog(null, periodicos.atualizar(BancoDeDados.EXCLUSAO));
+//			Relatorio.somaExemplares(Relatorio.getExemplares(), -1);
 		}
 		else
 		{

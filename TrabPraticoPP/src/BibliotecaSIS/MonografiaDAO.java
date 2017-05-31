@@ -89,6 +89,13 @@ public class MonografiaDAO
 			{
 				men = "Falha na operacao!";
 			}
+			else
+			{
+				if(operacao == BancoDeDados.INCLUSAO)
+					RelatorioDAO.atualizarAdicao(5);
+				else if (operacao == BancoDeDados.EXCLUSAO)
+					RelatorioDAO.atualizarRemocao(5);
+			}
 		}
 		catch(SQLException g){men = "Falha na operação";}
 		return men;
@@ -167,6 +174,7 @@ public class MonografiaDAO
 			docs.monografia.setAutor((String) table.getValueAt(indice, 1));
 			dtm.removeRow(table.getSelectedRow());
 			JOptionPane.showMessageDialog(null, docs.atualizar(BancoDeDados.EXCLUSAO));
+//			Relatorio.somaExemplares(Relatorio.getExemplares(), -1);
 		}
 		else
 		{

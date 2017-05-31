@@ -39,7 +39,9 @@ public class AdminWindow extends JPanel
 	private JFrame frmPesquisa;
 	protected JTable table;
 	private JScrollPane livroScroll, usuarioScroll, monografiaScroll, periodicoScroll, revistaScroll;
-	private UsuarioDAO usuarios = new UsuarioDAO();
+	
+	private RelatorioDAO relatorio;
+	private UsuarioDAO usuarios;
 	private LivroDAO livros = new LivroDAO();
 	private MonografiaDAO monografias = new MonografiaDAO();
 	private PeriodicoDAO periodicos = new PeriodicoDAO();
@@ -71,6 +73,8 @@ public class AdminWindow extends JPanel
 	 */
 	public AdminWindow() 
 	{
+		usuarios = new UsuarioDAO();
+		relatorio = new RelatorioDAO();
 		initialize();
 	}
 
@@ -154,6 +158,13 @@ public class AdminWindow extends JPanel
 		JButton btnRemover = new JButton("Remover");
 		btnAdicionar = new JButton("Adicionar");
 		JButton btnRelatorio = new JButton("Relatório");
+		btnRelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				frmPesquisa.dispose();
+				RelatorioWindow.main(null);
+			}
+		});
 		JButton btnEdita = new JButton("Editar");
 		
 		
@@ -361,57 +372,76 @@ public class AdminWindow extends JPanel
 	private void removerBotao(JTabbedPane abas) throws SQLException
 	{
 		int valor = abas.getSelectedIndex();
-		switch(valor)
+		int numeroLinhas = table.getRowCount();
+		int contador = 0;
+		while(contador < numeroLinhas)
 		{
-			case 0:
-				usuarios.removeDaTabela(table, usuarios);
-				break;
-			case 1:
-				livros.removeDaTabela(table, livros);
-				break;
-			case 2:
-				monografias.removeDaTabela(table, monografias);
-				break;
-			case 3:
-				periodicos.removeDaTabela(table, periodicos);
-				break;
-			case 4:
-				revistas.removeDaTabela(table, revistas);
-				break;
-			default: 
-				System.out.println("erro\n");	
+			if (table.isRowSelected(contador))
+			{
+				switch(valor)
+				{
+					case 0:
+						usuarios.removeDaTabela(table, usuarios);
+						break;
+					case 1:
+						livros.removeDaTabela(table, livros);
+						break;
+					case 2:
+						monografias.removeDaTabela(table, monografias);
+						break;
+					case 3:
+						periodicos.removeDaTabela(table, periodicos);
+						break;
+					case 4:
+						revistas.removeDaTabela(table, revistas);
+						break;
+					default: 
+						System.out.println("erro\n");	
+				}
+			}
+			contador++;
 		}
 	}
 	
 	private void editarBotao(JTabbedPane abas)
 	{
 		int valor = abas.getSelectedIndex();
-		switch(valor)
+		int numeroLinhas = table.getRowCount();
+		int contador = 0;
+		while(contador < numeroLinhas)
 		{
-			case 0:
-				usuarios.editarTabela(table, usuarios);
-				frmPesquisa.dispose();
-				break;
-			case 1:
-				livros.editarTabela(table, livros);
-				frmPesquisa.dispose();
-//				livros.removeDaTabela(table, livros);
-				break;
-			case 2:
-				monografias.editarTabela(table, monografias);
-				frmPesquisa.dispose();
-//				monografias.removeDaTabela(table, monografias);
-				break;
-			case 3:
-				periodicos.editarTabela(table, periodicos);
-				frmPesquisa.dispose();
-//				periodicos.removeDaTabela(table, periodicos);
-				break;
-			case 4:
-//				revistas.removeDaTabela(table, revistas);
-				break;
-			default: 
-				System.out.println("erro\n");	
+			if (table.isRowSelected(contador))
+			{
+				switch(valor)
+				{
+					case 0:
+						usuarios.editarTabela(table, usuarios);
+						frmPesquisa.dispose();
+						break;
+					case 1:
+						livros.editarTabela(table, livros);
+						frmPesquisa.dispose();
+//						livros.removeDaTabela(table, livros);
+						break;
+					case 2:
+						monografias.editarTabela(table, monografias);
+						frmPesquisa.dispose();
+//						monografias.removeDaTabela(table, monografias);
+						break;
+					case 3:
+						periodicos.editarTabela(table, periodicos);
+						frmPesquisa.dispose();
+//						periodicos.removeDaTabela(table, periodicos);
+						break;
+					case 4:
+//						revistas.removeDaTabela(table, revistas);
+						break;
+					default: 
+						System.out.println("erro\n");	
+				}
+			}
+			contador++;
 		}
+		
 	}
 }

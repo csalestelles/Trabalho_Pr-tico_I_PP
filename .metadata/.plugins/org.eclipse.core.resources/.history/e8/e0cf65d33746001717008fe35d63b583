@@ -1,0 +1,78 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+
+public class RelatorioWindow {
+
+	private JFrame frame;
+
+	private RelatorioDAO relatorio;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RelatorioWindow window = new RelatorioWindow();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public RelatorioWindow() {
+		relatorio = new RelatorioDAO();
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Usuários cadastrados no sistema:");
+		lblNewLabel.setBounds(6, 6, 212, 24);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblAdministradoresCadastradosNo = new JLabel("Administradores cadastrados no sistema:");
+		lblAdministradoresCadastradosNo.setBounds(6, 42, 261, 24);
+		frame.getContentPane().add(lblAdministradoresCadastradosNo);
+		
+		JLabel lblEmprstimosRealizados = new JLabel("Empréstimos realizados:");
+		lblEmprstimosRealizados.setBounds(6, 78, 212, 24);
+		frame.getContentPane().add(lblEmprstimosRealizados);
+		
+		JLabel lblEmprstimosEmAndamento = new JLabel("Empréstimos em andamento:");
+		lblEmprstimosEmAndamento.setBounds(6, 114, 183, 24);
+		frame.getContentPane().add(lblEmprstimosEmAndamento);
+		
+		JLabel lblDevoluesAtrasadas = new JLabel("Devoluções atrasadas:");
+		lblDevoluesAtrasadas.setBounds(6, 150, 141, 16);
+		frame.getContentPane().add(lblDevoluesAtrasadas);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnMais = new JMenu("Mais");
+		menuBar.add(mnMais);
+		
+		JMenuItem mntmVoltar = new JMenuItem("Voltar");
+		mnMais.add(mntmVoltar);
+	}
+}
