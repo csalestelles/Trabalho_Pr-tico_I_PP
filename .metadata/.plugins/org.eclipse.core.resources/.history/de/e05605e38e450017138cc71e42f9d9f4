@@ -4,7 +4,7 @@ public class Livro
 {
 	
 	private String titulo, editora, autor, idioma;
-	private String ano, edicao, exemplares, codigo;
+	private int ano, edicao, numExemplaresDisponiveis, codigo;
 	
 	public String getTitulo() {
 		return titulo;
@@ -24,36 +24,41 @@ public class Livro
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
+
+	public int getAno() {
+		return ano;
+	}
+	public void setAno(int ano) {
+		this.ano = ano;
+	}
+	public int getEdicao() {
+		return edicao;
+	}
+	public void setEdicao(int edicao) {
+		this.edicao = edicao;
+	}
+	public int getNumExemplaresDisponiveis() {
+		return numExemplaresDisponiveis;
+	}
+	public void setNumExemplaresDisponiveis(int numExemplaresDisponiveis) {
+		this.numExemplaresDisponiveis = numExemplaresDisponiveis;
+	}
 	public String getIdioma() {
 		return idioma;
 	}
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
 	}
-	public String getAno() {
-		return ano;
-	}
-	public void setAno(String ano) {
-		this.ano = ano;
-	}
-	public String getEdicao() {
-		return edicao;
-	}
-	public void setEdicao(String edicao) {
-		this.edicao = edicao;
-	}
-	public String getExemplares() {
-		return exemplares;
-	}
-	public void setExemplares(String exemplares) {
-		this.exemplares = exemplares;
-	}
-	public String getCodigo() {
+
+	public int getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(String codigo) {
+
+	public void setCodigo(int codigo) {
 		this.codigo = codigo;
-	}	
+	}
+	
+	
 	
 
 }

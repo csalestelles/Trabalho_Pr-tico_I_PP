@@ -24,7 +24,8 @@ public class EditarLivro {
 	private JTextField textField_2;
 	private LivroDAO livros;
 
-	private String titulo, autor, editora, idioma, ano, edicao, exemplares;
+	private String titulo, autor, editora, idioma; 
+	int ano, edicao, exemplares;
 	
 	/**
 	 * Launch the application.
@@ -46,7 +47,7 @@ public class EditarLivro {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public EditarLivro(String titulo, String autor, String editora, String idioma, String ano, String edicao, String exemplares) {
+	public EditarLivro(String titulo, String autor, String editora, String idioma, int ano, int edicao, int exemplares) {
 		this.titulo = titulo;
 		this.autor = autor;
 		this.editora = editora;
@@ -91,15 +92,15 @@ public class EditarLivro {
 		label_2.setBounds(264, 100, 61, 16);
 		frame.getContentPane().add(label_2);
 		
-		String[] idiomas = {"","Espanhol", "Francês", "Inglês", "Italiano", "Português-BR", "Português"}; 
-		JComboBox comboBox = new JComboBox(idiomas);
+		String[] idioma = {"","Espanhol", "Francês", "Inglês", "Italiano", "Português-BR", "Português"}; 
+		JComboBox comboBox = new JComboBox(idioma);
 		comboBox.setBounds(264, 129, 168, 27);
 		comboBox.setSelectedItem(idioma);
 		frame.getContentPane().add(comboBox);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(22, 194, 212, 26);
+		textField_2.setBounds(22, 194, 230, 26);
 		textField_2.setText(editora);
 		frame.getContentPane().add(textField_2);
 		
@@ -110,8 +111,21 @@ public class EditarLivro {
 		JLabel label_4 = new JLabel("Total de exemplares:");
 		label_4.setBounds(22, 237, 139, 16);
 		frame.getContentPane().add(label_4);
-
-		String[] anos = {"",
+		
+		MaskFormatter tipo = null;
+		try 
+		{
+			tipo = new MaskFormatter("##");
+		} 
+		catch (ParseException e) {e.printStackTrace();}
+		JFormattedTextField formattedTextField = new JFormattedTextField(tipo);
+		formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		formattedTextField.setColumns(10);
+		formattedTextField.setBounds(175, 232, 77, 26);
+		formattedTextField.setText("" + edicao + "");
+		frame.getContentPane().add(formattedTextField);
+		
+		String[] ano = {"",
 		        "1901", "1902", "1903", "1904", "1905", "1906", "1907", "1908", "1909", "1910",
 		        "1911", "1912", "1913", "1914", "1915", "1916", "1917", "1918", "1919", "1920",
 		        "1921", "1922", "1923", "1924", "1925", "1926", "1927", "1928", "1929", "1930",
@@ -124,50 +138,41 @@ public class EditarLivro {
 		        "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000",
 		        "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010",
 		        "2011", "2012", "2013", "2014", "2015", "2016", "2017"}; 	
-		JComboBox comboBox_1 = new JComboBox(anos);
-		comboBox_1.setBounds(246, 193, 93, 27);
+		JComboBox comboBox_1 = new JComboBox(ano);
+		comboBox_1.setBounds(264, 195, 93, 27);
 		comboBox_1.setSelectedItem(ano);
 		frame.getContentPane().add(comboBox_1);
 		
-		String[] exemplaresVetor = {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", 
-				   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-				   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-				   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
-				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
-		JComboBox comboBox_2 = new JComboBox(exemplaresVetor);
-		comboBox_2.setBounds(173, 233, 79, 27);
-		comboBox_2.setSelectedItem(exemplares);
-		frame.getContentPane().add(comboBox_2);
-		
-		String[] edicaoVetor = {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", 
-				   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-				   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-				   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
-				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
-		JComboBox comboBox_3 = new JComboBox(edicaoVetor);
-		comboBox_3.setBounds(349, 193, 83, 27);
-		comboBox_3.setSelectedItem(edicao);
-		frame.getContentPane().add(comboBox_3);
-		
 		JLabel label_5 = new JLabel("Ano:");
-		label_5.setBounds(246, 164, 61, 16);
+		label_5.setBounds(264, 166, 61, 16);
 		frame.getContentPane().add(label_5);
 		
 		JLabel label_6 = new JLabel("Edição:");
-		label_6.setBounds(346, 164, 86, 16);
+		label_6.setBounds(366, 166, 61, 16);
 		frame.getContentPane().add(label_6);
-	
+		
+		
+		JFormattedTextField formattedTextField_1 = new JFormattedTextField(tipo);
+		formattedTextField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		formattedTextField_1.setColumns(10);
+		formattedTextField_1.setBounds(369, 194, 63, 26);
+		formattedTextField_1.setText("" + exemplares + "");
+		frame.getContentPane().add(formattedTextField_1);
+		
 		JButton button = new JButton("Atualizar");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				int edicao = Integer.parseInt(formattedTextField.getText());
+				int ano = Integer.parseInt(comboBox_1.getSelectedItem().toString());
+				int numExemplares = Integer.parseInt(formattedTextField_1.getText());
 				livros.livro.setTitulo(textField.getText());
 				livros.livro.setEditora(textField_2.getText());
 				livros.livro.setAutor(textField_1.getText());
 				livros.livro.setIdioma(comboBox.getSelectedItem().toString());
-				livros.livro.setAno(comboBox_1.getSelectedItem().toString());
-				livros.livro.setEdicao(comboBox_3.getSelectedItem().toString());
-				livros.livro.setExemplares(comboBox_2.getSelectedItem().toString());
+				livros.livro.setAno(ano);
+				livros.livro.setEdicao(edicao);
+				livros.livro.setNumExemplaresDisponiveis(numExemplares);
 				JOptionPane.showMessageDialog(null, livros.atualizar(BancoDeDados.ALTERACAO));
 				frame.dispose();
 				AdminWindow.main(null);

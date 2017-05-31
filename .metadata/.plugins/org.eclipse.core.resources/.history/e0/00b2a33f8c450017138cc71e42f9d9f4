@@ -1,0 +1,148 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+import java.text.ParseException;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.SwingConstants;
+import javax.swing.text.MaskFormatter;
+import javax.swing.JButton;
+
+public class EditarLivro {
+
+	private static JFrame frame;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+
+	private String titulo, autor, editora, idioma; 
+	int ano, edicao, exemplares;
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+//					EditarLivro window = new EditarLivro();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * @wbp.parser.entryPoint
+	 */
+	public EditarLivro(String titulo, String autor, String editora, String idioma, int ano, int edicao, int exemplares) {
+		this.titulo = titulo;
+		this.autor = autor;
+		this.editora = editora;
+		this.idioma = idioma;
+		this.ano = ano;
+		this.edicao = edicao;
+		this.exemplares = exemplares;
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel label = new JLabel("Título:");
+		label.setBounds(22, 34, 93, 16);
+		frame.getContentPane().add(label);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(22, 62, 368, 26);
+		textField.setText(titulo);
+		frame.getContentPane().add(textField);
+		
+		JLabel label_1 = new JLabel("Autor:");
+		label_1.setBounds(22, 100, 61, 16);
+		frame.getContentPane().add(label_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(22, 128, 230, 26);
+		textField_1.setText(autor);
+		frame.getContentPane().add(textField_1);
+		
+		JLabel label_2 = new JLabel("Idioma:");
+		label_2.setBounds(264, 100, 61, 16);
+		frame.getContentPane().add(label_2);
+		
+		String[] idioma = {"","Espanhol", "Francês", "Inglês", "Italiano", "Português-BR", "Português"}; 
+		JComboBox comboBox = new JComboBox(idioma);
+		comboBox.setBounds(264, 129, 168, 27);
+		comboBox.setSelectedItem(idioma);
+		frame.getContentPane().add(comboBox);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(22, 194, 230, 26);
+		textField_2.setText(editora);
+		frame.getContentPane().add(textField_2);
+		
+		JLabel label_3 = new JLabel("Editora:");
+		label_3.setBounds(22, 166, 61, 16);
+		frame.getContentPane().add(label_3);
+		
+		JLabel label_4 = new JLabel("Total de exemplares:");
+		label_4.setBounds(22, 237, 139, 16);
+		frame.getContentPane().add(label_4);
+		
+		MaskFormatter tipo = null;
+		try 
+		{
+			tipo = new MaskFormatter("###");
+		} 
+		catch (ParseException e) {e.printStackTrace();}
+		JFormattedTextField formattedTextField = new JFormattedTextField(tipo);
+		formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		formattedTextField.setColumns(10);
+		formattedTextField.setBounds(175, 232, 77, 26);
+		formattedTextField.setText("" + edicao + "");
+		frame.getContentPane().add(formattedTextField);
+		
+		JComboBox comboBox_1 = new JComboBox(new Object[]{});
+		comboBox_1.setBounds(264, 195, 93, 27);
+		frame.getContentPane().add(comboBox_1);
+		
+		JLabel label_5 = new JLabel("Ano:");
+		label_5.setBounds(264, 166, 61, 16);
+		frame.getContentPane().add(label_5);
+		
+		JLabel label_6 = new JLabel("Edição:");
+		label_6.setBounds(366, 166, 61, 16);
+		frame.getContentPane().add(label_6);
+		
+		
+		JFormattedTextField formattedTextField_1 = new JFormattedTextField(tipo);
+		formattedTextField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		formattedTextField_1.setColumns(10);
+		formattedTextField_1.setBounds(369, 194, 63, 26);
+		formattedTextField_1.setText("" + exemplares + "");
+		frame.getContentPane().add(formattedTextField_1);
+		
+		JButton button = new JButton("Adicionar");
+		button.setBounds(315, 232, 117, 29);
+		frame.getContentPane().add(button);
+	}
+
+}

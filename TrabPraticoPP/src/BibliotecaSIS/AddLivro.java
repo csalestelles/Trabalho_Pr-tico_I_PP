@@ -84,7 +84,7 @@ public class AddLivro
 		frame.getContentPane().add(lblEditora);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(6, 166, 230, 26);
+		textField_2.setBounds(6, 166, 210, 26);
 		frame.getContentPane().add(textField_2);
 		textField_2.setColumns(10);
 		
@@ -98,7 +98,7 @@ public class AddLivro
 		frame.getContentPane().add(lblIdioma);
 		
 		JLabel lblAno = new JLabel("Ano:");
-		lblAno.setBounds(248, 138, 61, 16);
+		lblAno.setBounds(228, 138, 61, 16);
 		frame.getContentPane().add(lblAno);
 		
 		String[] ano = {"",
@@ -115,56 +115,50 @@ public class AddLivro
 				        "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010",
 				        "2011", "2012", "2013", "2014", "2015", "2016", "2017"}; 
 		JComboBox comboBox_1 = new JComboBox(ano);
-		comboBox_1.setBounds(248, 167, 93, 27);
+		comboBox_1.setBounds(228, 167, 93, 27);
 		frame.getContentPane().add(comboBox_1);
 		
 		JLabel lblEdio = new JLabel("Edição:");
-		lblEdio.setBounds(350, 138, 61, 16);
+		lblEdio.setBounds(335, 138, 61, 16);
 		frame.getContentPane().add(lblEdio);
 		
-		try    //FORMATA O TEXTFIELD PARA SOMENTE NUMEROS
-		{
-			 javax.swing.text.MaskFormatter edicao = new javax.swing.text.MaskFormatter("###");
-
-			 edicaoField = new javax.swing.JFormattedTextField(edicao);
-			 edicaoField.setHorizontalAlignment(SwingConstants.CENTER);
-			 edicaoField.setBounds(353, 166, 63, 26);
-		   	 frame.getContentPane().add(edicaoField);
-			 edicaoField.setColumns(10);
-		}catch(Exception e){}
+		String[] edicao = {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", 
+						   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+						   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+						   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+						   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49"};
+		JComboBox cbEdicao = new JComboBox(edicao);
+		cbEdicao.setBounds(333, 167, 79, 27);
+		frame.getContentPane().add(cbEdicao);
+		
 		
 		
 		JLabel lblTotalDeExxemplares = new JLabel("Total de exemplares:");
 		lblTotalDeExxemplares.setBounds(6, 209, 139, 16);
 		frame.getContentPane().add(lblTotalDeExxemplares);
 		
-		try    //FORMATA O TEXTFIELD PARA SOMENTE NUMEROS
-		{
-			 javax.swing.text.MaskFormatter numExemplares = new javax.swing.text.MaskFormatter("###");
-
-			 numExemplaresField = new javax.swing.JFormattedTextField(numExemplares);
-			 numExemplaresField.setHorizontalAlignment(SwingConstants.CENTER);
-			 numExemplaresField.setBounds(159, 204, 77, 26);
-		   	 frame.getContentPane().add(numExemplaresField);
-			 numExemplaresField.setColumns(10);
-		}catch(Exception e){}
 		
+		String[] exemplares = {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", 
+				   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+				   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+				   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
+		JComboBox cbExemplares = new JComboBox(exemplares);
+		cbExemplares.setBounds(159, 204, 77, 26);
+		frame.getContentPane().add(cbExemplares);
 		
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try
 				{
-					int edicao = Integer.parseInt(edicaoField.getText());
-					int ano = Integer.parseInt(comboBox_1.getSelectedItem().toString());
-					int numExemplares = Integer.parseInt(numExemplaresField.getText());
 					livros.livro.setTitulo(textField.getText());
 					livros.livro.setEditora(textField_2.getText());
 					livros.livro.setAutor(textField_1.getText());
 					livros.livro.setIdioma(comboBox.getSelectedItem().toString());
-					livros.livro.setAno(ano);
-					livros.livro.setEdicao(edicao);
-					livros.livro.setNumExemplaresDisponiveis(numExemplares);
+					livros.livro.setAno(comboBox_1.getSelectedItem().toString());
+					livros.livro.setEdicao(cbEdicao.getSelectedItem().toString());
+					livros.livro.setExemplares(cbExemplares.getSelectedItem().toString());
 					
 					JOptionPane.showMessageDialog(null, livros.atualizar(BancoDeDados.INCLUSAO));
 					frame.dispose();
