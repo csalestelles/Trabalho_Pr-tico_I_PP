@@ -18,6 +18,7 @@ public class EditarPeriodico {
 	private PeriodicoDAO periodicos;
 	
 	private String nome, periodo, editora, tema, ano, exemplar, exemplares;
+	private int codigo;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -43,8 +44,9 @@ public class EditarPeriodico {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public EditarPeriodico(String nome, String periodo, String editora, String tema, String ano, String exemplar, String exemplares)
+	public EditarPeriodico(int codigo, String nome, String periodo, String editora, String tema, String ano, String exemplar, String exemplares)
 	{
+		this.codigo = codigo;
 		this.nome = nome;
 		this.periodo = periodo;
 		this.editora = editora;
@@ -169,6 +171,7 @@ public class EditarPeriodico {
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				periodicos.periodico.setCodigo(codigo);
 				periodicos.periodico.setNome(textField.getText());
 				periodicos.periodico.setPeriodo(comboBox_3.getSelectedItem().toString());
 				periodicos.periodico.setEditora(textField_1.getText());

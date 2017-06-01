@@ -19,7 +19,8 @@ public class EditarRevista {
 	
 	private RevistaDAO revistas;
 	private String nome, editora, tema, edicao, ano, exemplares;
-
+	private int codigo;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -40,8 +41,9 @@ public class EditarRevista {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public EditarRevista(String nome, String editora, String tema, String edicao, String ano, String exemplares)
+	public EditarRevista(int codigo, String nome, String editora, String tema, String edicao, String ano, String exemplares)
 	{
+		this.codigo = codigo;
 		this.nome = nome;
 		this.editora = editora;
 		this.tema = tema;
@@ -146,6 +148,7 @@ public class EditarRevista {
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				revistas.revista.setCodigo(codigo);
 				revistas.revista.setNome(textField.getText());
 				revistas.revista.setEditora(textField_1.getText());
 				revistas.revista.setTema(comboBox.getSelectedItem().toString());

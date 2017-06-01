@@ -3,7 +3,17 @@ package BibliotecaSIS;
 public class Monografia extends Exemplar
 {
 	
-	private String titulo, autor, orientador, tema, tipo, instituicao, ano, codigo;
+	private String titulo, autor, orientador, tema, tipo, instituicao, ano, exemplares;
+	
+	public String getExemplares() {
+		return exemplares;
+	}
+
+	public void setExemplares(String exemplares) {
+		this.exemplares = exemplares;
+	}
+
+	private int codigo;
 	
 	public String getNome() {
 		return titulo;
@@ -61,11 +71,11 @@ public class Monografia extends Exemplar
 		this.ano = ano;
 	}
 
-	public String getCodigo() {
+	public int getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
 	

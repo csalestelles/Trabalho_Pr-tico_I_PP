@@ -36,6 +36,7 @@ public class RevistaDAO
 			statement.setString(2, revista.getEdicao());
 			resultSet = statement.executeQuery();
 			resultSet.next();
+			revista.setCodigo(resultSet.getInt(1));
 			revista.setNome(resultSet.getString(2));
 			revista.setTema(resultSet.getString(4));
 			revista.setEditora(resultSet.getString(3));
@@ -55,25 +56,28 @@ public class RevistaDAO
 		{
 			if (operacao == BancoDeDados.INCLUSAO)
 			{
-				sql = "INSERT INTO Revistas VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)";
+				revista.setCodigo(bd.acessaCodigo(revista.getNome()));
+				sql = "INSERT INTO Revistas VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 				statement = bd.conexao.prepareStatement(sql);
-				statement.setString(1, revista.getNome());
-				statement.setString(2, revista.getEditora());
-				statement.setString(3, revista.getTema());
+				statement.setInt(1, revista.getCodigo());
+				statement.setString(2, revista.getNome());
+				statement.setString(3, revista.getEditora());
+				statement.setString(4, revista.getTema());
 				statement.setString(5, revista.getEdicao());
 				statement.setString(6, revista.getAno());
 				statement.setString(7, revista.getExemplares());
 			}
 			else if(operacao == BancoDeDados.ALTERACAO)
 			{
-				sql = "UPDATE Revistas SET Editora=?, Tema=?, Ano=?, Exemplares=? WHERE Nome=? AND Edicao=?";
+				sql = "UPDATE Revistas SET Nome=?, Editora=?, Tema=?, Edicao=?, Ano=?, Exemplares=? WHERE Codigo=?";
 				statement = bd.conexao.prepareStatement(sql);
-				statement.setString(1, revista.getEditora());
-				statement.setString(2, revista.getTema());
-				statement.setString(3, revista.getAno());
-				statement.setString(4, revista.getExemplares());
-				statement.setString(5, revista.getNome());
-				statement.setString(6, revista.getEdicao());
+				statement.setString(2, revista.getEditora());
+				statement.setString(3, revista.getTema());
+				statement.setString(5, revista.getAno());
+				statement.setString(6, revista.getExemplares());
+				statement.setString(1, revista.getNome());
+				statement.setString(4, revista.getEdicao());
+				statement.setInt(7, revista.getCodigo());
 			}
 			else if (operacao == BancoDeDados.EXCLUSAO)
 			{
@@ -114,6 +118,7 @@ public class RevistaDAO
 		while(resultSet.next())
 		{
 			Revista revistaAdd = new Revista();
+			revistaAdd.setCodigo(resultSet.getInt(1));
 			revistaAdd.setNome(resultSet.getString(2));
 			revistaAdd.setEdicao(resultSet.getString(5));
 			revistaAdd.setEditora(resultSet.getString(3));
@@ -130,7 +135,7 @@ public class RevistaDAO
 		ArrayList<Revista> listRevistas = new ArrayList<Revista>();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 		table.setModel(new DefaultTableModel(
-				new String[]{"Nome", "Edicao", "Editora", "Tema", "Ano", "Exemplares"}, 0) {
+				new String[]{"Código","Nome", "Edicao", "Editora", "Tema", "Ano", "Exemplares"}, 0) {
 				public boolean isCellEditable(int row, int col)
 				{	
 					return false;
@@ -147,12 +152,13 @@ public class RevistaDAO
 		Object[] row = new Object[7];
 		for (int i=0; i<listRevistas.size();i++)
 		{
-			row[0] = listRevistas.get(i).getNome();
-			row[1] = listRevistas.get(i).getEdicao();
-			row[2] = listRevistas.get(i).getEditora();
-			row[3] = listRevistas.get(i).getTema();
-			row[4] = listRevistas.get(i).getAno();
-			row[5] = listRevistas.get(i).getExemplares();
+			row[0] = listRevistas.get(i).getCodigo();
+			row[1] = listRevistas.get(i).getNome();
+			row[2] = listRevistas.get(i).getEdicao();
+			row[3] = listRevistas.get(i).getEditora();
+			row[4] = listRevistas.get(i).getTema();
+			row[5] = listRevistas.get(i).getAno();
+			row[6] = listRevistas.get(i).getExemplares();
 			model.addRow(row);
 		}
 	}
@@ -164,11 +170,10 @@ public class RevistaDAO
 		if (table.getSelectedRow() != -1)
 		{
 			int indice = table.getSelectedRow();
-			revistas.revista.setNome((String) table.getValueAt(indice, 0));
-			revistas.revista.setEdicao((String) table.getValueAt(indice, 1));
+			revistas.revista.setNome((String) table.getValueAt(indice, 1));
+			revistas.revista.setEdicao((String) table.getValueAt(indice, 2));
 			dtm.removeRow(table.getSelectedRow());
 			JOptionPane.showMessageDialog(null, revistas.atualizar(BancoDeDados.EXCLUSAO));
-//			Relatorio.somaExemplares(Relatorio.getExemplares(), -1);
 		}
 		else
 		{
@@ -184,10 +189,10 @@ public class RevistaDAO
 		{
 			int indice = table.getSelectedRow();
 			
-//			EditarRevista editarRevista = new EditarRevista((String) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), 
-//						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3), (String) table.getValueAt(indice, 4),
-//						(String) table.getValueAt(indice, 5));
-//			editarRevista.main(null);
+			EditarRevista editarRevista = new EditarRevista((int) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), 
+						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3), (String) table.getValueAt(indice, 4),
+						(String) table.getValueAt(indice, 5), (String) table.getValueAt(indice, 6));
+			editarRevista.main(null);
 		}
 		
 	}

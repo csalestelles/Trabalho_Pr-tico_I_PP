@@ -4,8 +4,14 @@ public class Periodico extends Exemplar
 {
 	
 	private String nome, periodo, editora, tema, ano, exemplar, exemplares;
+	private int codigo;
 	
-	
+	public int getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
 	public String getNome() {
 		return nome;
 	}

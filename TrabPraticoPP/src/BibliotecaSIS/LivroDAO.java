@@ -11,15 +11,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.*;
 
-public class LivroDAO extends BancoDeDados {
+public class LivroDAO
+{
 	
 	public Livro livro;
 	private PreparedStatement statement;
 	private ResultSet resultSet;
 	private String men, sql;
 	public BancoDeDados bd;
-	
-	private String campoTitulo, campoAutor, campoEditora, campoIdioma, campoAno, campoEdicao, campoExemplares;
 	
 	public LivroDAO()
 	{
@@ -37,6 +36,7 @@ public class LivroDAO extends BancoDeDados {
 			statement.setString(2, livro.getEdicao());
 			resultSet = statement.executeQuery();
 			resultSet.next();
+			livro.setCodigo(resultSet.getInt(1));
 			livro.setTitulo(resultSet.getString(2));
 			livro.setAutor(resultSet.getString(3));
 			livro.setEditora(resultSet.getString(4));
@@ -189,7 +189,6 @@ public class LivroDAO extends BancoDeDados {
 			livros.livro.setEdicao((String) table.getValueAt(indice, 6));
 			dtm.removeRow(table.getSelectedRow());
 			JOptionPane.showMessageDialog(null, livros.atualizar(BancoDeDados.EXCLUSAO));
-//			Relatorio.somaExemplares(Relatorio.getExemplares(), -1);
 		}
 		else
 		{

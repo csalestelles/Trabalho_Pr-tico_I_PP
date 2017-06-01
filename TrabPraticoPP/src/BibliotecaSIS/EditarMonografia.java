@@ -15,7 +15,8 @@ public class EditarMonografia {
 
 	private static JFrame frame;
 	
-	private String titulo, autor, orientador, tema, tipo, instituicao, ano;
+	private String titulo, autor, orientador, tema, tipo, instituicao, ano, exemplares;
+	private int codigo;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -45,9 +46,10 @@ public class EditarMonografia {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public EditarMonografia(String titulo, String autor, String orientador, String tema, String tipo,
-			String instituicao, String ano) 
+	public EditarMonografia(int codigo, String titulo, String autor, String orientador, String tema, String tipo,
+			String instituicao, String ano, String exemplares) 
 	{
+		this.codigo = codigo;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.orientador = orientador;
@@ -55,6 +57,7 @@ public class EditarMonografia {
 		this.tipo = tipo;
 		this.instituicao = instituicao;
 		this.ano = ano;
+		this.exemplares = exemplares;
 		monografias = new MonografiaDAO();
 		initialize();
 	}
@@ -94,7 +97,7 @@ public class EditarMonografia {
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(21, 156, 230, 26);
+		textField_2.setBounds(21, 156, 168, 26);
 		textField_2.setText(orientador);
 		frame.getContentPane().add(textField_2);
 		
@@ -114,12 +117,12 @@ public class EditarMonografia {
 		        "2011", "2012", "2013", "2014", "2015", "2016", "2017"}; 
 
 		JComboBox comboBox = new JComboBox(anoVetor);
-		comboBox.setBounds(263, 157, 93, 27);
+		comboBox.setBounds(201, 157, 93, 27);
 		comboBox.setSelectedItem(ano);
 		frame.getContentPane().add(comboBox);
 		
 		JLabel label_3 = new JLabel("Ano:");
-		label_3.setBounds(263, 133, 61, 16);
+		label_3.setBounds(201, 136, 61, 16);
 		frame.getContentPane().add(label_3);
 		
 		JLabel label_4 = new JLabel("Tipo:");
@@ -152,10 +155,21 @@ public class EditarMonografia {
 		textField_4.setText(tema);
 		frame.getContentPane().add(textField_4);
 		
+		String[] exemplaresVetor = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+				   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+				   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+				   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
+		
+		JComboBox comboBox_2 = new JComboBox(exemplaresVetor);
+		comboBox_2.setBounds(314, 157, 93, 27);
+		frame.getContentPane().add(comboBox_2);
+		
 		JButton btnAtualizar = new JButton("Atualizar");
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				monografias.monografia.setCodigo(codigo);
 				monografias.monografia.setTitulo(textField.getText());
 				monografias.monografia.setAutor(textField_1.getText());
 				monografias.monografia.setOrientador(textField_2.getText());
@@ -163,6 +177,7 @@ public class EditarMonografia {
 				monografias.monografia.setTipo((String) comboBox_1.getSelectedItem());
 				monografias.monografia.setInstituicao(textField_3.getText());
 				monografias.monografia.setAno((String) comboBox.getSelectedItem());
+				monografias.monografia.setExemplares((String) comboBox_2.getSelectedItem());
 				JOptionPane.showMessageDialog(null, monografias.atualizar(BancoDeDados.ALTERACAO));
 				frame.dispose();
 				AdminWindow.main(null);
@@ -170,5 +185,9 @@ public class EditarMonografia {
 		});
 		btnAtualizar.setBounds(314, 243, 117, 29);
 		frame.getContentPane().add(btnAtualizar);
+		
+		JLabel lblExemplares = new JLabel("Exemplares:");
+		lblExemplares.setBounds(314, 133, 93, 16);
+		frame.getContentPane().add(lblExemplares);
 	}
 }

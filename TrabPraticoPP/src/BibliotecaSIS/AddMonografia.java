@@ -86,7 +86,7 @@ public class AddMonografia
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(20, 128, 230, 26);
+		textField_2.setBounds(20, 128, 168, 26);
 		frame.getContentPane().add(textField_2);
 		
 		String[] tipo = {"", "Bacharelado", "Licenciatura", "Dissertação", "Tese"};
@@ -112,11 +112,21 @@ public class AddMonografia
 		        "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010",
 		        "2011", "2012", "2013", "2014", "2015", "2016", "2017"}; 
 		JComboBox comboBox_1 = new JComboBox(ano);
-		comboBox_1.setBounds(262, 129, 93, 27);
+		comboBox_1.setBounds(200, 129, 93, 27);
 		frame.getContentPane().add(comboBox_1);
 		
+		String[] exemplaresVetor = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+				   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+				   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+				   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
+		
+		JComboBox comboBox_2 = new JComboBox(exemplaresVetor);
+		comboBox_2.setBounds(313, 129, 93, 27);
+		frame.getContentPane().add(comboBox_2);
+		
 		JLabel lblAno = new JLabel("Ano:");
-		lblAno.setBounds(262, 105, 61, 16);
+		lblAno.setBounds(200, 105, 61, 16);
 		frame.getContentPane().add(lblAno);
 		
 		JLabel lblTema = new JLabel("Tema:");
@@ -149,6 +159,7 @@ public class AddMonografia
 					monografias.monografia.setTipo(comboBox.getSelectedItem().toString());
 					monografias.monografia.setInstituicao(textField_4.getText());
 					monografias.monografia.setAno(comboBox_1.getSelectedItem().toString());
+					monografias.monografia.setExemplares(comboBox_2.getSelectedItem().toString());
 					
 					JOptionPane.showMessageDialog(null, monografias.atualizar(BancoDeDados.INCLUSAO));
 					frame.dispose();
@@ -160,6 +171,12 @@ public class AddMonografia
 		});
 		btnAdicionar.setBounds(313, 215, 117, 29);
 		frame.getContentPane().add(btnAdicionar);
+		
+		JLabel lblExemplares = new JLabel("Exemplares:");
+		lblExemplares.setBounds(313, 105, 93, 16);
+		frame.getContentPane().add(lblExemplares);
+		
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -178,5 +195,4 @@ public class AddMonografia
 			}
 		});
 	}
-
 }
