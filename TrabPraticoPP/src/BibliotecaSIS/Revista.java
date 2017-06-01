@@ -1,6 +1,6 @@
 package BibliotecaSIS;
 
-public class Revista 
+public class Revista extends Exemplar
 {
 	private String nome, editora, tema, edicao, ano, exemplares;
 	public String getNome() {

@@ -108,7 +108,6 @@ public class JanelaDeCadastro extends BancoDeDados {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				INSERT INTO personagens VALUES (NULL, "Starlord", "Peter Quill", "Guardians of the Galaxy");
 				Statement st;
 				String password = new String(passField.getPassword()).trim();
 				String passwordConfirmation = new String(confirmPassField.getPassword()).trim();

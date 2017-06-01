@@ -1,11 +1,11 @@
 package BibliotecaSIS;
 
-public class Monografia 
+public class Monografia extends Exemplar
 {
 	
 	private String titulo, autor, orientador, tema, tipo, instituicao, ano, codigo;
 	
-	public String getTitulo() {
+	public String getNome() {
 		return titulo;
 	}
 

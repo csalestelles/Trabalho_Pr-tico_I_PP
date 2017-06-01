@@ -1,0 +1,58 @@
+package BibliotecaSIS;
+
+public class Relatorio 
+{	
+	private static int valor;
+	private static String tipo;
+
+	public static int getUsuarios() {
+		return usuarios;
+	}
+
+	public static void setUsuarios(int usuarios) {
+		Relatorio.usuarios = usuarios;
+	}
+
+	public static int getAdministradores() {
+		return administradores;
+	}
+
+	public static void setAdministradores(int administradores) {
+		Relatorio.administradores = administradores;
+	}
+
+	public static int getEmprestimosRealizados() {
+		return emprestimosRealizados;
+	}
+
+	public static void setEmprestimosRealizados(int emprestimosRealizados) {
+		Relatorio.emprestimosRealizados = emprestimosRealizados;
+	}
+
+	public static int getEmprestimosAndamento() {
+		return emprestimosAndamento;
+	}
+
+	public static void setEmprestimosAndamento(int emprestimosAndamento) {
+		Relatorio.emprestimosAndamento = emprestimosAndamento;
+	}
+
+	public static int getDevolucoesAtrasadas() {
+		return devolucoesAtrasadas;
+	}
+
+	public static void setDevolucoesAtrasadas(int devolucoesAtrasadas) {
+		Relatorio.devolucoesAtrasadas = devolucoesAtrasadas;
+	}
+
+	public static int getExemplares() {
+		return exemplares;
+	}
+
+	public static void setExemplares(int exemplares) {
+		Relatorio.exemplares = exemplares;
+	}
+	
+	
+
+}

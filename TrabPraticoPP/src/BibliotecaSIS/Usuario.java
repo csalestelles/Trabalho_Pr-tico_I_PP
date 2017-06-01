@@ -5,6 +5,7 @@ import java.util.Random;
 public class Usuario {
 
 	private String nomeDeUsuario, senha, anoDeNascimento, nomeCompleto;
+	private int codigo;
 
 	public String getNomeCompleto() {
 		return nomeCompleto;
@@ -36,6 +37,16 @@ public class Usuario {
 
 	public void setAnoDeNascimento(String anoDeNascimento) {
 		this.anoDeNascimento = anoDeNascimento;
+	}
+	
+	public int getCodigo()
+	{
+		return codigo;
+	}
+	
+	public void setCodigo(int codigo)
+	{
+		this.codigo = codigo;
 	}
 
 }

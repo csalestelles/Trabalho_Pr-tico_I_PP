@@ -1,12 +1,13 @@
 package BibliotecaSIS;
 
-public class Livro 
+public class Livro extends Exemplar
 {
 	
 	private String titulo, editora, autor, idioma;
-	private String ano, edicao, exemplares, codigo;
+	private String ano, edicao, exemplares;
+	private int codigo;
 	
-	public String getTitulo() {
+	public String getNome() {
 		return titulo;
 	}
 	public void setTitulo(String titulo) {
@@ -48,10 +49,10 @@ public class Livro
 	public void setExemplares(String exemplares) {
 		this.exemplares = exemplares;
 	}
-	public String getCodigo() {
+	public int getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(String codigo) {
+	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}	
 	

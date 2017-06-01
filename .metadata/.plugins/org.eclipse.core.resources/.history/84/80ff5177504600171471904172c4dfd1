@@ -1,0 +1,61 @@
+package BibliotecaSIS;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class RelatorioDAO 
+{
+	private PreparedStatement statement;
+	private ResultSet resultSet;
+	private String men, sql;
+	private BancoDeDados bd;
+	public Relatorio relatorio;
+	
+	public static int[] valores; 
+//	usuarios, administradores, empReal, empAnd, devAtra;
+
+	public RelatorioDAO()
+	{
+		relatorio = new Relatorio();
+		bd = new BancoDeDados();
+		int i = 0;
+		while(i < 5)
+		{
+			sql = "INSERTO INTO Relatorio VALUES (" + i + ", 0)";
+			try {
+				statement = bd.conexao.prepareStatement(sql);
+				statement.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			i++;
+		}
+		valores = new int[5];
+	}
+	
+	public void acessarRelatorio() throws SQLException
+	{
+		sql = "SELECT * FROM Relatório";
+		
+		statement = bd.conexao.prepareStatement(sql);
+		resultSet = statement.executeQuery();
+		int i = 0;
+		while(resultSet.next())
+		{
+			valores[i] = resultSet.getInt(0);
+			i++;
+		}
+	}
+	
+	public void atualizarSoma(int tipo) throws SQLException
+	{
+		sql = "UPDATE Relatorios SET Valor=? WHERE Tipo=?";
+		statement = bd.conexao.prepareStatement(sql);
+		statement.setInt(1, relatorio.getValor()+1);
+		statement.setInt(2, tipo);
+		statement.executeUpdate();
+	}
+	
+}

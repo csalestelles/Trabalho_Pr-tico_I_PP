@@ -12,6 +12,7 @@ public class BancoDeDados {
 	public static final byte INCLUSAO = 1;
 	public static final byte ALTERACAO = 2;
 	public static final byte EXCLUSAO = 3;
+	public static final byte EMPRESTIMO = 4;
 	public static int CODIGO = 0;
 	
 	public BancoDeDados()
@@ -45,6 +46,28 @@ public class BancoDeDados {
 		{
 			return false;
 		}
+	}
+	
+	public int acessaCodigo(String nome) throws SQLException
+	{
+		String sql;
+		PreparedStatement statement;
+		ResultSet resultSet;
+		int valor;
+		BancoDeDados bd = new BancoDeDados();
+		
+		sql = "INSERT INTO Codigos VALUES (NULL, ?)";
+		statement = bd.conexao.prepareStatement(sql);
+		(statement).setString(1, nome);
+		statement.executeUpdate();
+		sql = "SELECT * FROM Codigos WHERE tituloCod=?";
+		statement = BancoDeDados.conexao.prepareStatement(sql);
+		statement.setString(1, nome);
+		resultSet = statement.executeQuery();
+		resultSet.next();
+		valor = resultSet.getInt(1);
+		
+		return valor;
 	}
 
 }

@@ -1,0 +1,12 @@
+package BibliotecaSIS;
+
+public class Exemplar 
+{
+	private String nome;
+	
+	public String getNome()
+	{
+		return nome;
+	}
+
+}

@@ -47,8 +47,6 @@ public class AdminWindow extends JPanel
 	private PeriodicoDAO periodicos = new PeriodicoDAO();
 	private RevistaDAO revistas = new RevistaDAO();
 	
-	private ArrayList<Livro> listLivros = new ArrayList<Livro>();
-	
 	private JButton btnAdicionar;
 	
 

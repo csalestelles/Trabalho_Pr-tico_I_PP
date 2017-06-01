@@ -25,6 +25,7 @@ public class EditarLivro {
 	private LivroDAO livros;
 
 	private String titulo, autor, editora, idioma, ano, edicao, exemplares;
+	private int codigo;
 	
 	/**
 	 * Launch the application.
@@ -46,7 +47,8 @@ public class EditarLivro {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public EditarLivro(String titulo, String autor, String editora, String idioma, String ano, String edicao, String exemplares) {
+	public EditarLivro(int codigo, String titulo, String autor, String editora, String idioma, String ano, String edicao, String exemplares) {
+		this.codigo = codigo;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.editora = editora;
@@ -129,7 +131,7 @@ public class EditarLivro {
 		comboBox_1.setSelectedItem(ano);
 		frame.getContentPane().add(comboBox_1);
 		
-		String[] exemplaresVetor = {"", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", 
+		String[] exemplaresVetor = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
 				   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
 				   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
 				   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
@@ -139,7 +141,7 @@ public class EditarLivro {
 		comboBox_2.setSelectedItem(exemplares);
 		frame.getContentPane().add(comboBox_2);
 		
-		String[] edicaoVetor = {"", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", 
+		String[] edicaoVetor = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
 				   "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
 				   "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
 				   "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
@@ -161,6 +163,7 @@ public class EditarLivro {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				livros.livro.setCodigo(codigo);
 				livros.livro.setTitulo(textField.getText());
 				livros.livro.setEditora(textField_2.getText());
 				livros.livro.setAutor(textField_1.getText());

@@ -1,0 +1,61 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+
+public class UsuarioWindow {
+
+	private JFrame frame;
+	private JTabbedPane tpAbas;
+	private JScrollPane livroScroll, monografiaScroll, periodicoScroll, revistaScroll;
+	private JTable table;
+	
+	private LivroDAO livros = new LivroDAO();
+	private MonografiaDAO monografias = new MonografiaDAO();
+	private PeriodicoDAO periodicos = new PeriodicoDAO();
+	private RevistaDAO revistas = new RevistaDAO();
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					UsuarioWindow window = new UsuarioWindow();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public UsuarioWindow() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		tpAbas = new JTabbedPane();
+		table = new JTable();
+		livroScroll = new JScrollPane();
+		monografiaScroll = new JScrollPane();
+		periodicoScroll = new JScrollPane();
+		revistaScroll = new JScrollPane();
+	}
+
+}

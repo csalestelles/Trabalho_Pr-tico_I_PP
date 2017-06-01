@@ -33,7 +33,7 @@ public class LivroDAO extends BancoDeDados {
 		try
 		{
 			statement = bd.conexao.prepareStatement(sql);
-			statement.setString(1, livro.getTitulo());
+			statement.setString(1, livro.getNome());
 			statement.setString(2, livro.getEdicao());
 			resultSet = statement.executeQuery();
 			resultSet.next();
@@ -57,34 +57,45 @@ public class LivroDAO extends BancoDeDados {
 		{
 			if (operacao == BancoDeDados.INCLUSAO)
 			{
-				sql = "INSERT INTO Livros VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)";
+				livro.setCodigo(bd.acessaCodigo(livro.getNome()));
+				
+				sql = "INSERT INTO Livros VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 				statement = bd.conexao.prepareStatement(sql);
-				statement.setString(1, livro.getTitulo());
+				statement.setInt(1, livro.getCodigo());
+				statement.setString(2, livro.getNome());
+				statement.setString(3, livro.getAutor());
+				statement.setString(4, livro.getEditora());
+				statement.setString(5, livro.getIdioma());
+				statement.setString(6, livro.getAno());
+				statement.setString(7, livro.getEdicao());
+				statement.setString(8, livro.getExemplares());
+			}
+			else if(operacao == BancoDeDados.ALTERACAO)
+			{
+				sql = "UPDATE Livros SET Titulo=?, Autor=?, Editora=?, Idioma=?, Ano=?, Edicao=?, Exemplares=? WHERE Codigo=?";
+				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(2, livro.getAutor());
 				statement.setString(3, livro.getEditora());
 				statement.setString(4, livro.getIdioma());
 				statement.setString(5, livro.getAno());
-				statement.setString(6, livro.getEdicao());
 				statement.setString(7, livro.getExemplares());
-			}
-			else if(operacao == BancoDeDados.ALTERACAO)
-			{
-				sql = "UPDATE Livros SET Autor=?, Editora=?, Idioma=?, Ano=?, Exemplares=? WHERE Titulo=? AND Edicao=?";
-				statement = bd.conexao.prepareStatement(sql);
-				statement.setString(1, livro.getAutor());
-				statement.setString(2, livro.getEditora());
-				statement.setString(3, livro.getIdioma());
-				statement.setString(4, livro.getAno());
-				statement.setString(5, livro.getExemplares());
-				statement.setString(6, livro.getTitulo());
-				statement.setString(7, livro.getEdicao());
+				statement.setString(1, livro.getNome());
+				statement.setString(6, livro.getEdicao());
+				statement.setInt(8, livro.getCodigo());
 			}
 			else if (operacao == BancoDeDados.EXCLUSAO)
 			{
 				sql = "DELETE FROM Livros WHERE Titulo=? AND Edicao=?";
 				statement = bd.conexao.prepareStatement(sql);
-				statement.setString(1, livro.getTitulo());
+				statement.setString(1, livro.getNome());
 				statement.setString(2, livro.getEdicao());
+			}
+			else if(operacao == BancoDeDados.EMPRESTIMO)
+			{
+				sql = "UPDATE Livros SET Exemplares=? WHERE Titulo=? AND Edicao=?";
+				statement.setString(1, livro.getExemplares());
+				statement.setString(2, livro.getNome());
+				statement.setString(3, livro.getEdicao());
 			}
 			if(statement.executeUpdate() == 0)
 			{
@@ -118,6 +129,7 @@ public class LivroDAO extends BancoDeDados {
 		while(resultSet.next())
 		{
 			Livro livroAdd = new Livro();
+			livroAdd.setCodigo(resultSet.getInt(1));
 			livroAdd.setTitulo(resultSet.getString(2));
 			livroAdd.setAutor(resultSet.getString(3));
 			livroAdd.setEditora(resultSet.getString(4));
@@ -136,7 +148,7 @@ public class LivroDAO extends BancoDeDados {
 		ArrayList<Livro> listLivros = new ArrayList<Livro>();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 		table.setModel(new DefaultTableModel(
-				new String[]{"Título", "Autor", "Editora", "Idioma", "Ano", "Edição", "Exemplares"}, 0) {
+				new String[]{"Código", "Título", "Autor", "Editora", "Idioma", "Ano", "Edição", "Exemplares"}, 0) {
 				public boolean isCellEditable(int row, int col)
 				{	
 					return false;
@@ -150,16 +162,17 @@ public class LivroDAO extends BancoDeDados {
 		
 		DefaultTableModel model =(DefaultTableModel)table.getModel();
 		model.setNumRows(0);
-		Object[] row = new Object[7];
+		Object[] row = new Object[8];
 		for (int i=0; i<listLivros.size();i++)
 		{
-			row[0] = listLivros.get(i).getTitulo();
-			row[1] = listLivros.get(i).getAutor();
-			row[2] = listLivros.get(i).getEditora();
-			row[3] = listLivros.get(i).getIdioma();
-			row[4] = listLivros.get(i).getAno();
-			row[5] = listLivros.get(i).getEdicao();
-			row[6] = listLivros.get(i).getExemplares();
+			row[0] = listLivros.get(i).getCodigo();
+			row[1] = listLivros.get(i).getNome();
+			row[2] = listLivros.get(i).getAutor();
+			row[3] = listLivros.get(i).getEditora();
+			row[4] = listLivros.get(i).getIdioma();
+			row[5] = listLivros.get(i).getAno();
+			row[6] = listLivros.get(i).getEdicao();
+			row[7] = listLivros.get(i).getExemplares();
 			
 			model.addRow(row);
 		}
@@ -172,8 +185,8 @@ public class LivroDAO extends BancoDeDados {
 		if (table.getSelectedRow() != -1)
 		{
 			int indice = table.getSelectedRow();
-			livros.livro.setTitulo((String) table.getValueAt(indice, 0));
-			livros.livro.setEdicao((String) table.getValueAt(indice, 5));
+			livros.livro.setTitulo((String) table.getValueAt(indice, 1));
+			livros.livro.setEdicao((String) table.getValueAt(indice, 6));
 			dtm.removeRow(table.getSelectedRow());
 			JOptionPane.showMessageDialog(null, livros.atualizar(BancoDeDados.EXCLUSAO));
 //			Relatorio.somaExemplares(Relatorio.getExemplares(), -1);
@@ -192,9 +205,9 @@ public class LivroDAO extends BancoDeDados {
 		{
 			int indice = table.getSelectedRow();
 			
-			EditarLivro editarLivro = new EditarLivro((String) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), 
-						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3), (String) table.getValueAt(indice, 4),
-						(String) table.getValueAt(indice, 5), (String) table.getValueAt(indice, 6));
+			EditarLivro editarLivro = new EditarLivro((int) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), (String) table.getValueAt(indice, 2), 
+						(String) table.getValueAt(indice, 3), (String) table.getValueAt(indice, 4), (String) table.getValueAt(indice, 5),
+						(String) table.getValueAt(indice, 6), (String) table.getValueAt(indice, 7));
 			editarLivro.main(null);
 		}
 		

@@ -32,7 +32,7 @@ public class MonografiaDAO
 		try
 		{
 			statement = bd.conexao.prepareStatement(sql);
-			statement.setString(1, monografia.getTitulo());
+			statement.setString(1, monografia.getNome());
 			statement.setString(2, monografia.getAutor());
 			resultSet = statement.executeQuery();
 			resultSet.next();
@@ -58,7 +58,7 @@ public class MonografiaDAO
 			{
 				sql = "INSERT INTO Monografias values (NULL, ?, ?, ?, ?, ?, ?, ?)";
 				statement = bd.conexao.prepareStatement(sql);
-				statement.setString(1, monografia.getTitulo());
+				statement.setString(1, monografia.getNome());
 				statement.setString(2, monografia.getAutor());
 				statement.setString(3, monografia.getOrientador());
 				statement.setString(4, monografia.getTema());
@@ -76,13 +76,13 @@ public class MonografiaDAO
 				statement.setString(3, monografia.getTipo());
 				statement.setString(4, monografia.getInstituicao());
 				statement.setString(5, monografia.getAno());
-				statement.setString(6, monografia.getTitulo());
+				statement.setString(6, monografia.getNome());
 			}
 			else if (operacao == BancoDeDados.EXCLUSAO)
 			{
 				sql = "DELETE FROM Monografias WHERE Titulo=? AND Autor=?";
 				statement = bd.conexao.prepareStatement(sql);
-				statement.setString(1, monografia.getTitulo());
+				statement.setString(1, monografia.getNome());
 				statement.setString(2, monografia.getAutor());
 			}
 			if(statement.executeUpdate() == 0)
@@ -151,7 +151,7 @@ public class MonografiaDAO
 		Object[] row = new Object[7];
 		for (int i=0; i<listDocs.size();i++)
 		{
-			row[0] = listDocs.get(i).getTitulo();
+			row[0] = listDocs.get(i).getNome();
 			row[1] = listDocs.get(i).getAutor();
 			row[2] = listDocs.get(i).getOrientador();
 			row[3] = listDocs.get(i).getTema();

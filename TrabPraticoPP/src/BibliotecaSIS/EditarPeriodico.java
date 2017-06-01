@@ -99,7 +99,7 @@ public class EditarPeriodico {
 		label_3.setBounds(26, 218, 93, 16);
 		frame.getContentPane().add(label_3);
 		
-		String[] exemplaresVetor = {"", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", 
+		String[] exemplaresVetor = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
 				  "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
 				  "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
 				  "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
@@ -114,7 +114,7 @@ public class EditarPeriodico {
 		comboBox.setSelectedItem(exemplares);
 		frame.getContentPane().add(comboBox);
 		
-		String[] exemplarVetor = {"", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", 
+		String[] exemplarVetor = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
 				  "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
 				  "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
 				  "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",

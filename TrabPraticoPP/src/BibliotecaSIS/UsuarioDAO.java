@@ -57,12 +57,13 @@ public class UsuarioDAO extends BancoDeDados {
 			}
 			else if(operacao == BancoDeDados.ALTERACAO)
 			{
-				sql = "UPDATE Usuarios SET NomeCompleto=?, Pass=?, DataNascimento=? WHERE User=?";
+				sql = "UPDATE Usuarios SET NomeCompleto=?, User=? , Pass=?, DataNascimento=? WHERE Codigo=?";
 				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(1, usuario.getNomeCompleto());
-				statement.setString(2, usuario.getSenha());
-				statement.setString(3, usuario.getAnoDeNascimento());
-				statement.setString(4, usuario.getNomeDeUsuario());
+				statement.setString(2, usuario.getNomeDeUsuario());
+				statement.setString(3, usuario.getSenha());
+				statement.setString(4, usuario.getAnoDeNascimento());
+				statement.setInt(5, usuario.getCodigo());
 			}
 			else if (operacao == BancoDeDados.EXCLUSAO)
 			{
@@ -102,6 +103,7 @@ public class UsuarioDAO extends BancoDeDados {
 		while(resultSet.next())
 		{
 			Usuario usuarioAdd = new Usuario();
+			usuarioAdd.setCodigo(resultSet.getInt(1));
 			usuarioAdd.setNomeCompleto(resultSet.getString(2));
 			usuarioAdd.setNomeDeUsuario(resultSet.getString(3));
 			usuarioAdd.setSenha(resultSet.getString(4));
@@ -116,7 +118,7 @@ public class UsuarioDAO extends BancoDeDados {
 		ArrayList<Usuario> listUsuarios = new ArrayList<Usuario>();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 		table.setModel(new DefaultTableModel(
-				new String[]{"Nome Completo", "Nome de Usuário", "Senha", "Data de nascimento"}, 0) {
+				new String[]{"Nome Completo", "Nome de Usuário", "Senha", "Data de nascimento", "Código"}, 0) {
 				public boolean isCellEditable(int row, int col)
 				{	
 					return false;
@@ -130,13 +132,14 @@ public class UsuarioDAO extends BancoDeDados {
 		
 		DefaultTableModel model =(DefaultTableModel)table.getModel();
 		model.setNumRows(0);
-		Object[] row = new Object[4];
+		Object[] row = new Object[5];
 		for (int i=0; i<listUsuarios.size();i++)
 		{
 			row[0] = listUsuarios.get(i).getNomeCompleto();
 			row[1] = listUsuarios.get(i).getNomeDeUsuario();
 			row[2] = listUsuarios.get(i).getSenha();
 			row[3] = listUsuarios.get(i).getAnoDeNascimento();
+			row[4] = listUsuarios.get(i).getCodigo();
 			
 			model.addRow(row);
 		}

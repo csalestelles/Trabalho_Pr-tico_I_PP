@@ -1,0 +1,68 @@
+package BibliotecaSIS;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+public class Emprestimo {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Emprestimo window = new Emprestimo();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Emprestimo() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblVocEstEmprestando = new JLabel("Você está emprestando:");
+		lblVocEstEmprestando.setBounds(29, 26, 150, 16);
+		frame.getContentPane().add(lblVocEstEmprestando);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(6, 53, 438, 16);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnMais = new JMenu("Mais");
+		menuBar.add(mnMais);
+		
+		JMenuItem mntmVoltar = new JMenuItem("Voltar");
+		mnMais.add(mntmVoltar);
+		
+	}
+}

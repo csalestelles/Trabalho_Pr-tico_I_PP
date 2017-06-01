@@ -1,0 +1,23 @@
+package BibliotecaSIS;
+
+public class Relatorio 
+{	
+	private static int valor;
+	private static String tipo;
+	
+	public static int getValor() {
+		return valor;
+	}
+	public static void setValor(int valor) {
+		Relatorio.valor = valor;
+	}
+	public static String getTipo() {
+		return tipo;
+	}
+	public static void setTipo(String tipo) {
+		Relatorio.tipo = tipo;
+	}
+	
+	
+
+}

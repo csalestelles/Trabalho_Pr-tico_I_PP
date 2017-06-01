@@ -1,0 +1,10 @@
+package BibliotecaSIS;
+
+public class Relatorio 
+{	
+	private static int valor;
+	private static String tipo;
+	
+	
+
+}
