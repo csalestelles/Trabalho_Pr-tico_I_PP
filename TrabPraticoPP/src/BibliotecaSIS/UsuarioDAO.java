@@ -118,7 +118,7 @@ public class UsuarioDAO extends BancoDeDados {
 		ArrayList<Usuario> listUsuarios = new ArrayList<Usuario>();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 		table.setModel(new DefaultTableModel(
-				new String[]{"Nome Completo", "Nome de Usuário", "Senha", "Data de nascimento", "Código"}, 0) {
+				new String[]{"Código", "Nome Completo", "Nome de Usuário", "Senha", "Data de nascimento"}, 0) {
 				public boolean isCellEditable(int row, int col)
 				{	
 					return false;
@@ -135,11 +135,11 @@ public class UsuarioDAO extends BancoDeDados {
 		Object[] row = new Object[5];
 		for (int i=0; i<listUsuarios.size();i++)
 		{
-			row[0] = listUsuarios.get(i).getNomeCompleto();
-			row[1] = listUsuarios.get(i).getNomeDeUsuario();
-			row[2] = listUsuarios.get(i).getSenha();
-			row[3] = listUsuarios.get(i).getAnoDeNascimento();
-			row[4] = listUsuarios.get(i).getCodigo();
+			row[0] = listUsuarios.get(i).getCodigo();
+			row[1] = listUsuarios.get(i).getNomeCompleto();
+			row[2] = listUsuarios.get(i).getNomeDeUsuario();
+			row[3] = listUsuarios.get(i).getSenha();
+			row[4] = listUsuarios.get(i).getAnoDeNascimento();
 			
 			model.addRow(row);
 		}
@@ -152,7 +152,7 @@ public class UsuarioDAO extends BancoDeDados {
 		if (table.getSelectedRow() != -1)
 		{
 			int indice = table.getSelectedRow();
-			usuarios.usuario.setNomeDeUsuario((String) table.getValueAt(indice, 1));
+			usuarios.usuario.setNomeDeUsuario((String) table.getValueAt(indice, 2));
 			dtm.removeRow(table.getSelectedRow());
 			JOptionPane.showMessageDialog(null, usuarios.atualizar(BancoDeDados.EXCLUSAO));
 		}
@@ -169,8 +169,8 @@ public class UsuarioDAO extends BancoDeDados {
 		if (table.getSelectedRow() != -1)
 		{
 			int indice = table.getSelectedRow();
-			EditarUsuario editarUsuario = new EditarUsuario((String) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), 
-						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3));
+			EditarUsuario editarUsuario = new EditarUsuario((int) table.getValueAt(indice, 0), (String) table.getValueAt(indice, 1), 
+						(String) table.getValueAt(indice, 2), (String) table.getValueAt(indice, 3), (String) table.getValueAt(indice, 4));
 			editarUsuario.main(null);
 		}
 		

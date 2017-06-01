@@ -22,7 +22,8 @@ public class EditarUsuario {
 	private UsuarioDAO usuarios;
 	
 	private String nomeCompleto, nomeUsuario, senha, dataNascimento;
-
+	private int codigo;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -42,8 +43,9 @@ public class EditarUsuario {
 	/**
 	 * Create the application.
 	 */
-	public EditarUsuario(String nomeCompleto, String nomeUsuario, String senha, String dataNascimento)
+	public EditarUsuario(int codigo, String nomeCompleto, String nomeUsuario, String senha, String dataNascimento)
 	{
+		this.codigo = codigo;
 		this.nomeCompleto = nomeCompleto;
 		this.nomeUsuario = nomeUsuario;
 		this.senha = senha;
@@ -105,6 +107,7 @@ public class EditarUsuario {
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				usuarios.usuario.setCodigo(codigo);
 				usuarios.usuario.setNomeCompleto(textField.getText());
 				usuarios.usuario.setNomeDeUsuario(textField_1.getText());
 				usuarios.usuario.setSenha(textField_3.getText());

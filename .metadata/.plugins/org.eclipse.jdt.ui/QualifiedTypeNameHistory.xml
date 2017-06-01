@@ -17,6 +17,9 @@
 <fullyQualifiedTypeName name="BibliotecaSIS.AdminWindow"/>
 <fullyQualifiedTypeName name="javax.swing.JFormattedTextField.AbstractFormatter"/>
 <fullyQualifiedTypeName name="javax.swing.text.MaskFormatter"/>
-<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="BibliotecaSIS.RelatorioDAO"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.text.DateFormat"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 </qualifiedTypeNameHistroy>
