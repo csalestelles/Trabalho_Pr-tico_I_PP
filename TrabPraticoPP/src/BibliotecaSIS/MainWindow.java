@@ -59,6 +59,7 @@ public class MainWindow extends BancoDeDados {
 		
 		frame = new JFrame("Gerenciador de Livros e Documentos");
 		frame.setBounds(100, 100, 450, 300);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -86,7 +87,8 @@ public class MainWindow extends BancoDeDados {
 					
 					if (rs.first())
 					{
-						//ABRIR JANELA DE EMPRÉSTIMO E DOAÇÃO DE LIVROS
+						UsuarioWindow.main(null);
+						frame.dispose();
 					}
 					else
 					{

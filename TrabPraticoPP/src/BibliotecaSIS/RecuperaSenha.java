@@ -53,7 +53,8 @@ public class RecuperaSenha extends BancoDeDados {
 		 
 		frame = new JFrame("Recuperação de senha");
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblRecuperaoDeSenha = new JLabel("Recuperação de senha");

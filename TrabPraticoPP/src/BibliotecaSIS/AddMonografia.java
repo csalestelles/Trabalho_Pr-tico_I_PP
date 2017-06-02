@@ -57,8 +57,9 @@ public class AddMonografia
 	private void initialize() {
 		monografias = new MonografiaDAO();
 		
-		frame = new JFrame("Adicionar Monografia à Biblioteca");
+		frame = new JFrame("Adicionar Documento à Biblioteca");
 		frame.setBounds(100, 100, 450, 300);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

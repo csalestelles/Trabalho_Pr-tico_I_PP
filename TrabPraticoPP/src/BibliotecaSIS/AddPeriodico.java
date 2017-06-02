@@ -60,8 +60,9 @@ public class AddPeriodico
 	private void initialize() {
 		periodicos = new PeriodicoDAO();
 		
-		frame = new JFrame("Adicionar Periodico na Biblioteca");
+		frame = new JFrame("Adicionar Periódico na Biblioteca");
 		frame.setBounds(100, 100, 450, 300);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

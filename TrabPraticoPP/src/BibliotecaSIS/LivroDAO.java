@@ -2,7 +2,7 @@ package BibliotecaSIS;
 
 import java.sql.*;
 import java.util.ArrayList;
-
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -35,16 +35,19 @@ public class LivroDAO
 			statement.setString(1, livro.getNome());
 			statement.setString(2, livro.getEdicao());
 			resultSet = statement.executeQuery();
-			resultSet.next();
-			livro.setCodigo(resultSet.getInt(1));
-			livro.setTitulo(resultSet.getString(2));
-			livro.setAutor(resultSet.getString(3));
-			livro.setEditora(resultSet.getString(4));
-			livro.setIdioma(resultSet.getString(5));
-			livro.setAno(resultSet.getString(6));
-			livro.setEdicao(resultSet.getString(7));
-			livro.setExemplares(resultSet.getString(8));
-			return true;
+			if(resultSet.first())
+			{
+				livro.setCodigo(resultSet.getInt(1));
+				livro.setTitulo(resultSet.getString(2));
+				livro.setAutor(resultSet.getString(3));
+				livro.setEditora(resultSet.getString(4));
+				livro.setIdioma(resultSet.getString(5));
+				livro.setAno(resultSet.getString(6));
+				livro.setEdicao(resultSet.getString(7));
+				livro.setExemplares(resultSet.getString(8));
+				return true;
+			}
+			return false;
 		}
 		catch(SQLException e){return false;}
 	}
@@ -92,10 +95,12 @@ public class LivroDAO
 			}
 			else if(operacao == BancoDeDados.EMPRESTIMO)
 			{
-				sql = "UPDATE Livros SET Exemplares=? WHERE Titulo=? AND Edicao=?";
-				statement.setString(1, livro.getExemplares());
-				statement.setString(2, livro.getNome());
-				statement.setString(3, livro.getEdicao());
+				sql = "UPDATE Livros SET Exemplares=? WHERE Codigo=?";
+				int exemplaresFinal = Integer.parseInt(livro.getExemplares()) - 1;
+				String exempString = "" + exemplaresFinal;
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, exempString);
+				statement.setInt(2, livro.getCodigo());
 			}
 			if(statement.executeUpdate() == 0)
 			{
@@ -107,9 +112,22 @@ public class LivroDAO
 					RelatorioDAO.atualizarAdicao(5);
 				else if (operacao == BancoDeDados.EXCLUSAO)
 					RelatorioDAO.atualizarRemocao(5);
+				else if (operacao == BancoDeDados.EMPRESTIMO)
+				{
+					RelatorioDAO.atualizarAdicao(2); 
+					RelatorioDAO.atualizarAdicao(3);
+					LivrosEmprestadosDAO livrosEmprestados = new LivrosEmprestadosDAO();
+					livrosEmprestados.livroEmprestado.setCodigoUser(1);
+					livrosEmprestados.livroEmprestado.setCodigoLivro(livro.getCodigo());
+					Date data = new Date();
+					data.setDate(data.getDate()+7);
+					java.sql.Date dataSQL = new java.sql.Date(data.getTime());
+					livrosEmprestados.livroEmprestado.setDataDevolucao(dataSQL);
+					men = livrosEmprestados.insercao(livrosEmprestados.livroEmprestado);
+				}
 			}
 		}
-		catch(SQLException g){men = "Falha na operação";}
+		catch(SQLException g){men = "Falha na operação"; g.printStackTrace();}
 		return men;
 	}
 	

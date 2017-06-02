@@ -31,6 +31,7 @@ public class UsuarioDAO extends BancoDeDados {
 			statement.setString(1, usuario.getNomeDeUsuario());
 			resultSet = statement.executeQuery();
 			resultSet.next();
+			usuario.setCodigo(resultSet.getInt(1));
 			usuario.setNomeCompleto(resultSet.getString(2));
 			usuario.setNomeDeUsuario(resultSet.getString(3));
 			usuario.setSenha(resultSet.getString(4));

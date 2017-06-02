@@ -181,7 +181,7 @@ public class RevistaDAO
 		}
 	}
 	
-	public void editarTabela(JTable table, LivroDAO livros)
+	public void editarTabela(JTable table, RevistaDAO revistas)
 	{
 		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 		

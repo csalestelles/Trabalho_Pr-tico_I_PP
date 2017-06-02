@@ -10,6 +10,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class UsuarioWindow {
 
@@ -22,6 +24,8 @@ public class UsuarioWindow {
 	private MonografiaDAO monografias = new MonografiaDAO();
 	private PeriodicoDAO periodicos = new PeriodicoDAO();
 	private RevistaDAO revistas = new RevistaDAO();
+	private JMenu mnArquivo;
+	private JMenuItem mntmSair;
 
 	/**
 	 * Launch the application.
@@ -94,6 +98,19 @@ public class UsuarioWindow {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
+		mnArquivo = new JMenu("Arquivo");
+		menuBar.add(mnArquivo);
+		
+		mntmSair = new JMenuItem("Sair");
+		mnArquivo.add(mntmSair);
+		mntmSair.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				MainWindow.main(null);
+				frame.dispose();
+			}
+		});;
+		
 		tpAbas.addChangeListener(new javax.swing.event.ChangeListener() {
 		    public void stateChanged(javax.swing.event.ChangeEvent e) {
 		        int aba = tpAbas.getSelectedIndex();
@@ -134,9 +151,8 @@ public class UsuarioWindow {
 				switch(valor)
 				{
 					case 0:
-						Emprestimo emprestimo = new Emprestimo(table.getValueAt(table.getSelectedRow(), 0).toString(),
-													table.getValueAt(table.getSelectedRow(), 5).toString(), "a edição", 
-													table.getValueAt(table.getSelectedRow(), 6).toString());
+						Emprestimo emprestimo = new Emprestimo(table.getValueAt(table.getSelectedRow(), 1).toString(),
+													table.getValueAt(table.getSelectedRow(), 6).toString(), "a edição", livros);
 						emprestimo.main(null);
 						frame.dispose();
 						break;

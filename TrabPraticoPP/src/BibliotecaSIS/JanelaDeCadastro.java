@@ -53,6 +53,7 @@ public class JanelaDeCadastro extends BancoDeDados {
 	private void initialize() {
 		frame = new JFrame("Cadastro de Usuário");
 		frame.setBounds(100, 100, 450, 300);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

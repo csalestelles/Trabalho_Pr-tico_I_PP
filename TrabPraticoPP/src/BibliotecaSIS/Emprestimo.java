@@ -20,7 +20,7 @@ public class Emprestimo {
 
 	private static JFrame frame;
 	Date data;
-	LivroDAO livros;
+//	LivroDAO livros;
 
 	/**
 	 * Launch the application.
@@ -31,6 +31,7 @@ public class Emprestimo {
 				try {
 //					Emprestimo window = new Emprestimo();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -42,16 +43,16 @@ public class Emprestimo {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public Emprestimo(String nome, String segundaInfo, String terceiraInfo, String exemplares) {
+	public Emprestimo(String nome, String segundaInfo, String terceiraInfo, LivroDAO livros) {
 		data = new Date();
-		livros = new LivroDAO();
-		initialize(nome, segundaInfo, terceiraInfo, exemplares);
+//		livros = new LivroDAO();
+		initialize(nome, segundaInfo, terceiraInfo, livros);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String nome, String segundaInfo, String terceiraInfo, String exemplares) {
+	private void initialize(String nome, String segundaInfo, String terceiraInfo, LivroDAO livros) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setResizable(false);
@@ -80,7 +81,7 @@ public class Emprestimo {
 		
 		JLabel lblNewLabel_2 = new JLabel("New label");
 		data.setDate(data.getDate()+7);
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		lblNewLabel_2.setText(dateFormat.format(data));
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setBounds(6, 159, 438, 16);
@@ -94,14 +95,14 @@ public class Emprestimo {
 				livros.livro.setEdicao(segundaInfo);
 				if(livros.localizar())
 				{
-					int exemplaresInt = Integer.parseInt(exemplares)-1;
-					if(exemplaresInt == 0)
+					if(Integer.parseInt(livros.livro.getExemplares()) == 0)
 					{
 						JOptionPane.showMessageDialog(null, "Exemplar Indisponível!");
 					}
 					else
 					{
 						JOptionPane.showMessageDialog(null, livros.atualizar(BancoDeDados.EMPRESTIMO));
+						
 						frame.dispose();
 						UsuarioWindow.main(null);
 					}
@@ -120,6 +121,13 @@ public class Emprestimo {
 		
 		JMenuItem mntmVoltar = new JMenuItem("Voltar");
 		mnMais.add(mntmVoltar);
+		mntmVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				UsuarioWindow.main(null);
+				frame.dispose();
+			}
+		});
 		
 	}
 }

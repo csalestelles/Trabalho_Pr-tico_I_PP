@@ -93,7 +93,46 @@ public class AdminWindow extends JPanel
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.GRAY);
 		
+		JMenu mnRemover = new JMenu("Remover");
+		mnRemover.setBackground(Color.GRAY);
+		
+		JMenuItem mntmUsurio = new JMenuItem("Usuário");
+		
+		JMenuItem mntmLivro = new JMenuItem("Livro");
+		
+		JMenuItem mntmMonografia = new JMenuItem("Monografia");
+		
+		JMenuItem mntmPeridico = new JMenuItem("Periódico");
+		
+		JMenuItem mntmRevista = new JMenuItem("Revista");
+		
+		JMenu mnSair = new JMenu("Sair");
+		
+		JMenuItem mntmLogOut = new JMenuItem("Log out");
+		
 		JMenu mnTeste = new JMenu("Arquivo");
+		
+		JMenu mnAdicionar = new JMenu("Adicionar");
+		
+		JMenuItem mntmMonografia_1 = new JMenuItem("Documento Acadêmico");
+		
+		JMenuItem mntmLivro_1 = new JMenuItem("Livro");
+		
+		JMenuItem mntmPeridico_1 = new JMenuItem("Periódico");
+		
+		JMenuItem mntmRevista_1 = new JMenuItem("Revista");
+		
+		JMenu mnRemover_1 = new JMenu("Remover");
+		
+		JMenuItem mntmUsurio_1 = new JMenuItem("Usuário");
+		
+		JMenuItem mntmDocumentoAcadmico = new JMenuItem("Documento Acadêmico");
+		
+		JMenuItem mntmLivro_2 = new JMenuItem("Livro");
+		
+		JMenuItem mntmPeridico_2 = new JMenuItem("Periódico");
+		
+		JMenuItem mntmRevista_2 = new JMenuItem("Revista");
 		
 		tpAbas = new JTabbedPane();
 		table = new JTable();
@@ -106,6 +145,13 @@ public class AdminWindow extends JPanel
 		JButton btnRemover = new JButton("Remover");
 		btnAdicionar = new JButton("Adicionar");
 		JButton btnRelatorio = new JButton("Relatório");
+		btnRelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				frmPesquisa.dispose();
+				RelatorioWindow.main(null);
+			}
+		});
 		JButton btnEdita = new JButton("Editar");
 		
 		
@@ -116,22 +162,21 @@ public class AdminWindow extends JPanel
 		 */
 		
 		frmPesquisa.setJMenuBar(menuBar);
+		menuBar.add(mnRemover);
+		mnRemover.add(mntmUsurio);
+		mnRemover.add(mntmLivro);
+		mnRemover.add(mntmMonografia);
+		mnRemover.add(mntmPeridico);
+		mnRemover.add(mntmRevista);
+		menuBar.add(mnSair);
+		mnSair.add(mntmLogOut);
 		menuBar.add(mnTeste);
+		mnRemover_1.add(mntmRevista_2);
 		
 		JMenu mnPesquisar = new JMenu("Adicionar");
 		mnTeste.add(mnPesquisar);
-		
-		JMenuItem menuItem_1 = new JMenuItem("Livro");
-		
-		JMenuItem menuItem_2 = new JMenuItem("Monografia");
-		
-		JMenuItem menuItem_3 = new JMenuItem("Periódico");
-		
-		JMenuItem menuItem_4 = new JMenuItem("Revista");
-		mnPesquisar.add(menuItem_2);
-		mnPesquisar.add(menuItem_1);
-		mnPesquisar.add(menuItem_3);
-		mnPesquisar.add(menuItem_4);
+		mnPesquisar.setBackground(Color.GRAY);
+
 		menuItem_1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
@@ -158,28 +203,16 @@ public class AdminWindow extends JPanel
 				frmPesquisa.dispose();	
 			}
 		});
-		
-		JMenu mnRemover = new JMenu("Remover");
-		mnTeste.add(mnRemover);
-		
-		JMenuItem mntmUsurio = new JMenuItem("Usuário");
-		
-		JMenuItem mntmLivro = new JMenuItem("Livro");
-		
-		JMenuItem mntmMonografia = new JMenuItem("Monografia");
-		
-		JMenuItem mntmPeridico = new JMenuItem("Periódico");
-		
-		JMenuItem mntmRevista = new JMenuItem("Revista");
-		mnRemover.add(mntmUsurio);
-		mnRemover.add(mntmLivro);
-		mnRemover.add(mntmMonografia);
-		mnRemover.add(mntmPeridico);
-		mnRemover.add(mntmRevista);
-		
-		JMenuItem mntmLogOut = new JMenuItem("Sair");
-		mnTeste.add(mntmLogOut);
-		
+		mnTeste.add(mnAdicionar);
+		mnAdicionar.add(mntmMonografia_1);
+		mnAdicionar.add(mntmLivro_1);
+		mnAdicionar.add(mntmPeridico_1);
+		mnAdicionar.add(mntmRevista_1);
+		mnTeste.add(mnRemover_1);
+		mnRemover_1.add(mntmUsurio_1);
+		mnRemover_1.add(mntmDocumentoAcadmico);
+		mnRemover_1.add(mntmLivro_2);
+		mnRemover_1.add(mntmPeridico_2);
 		
 		btnAdicionar.setBounds(66, 9, 104, 29);
 		btnAdicionar.setEnabled(false);
@@ -214,21 +247,12 @@ public class AdminWindow extends JPanel
 		 * EVENTOS
 		 */
 		
-		
 		mntmLogOut.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent e) 
 			{
 				AdminLogin adminLogin = new AdminLogin();
 				frmPesquisa.dispose();
 				adminLogin.main(null);
-			}
-		});
-		
-		btnRelatorio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				frmPesquisa.dispose();
-				RelatorioWindow.main(null);
 			}
 		});
 		
@@ -396,7 +420,6 @@ public class AdminWindow extends JPanel
 //						periodicos.removeDaTabela(table, periodicos);
 						break;
 					case 4:
-						revistas.editarTabela(table, revistas);
 //						revistas.removeDaTabela(table, revistas);
 						break;
 					default: 

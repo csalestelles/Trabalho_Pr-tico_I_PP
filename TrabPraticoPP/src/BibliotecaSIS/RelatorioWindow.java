@@ -51,6 +51,7 @@ public class RelatorioWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -81,7 +82,7 @@ public class RelatorioWindow {
 		frame.getContentPane().add(lblUsers);
 		
 		JLabel lblAdmins = new JLabel("New label");
-		lblAdmins.setText(""+RelatorioDAO.valores[1]);
+		lblAdmins.setText(""+(RelatorioDAO.valores[1]+1));
 		lblAdmins.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblAdmins.setBounds(337, 74, 86, 24);
 		frame.getContentPane().add(lblAdmins);

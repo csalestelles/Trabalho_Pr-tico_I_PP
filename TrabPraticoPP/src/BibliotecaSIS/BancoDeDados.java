@@ -13,6 +13,8 @@ public class BancoDeDados {
 	public static final byte ALTERACAO = 2;
 	public static final byte EXCLUSAO = 3;
 	public static final byte EMPRESTIMO = 4;
+	public static final byte DEVOLUCAO = 5;
+	
 	public static int CODIGO = 0;
 	
 	public BancoDeDados()
