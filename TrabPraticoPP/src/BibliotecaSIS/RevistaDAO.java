@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -99,6 +100,41 @@ public class RevistaDAO
 			}
 		}
 		catch(SQLException g){men = "Falha na operação";}
+		return men;
+	}
+	
+	public String emprestar(int codigoUser)
+	{
+		sql = "UPDATE Livros SET Exemplares=? WHERE Codigo=?";
+		int exemplaresFinal = Integer.parseInt(revista.getExemplares()) - 1;
+		String exempString = "" + exemplaresFinal;
+		men = "";
+		try {
+			statement = bd.conexao.prepareStatement(sql);
+			statement.setString(1, exempString);
+			statement.setInt(2, revista.getCodigo());
+			if(statement.executeUpdate() != 0)
+			{
+				RelatorioDAO.atualizarAdicao(2); 
+				RelatorioDAO.atualizarAdicao(3);
+				RevistasEmprestadasDAO revistasEmprestadas = new RevistasEmprestadasDAO();
+				
+				revistasEmprestadas.revistaEmprestada.setCodigoUser(codigoUser);
+				revistasEmprestadas.revistaEmprestada.setCodigoLivro(revista.getCodigo());
+				Date data = new Date();
+				data.setDate(data.getDate()+7);
+				java.sql.Date dataSQL = new java.sql.Date(data.getTime());
+				revistasEmprestadas.revistaEmprestada.setDataDevolucao(dataSQL);
+				men = revistasEmprestadas.insercao(revistasEmprestadas.revistaEmprestada);
+			}
+			else
+			{
+				men = "Falha na operação!";
+			}
+			
+		} 
+		catch (SQLException e) {e.printStackTrace();men = "Falha na operação!";}
+		
 		return men;
 	}
 	

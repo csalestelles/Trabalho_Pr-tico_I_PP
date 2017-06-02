@@ -92,6 +92,15 @@ public class LivroDAO
 				statement.setString(1, livro.getNome());
 				statement.setString(2, livro.getEdicao());
 			}
+			else if(operacao == BancoDeDados.EMPRESTIMO)
+			{
+				sql = "UPDATE Livros SET Exemplares=? WHERE Codigo=?";
+				int exemplaresFinal = Integer.parseInt(livro.getExemplares()) - 1;
+				String exempString = "" + exemplaresFinal;
+				statement = bd.conexao.prepareStatement(sql);
+				statement.setString(1, exempString);
+				statement.setInt(2, livro.getCodigo());
+			}
 			if(statement.executeUpdate() == 0)
 			{
 				men = "Falha na operacao!";
@@ -102,13 +111,27 @@ public class LivroDAO
 					RelatorioDAO.atualizarAdicao(5);
 				else if (operacao == BancoDeDados.EXCLUSAO)
 					RelatorioDAO.atualizarRemocao(5);
+				else if (operacao == BancoDeDados.EMPRESTIMO)
+				{
+					RelatorioDAO.atualizarAdicao(2); 
+					RelatorioDAO.atualizarAdicao(3);
+					LivrosEmprestadosDAO livrosEmprestados = new LivrosEmprestadosDAO();
+					
+					livrosEmprestados.livroEmprestado.setCodigoUser(1);
+					livrosEmprestados.livroEmprestado.setCodigoLivro(livro.getCodigo());
+					Date data = new Date();
+					data.setDate(data.getDate()+7);
+					java.sql.Date dataSQL = new java.sql.Date(data.getTime());
+					livrosEmprestados.livroEmprestado.setDataDevolucao(dataSQL);
+					men = livrosEmprestados.insercao(livrosEmprestados.livroEmprestado);
+				}
 			}
 		}
 		catch(SQLException g){men = "Falha na operação"; g.printStackTrace();}
 		return men;
 	}
 	
-	public String emprestar(int codigoUser)
+	public void emprestar(int codigoUser)
 	{
 		sql = "UPDATE Livros SET Exemplares=? WHERE Codigo=?";
 		int exemplaresFinal = Integer.parseInt(livro.getExemplares()) - 1;
@@ -118,29 +141,19 @@ public class LivroDAO
 			statement = bd.conexao.prepareStatement(sql);
 			statement.setString(1, exempString);
 			statement.setInt(2, livro.getCodigo());
-			if(statement.executeUpdate() != 0)
-			{
-				RelatorioDAO.atualizarAdicao(2); 
-				RelatorioDAO.atualizarAdicao(3);
-				LivrosEmprestadosDAO livrosEmprestados = new LivrosEmprestadosDAO();
-				
-				livrosEmprestados.livroEmprestado.setCodigoUser(codigoUser);
-				livrosEmprestados.livroEmprestado.setCodigoLivro(livro.getCodigo());
-				Date data = new Date();
-				data.setDate(data.getDate()+7);
-				java.sql.Date dataSQL = new java.sql.Date(data.getTime());
-				livrosEmprestados.livroEmprestado.setDataDevolucao(dataSQL);
-				men = livrosEmprestados.insercao(livrosEmprestados.livroEmprestado);
-			}
-			else
-			{
-				men = "Falha na operação!";
-			}
+			RelatorioDAO.atualizarAdicao(2); 
+			RelatorioDAO.atualizarAdicao(3);
+			LivrosEmprestadosDAO livrosEmprestados = new LivrosEmprestadosDAO();
 			
+			livrosEmprestados.livroEmprestado.setCodigoUser(codigoUser);
+			livrosEmprestados.livroEmprestado.setCodigoLivro(livro.getCodigo());
+			Date data = new Date();
+			data.setDate(data.getDate()+7);
+			java.sql.Date dataSQL = new java.sql.Date(data.getTime());
+			livrosEmprestados.livroEmprestado.setDataDevolucao(dataSQL);
+			men = livrosEmprestados.insercao(livrosEmprestados.livroEmprestado);
 		} 
 		catch (SQLException e) {e.printStackTrace();men = "Falha na operação!";}
-		
-		return men;
 	}
 	
 	/*

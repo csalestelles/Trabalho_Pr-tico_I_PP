@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 
 public class UsuarioWindow {
 
-	private static JFrame frame;
+	private JFrame frame;
 	private JTabbedPane tpAbas;
 	private JScrollPane livroScroll, monografiaScroll, periodicoScroll, revistaScroll;
 	private JTable table;
@@ -27,7 +27,6 @@ public class UsuarioWindow {
 	private JMenu mnArquivo;
 	private JMenuItem mntmSair;
 
-	private int codigoUser;
 	/**
 	 * Launch the application.
 	 */
@@ -35,8 +34,8 @@ public class UsuarioWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-//					UsuarioWindow window = new UsuarioWindow();
-					frame.setVisible(true);
+					UsuarioWindow window = new UsuarioWindow();
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,8 +46,7 @@ public class UsuarioWindow {
 	/**
 	 * Create the application.
 	 */
-	public UsuarioWindow(int user) {
-		codigoUser = user;
+	public UsuarioWindow() {
 		initialize();
 	}
 
@@ -113,7 +111,6 @@ public class UsuarioWindow {
 			}
 		});;
 		
-		
 		tpAbas.addChangeListener(new javax.swing.event.ChangeListener() {
 		    public void stateChanged(javax.swing.event.ChangeEvent e) {
 		        int aba = tpAbas.getSelectedIndex();
@@ -154,30 +151,28 @@ public class UsuarioWindow {
 				switch(valor)
 				{
 					case 0:
-						Emprestimo emprestimoLivro = new Emprestimo(table.getValueAt(table.getSelectedRow(), 1).toString(),
-													table.getValueAt(table.getSelectedRow(), 6).toString(), "a edição", 0, 
-													(int)table.getValueAt(table.getSelectedRow(), 0), codigoUser);
-						emprestimoLivro.main(null);
+						Emprestimo emprestimo = new Emprestimo(table.getValueAt(table.getSelectedRow(), 1).toString(),
+													table.getValueAt(table.getSelectedRow(), 6).toString(), "a edição", livros);
+						emprestimo.main(null);
 						frame.dispose();
 						break;
 					case 1:
-						Emprestimo emprestimoDoc = new Emprestimo(table.getValueAt(table.getSelectedRow(), 1).toString(),
-								"Autor: ", table.getValueAt(table.getSelectedRow(), 2).toString(), 1, 
-								(int)table.getValueAt(table.getSelectedRow(), 0), codigoUser);
-						emprestimoDoc.main(null);
-						frame.dispose();
+						livros.editarTabela(table, livros);
+//						frmPesquisa.dispose();
+//						livros.removeDaTabela(table, livros);
 						break;
 					case 2:
-						Emprestimo emprestimoPeriodico = new Emprestimo(table.getValueAt(table.getSelectedRow(), 1).toString(),
-								"Exemplar: ", table.getValueAt(table.getSelectedRow(), 6).toString(), 2, 
-								(int)table.getValueAt(table.getSelectedRow(), 0), codigoUser);
-						emprestimoPeriodico.main(null);
+//						monografias.editarTabela(table, monografias);
 						frame.dispose();
+//						monografias.removeDaTabela(table, monografias);
 						break;
 					case 3:
 //						periodicos.editarTabela(table, periodicos);
 						frame.dispose();
 //						periodicos.removeDaTabela(table, periodicos);
+						break;
+					case 4:
+//						revistas.removeDaTabela(table, revistas);
 						break;
 					default: 
 						System.out.println("erro\n");	

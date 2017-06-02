@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -28,26 +29,28 @@ public class MonografiaDAO
 	
 	public boolean localizar()
 	{
-		sql = "SELECT * FROM Monografias WHERE Titulo=? AND Autor=?";
+		sql = "SELECT * FROM Monografias WHERE Codigo=?";
 		try
 		{
 			statement = bd.conexao.prepareStatement(sql);
-			statement.setString(1, monografia.getNome());
-			statement.setString(2, monografia.getAutor());
+			statement.setInt(1, monografia.getCodigo());
 			resultSet = statement.executeQuery();
-			resultSet.next();
-			monografia.setCodigo(resultSet.getInt(1));
-			monografia.setTitulo(resultSet.getString(2));
-			monografia.setAutor(resultSet.getString(3));
-			monografia.setOrientador(resultSet.getString(4));
-			monografia.setTema(resultSet.getString(5));
-			monografia.setTipo(resultSet.getString(6));
-			monografia.setInstituicao(resultSet.getString(7));
-			monografia.setAno(resultSet.getString(8));
-			monografia.setExemplares(resultSet.getString(9));
-			return true;
+			if(resultSet.first())
+			{
+				monografia.setCodigo(resultSet.getInt(1));
+				monografia.setTitulo(resultSet.getString(2));
+				monografia.setAutor(resultSet.getString(3));
+				monografia.setOrientador(resultSet.getString(4));
+				monografia.setTema(resultSet.getString(5));
+				monografia.setTipo(resultSet.getString(6));
+				monografia.setInstituicao(resultSet.getString(7));
+				monografia.setAno(resultSet.getString(8));
+				monografia.setExemplares(resultSet.getString(9));
+				return true;
+			}
+			return false;
 		}
-		catch(SQLException e){return false;}
+		catch(SQLException e){e.printStackTrace();return false;}
 	}
 	
 	public String atualizar(int operacao)
@@ -105,6 +108,42 @@ public class MonografiaDAO
 			}
 		}
 		catch(SQLException g){men = "Falha na operação";}
+		return men;
+		
+	}
+	
+	public String emprestar(int codigoUser)
+	{
+		sql = "UPDATE Monografias SET Exemplares=? WHERE Codigo=?";
+		int exemplaresFinal = Integer.parseInt(monografia.getExemplares()) - 1;
+		String exempString = "" + exemplaresFinal;
+		men = "";
+		try {
+			statement = bd.conexao.prepareStatement(sql);
+			statement.setString(1, exempString);
+			statement.setInt(2, monografia.getCodigo());
+			if(statement.executeUpdate() != 0)
+			{
+				RelatorioDAO.atualizarAdicao(2); 
+				RelatorioDAO.atualizarAdicao(3);
+				MonografiasEmprestadasDAO monografiasEmprestadas = new MonografiasEmprestadasDAO();
+				
+				monografiasEmprestadas.docEmprestado.setCodigoUser(codigoUser);
+				monografiasEmprestadas.docEmprestado.setCodigoLivro(monografia.getCodigo());
+				Date data = new Date();
+				data.setDate(data.getDate()+7);
+				java.sql.Date dataSQL = new java.sql.Date(data.getTime());
+				monografiasEmprestadas.docEmprestado.setDataDevolucao(dataSQL);
+				men = monografiasEmprestadas.insercao(monografiasEmprestadas.docEmprestado);
+			}
+			else
+			{
+				men = "Falha na operação!";
+			}
+			
+		} 
+		catch (SQLException e) {e.printStackTrace();men = "Falha na operação!";}
+		
 		return men;
 	}
 	

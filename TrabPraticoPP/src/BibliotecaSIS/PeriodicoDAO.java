@@ -2,6 +2,7 @@ package BibliotecaSIS;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -26,12 +27,11 @@ public class PeriodicoDAO {
 	
 	public boolean localizar()
 	{
-		sql = "SELECT * FROM Periodicos WHERE Nome=? AND Exemplar=?";
+		sql = "SELECT * FROM Periodicos WHERE Codigo=?";
 		try
 		{
 			statement = bd.conexao.prepareStatement(sql);
-			statement.setString(1, periodico.getNome());
-			statement.setString(2, periodico.getExemplar());
+			statement.setInt(1, periodico.getCodigo());
 			resultSet = statement.executeQuery();
 			resultSet.next();
 			periodico.setCodigo(resultSet.getInt(1));
@@ -100,7 +100,42 @@ public class PeriodicoDAO {
 					RelatorioDAO.atualizarRemocao(5);
 			}
 		}
-		catch(SQLException g){men = "Falha na operação";}
+		catch(SQLException g){men = "Falha na operação";g.printStackTrace();}
+		return men;
+	}
+	
+	public String emprestar(int codigoUser)
+	{
+		sql = "UPDATE Periodicos SET Exemplares=? WHERE Codigo=?";
+		int exemplaresFinal = Integer.parseInt(periodico.getExemplares()) - 1;
+		String exempString = "" + exemplaresFinal;
+		men = "";
+		try {
+			statement = bd.conexao.prepareStatement(sql);
+			statement.setString(1, exempString);
+			statement.setInt(2, periodico.getCodigo());
+			if(statement.executeUpdate() != 0)
+			{
+				RelatorioDAO.atualizarAdicao(2); 
+				RelatorioDAO.atualizarAdicao(3);
+				PeriodicosEmprestadosDAO periodicosEmprestados = new PeriodicosEmprestadosDAO();
+				
+				periodicosEmprestados.periodicoEmprestado.setCodigoUser(codigoUser);
+				periodicosEmprestados.periodicoEmprestado.setCodigoLivro(periodico.getCodigo());
+				Date data = new Date();
+				data.setDate(data.getDate()+7);
+				java.sql.Date dataSQL = new java.sql.Date(data.getTime());
+				periodicosEmprestados.periodicoEmprestado.setDataDevolucao(dataSQL);
+				men = periodicosEmprestados.insercao(periodicosEmprestados.periodicoEmprestado);
+			}
+			else
+			{
+				men = "Falha na operação!";
+			}
+			
+		} 
+		catch (SQLException e) {e.printStackTrace();men = "Falha na operação!";}
+		
 		return men;
 	}
 	

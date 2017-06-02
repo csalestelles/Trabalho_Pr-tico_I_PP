@@ -23,9 +23,6 @@ public class Emprestimo {
 	private static JFrame frame;
 	Date data;
 	LivroDAO livros;
-	MonografiaDAO documentos;
-	PeriodicoDAO periodicos;
-	RevistaDAO revistas;
 
 	/**
 	 * Launch the application.
@@ -50,6 +47,7 @@ public class Emprestimo {
 	 */
 	public Emprestimo(String nome, String segundaInfo, String terceiraInfo, int infoDoc, int codigo, int codigoUser) {
 		data = new Date();
+		livros = new LivroDAO();
 		initialize(nome, segundaInfo, terceiraInfo, infoDoc, codigo, codigoUser);
 	}
 
@@ -97,7 +95,6 @@ public class Emprestimo {
 			{
 				if (infoDoc == 0)
 				{
-					livros = new LivroDAO();
 					livros.livro.setCodigo(codigo);
 					if(livros.localizar())
 					{
@@ -107,69 +104,16 @@ public class Emprestimo {
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, livros.emprestar(codigoUser));
+							try {
+								JOptionPane.showMessageDialog(null, livros.emprestar(codigoUser));
+							} 
+							catch (HeadlessException e1) {e1.printStackTrace();} 
+							catch (SQLException e1) {e1.printStackTrace();}
 							
 							frame.dispose();
 							UsuarioWindow.main(null);
 						}
 						
-					}
-				}
-				else if (infoDoc == 1)
-				{
-					documentos = new MonografiaDAO();
-					documentos.monografia.setCodigo(codigo);
-					if(documentos.localizar())
-					{
-						if(Integer.parseInt(documentos.monografia.getExemplares()) == 0)
-						{
-							JOptionPane.showMessageDialog(null, "Exemplar Indisponível!");
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, documentos.emprestar(codigoUser));
-							
-							frame.dispose();
-							UsuarioWindow.main(null);
-						}
-					}
-				}
-				else if (infoDoc == 2)
-				{
-					periodicos = new PeriodicoDAO();
-					periodicos.periodico.setCodigo(codigo);
-					if(periodicos.localizar())
-					{
-						if(Integer.parseInt(periodicos.periodico.getExemplares()) == 0)
-						{
-							JOptionPane.showMessageDialog(null, "Exemplar Indisponível!");
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, periodicos.emprestar(codigoUser));
-							
-							frame.dispose();
-							UsuarioWindow.main(null);
-						}
-					}
-				}
-				else if (infoDoc == 3)
-				{
-					revistas = new RevistaDAO();
-					revistas.revista.setCodigo(codigo);
-					if(revistas.localizar())
-					{
-						if(Integer.parseInt(revistas.revista.getExemplares()) == 0)
-						{
-							JOptionPane.showMessageDialog(null, "Exemplar Indisponível!");
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, revistas.emprestar(codigoUser));
-							
-							frame.dispose();
-							UsuarioWindow.main(null);
-						}
 					}
 				}
 			}

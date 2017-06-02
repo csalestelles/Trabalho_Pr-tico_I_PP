@@ -1,7 +1,6 @@
 package BibliotecaSIS;
 
 import java.awt.EventQueue;
-import java.awt.HeadlessException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class Emprestimo {
@@ -23,9 +21,6 @@ public class Emprestimo {
 	private static JFrame frame;
 	Date data;
 	LivroDAO livros;
-	MonografiaDAO documentos;
-	PeriodicoDAO periodicos;
-	RevistaDAO revistas;
 
 	/**
 	 * Launch the application.
@@ -48,15 +43,16 @@ public class Emprestimo {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public Emprestimo(String nome, String segundaInfo, String terceiraInfo, int infoDoc, int codigo, int codigoUser) {
+	public Emprestimo(String nome, String segundaInfo, String terceiraInfo, int infoDoc, int codigo) {
 		data = new Date();
-		initialize(nome, segundaInfo, terceiraInfo, infoDoc, codigo, codigoUser);
+		livros = new LivroDAO();
+		initialize(nome, segundaInfo, terceiraInfo, infoDoc, codigo);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String nome, String segundaInfo, String terceiraInfo, int infoDoc, int codigo, int codigoUser) {
+	private void initialize(String nome, String segundaInfo, String terceiraInfo, int infoDoc, int codigo) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setResizable(false);
@@ -97,7 +93,6 @@ public class Emprestimo {
 			{
 				if (infoDoc == 0)
 				{
-					livros = new LivroDAO();
 					livros.livro.setCodigo(codigo);
 					if(livros.localizar())
 					{
@@ -107,69 +102,12 @@ public class Emprestimo {
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, livros.emprestar(codigoUser));
+							JOptionPane.showMessageDialog(null, livros.atualizar(BancoDeDados.EMPRESTIMO));
 							
 							frame.dispose();
 							UsuarioWindow.main(null);
 						}
 						
-					}
-				}
-				else if (infoDoc == 1)
-				{
-					documentos = new MonografiaDAO();
-					documentos.monografia.setCodigo(codigo);
-					if(documentos.localizar())
-					{
-						if(Integer.parseInt(documentos.monografia.getExemplares()) == 0)
-						{
-							JOptionPane.showMessageDialog(null, "Exemplar Indisponível!");
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, documentos.emprestar(codigoUser));
-							
-							frame.dispose();
-							UsuarioWindow.main(null);
-						}
-					}
-				}
-				else if (infoDoc == 2)
-				{
-					periodicos = new PeriodicoDAO();
-					periodicos.periodico.setCodigo(codigo);
-					if(periodicos.localizar())
-					{
-						if(Integer.parseInt(periodicos.periodico.getExemplares()) == 0)
-						{
-							JOptionPane.showMessageDialog(null, "Exemplar Indisponível!");
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, periodicos.emprestar(codigoUser));
-							
-							frame.dispose();
-							UsuarioWindow.main(null);
-						}
-					}
-				}
-				else if (infoDoc == 3)
-				{
-					revistas = new RevistaDAO();
-					revistas.revista.setCodigo(codigo);
-					if(revistas.localizar())
-					{
-						if(Integer.parseInt(revistas.revista.getExemplares()) == 0)
-						{
-							JOptionPane.showMessageDialog(null, "Exemplar Indisponível!");
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, revistas.emprestar(codigoUser));
-							
-							frame.dispose();
-							UsuarioWindow.main(null);
-						}
 					}
 				}
 			}
