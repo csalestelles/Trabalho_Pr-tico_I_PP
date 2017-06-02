@@ -1,0 +1,13 @@
+package BibliotecaSIS;
+
+public class LivrosEmprestadosDAO
+{
+	
+	
+
+}
+
+class LivroEmprestado
+{
+	
+}

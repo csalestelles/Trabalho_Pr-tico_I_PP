@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 
 public class UsuarioWindow {
 
-	private static JFrame frame;
+	private JFrame frame;
 	private JTabbedPane tpAbas;
 	private JScrollPane livroScroll, monografiaScroll, periodicoScroll, revistaScroll;
 	private JTable table;
@@ -27,7 +27,6 @@ public class UsuarioWindow {
 	private JMenu mnArquivo;
 	private JMenuItem mntmSair;
 
-	private int codigoUser;
 	/**
 	 * Launch the application.
 	 */
@@ -35,8 +34,8 @@ public class UsuarioWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-//					UsuarioWindow window = new UsuarioWindow();
-					frame.setVisible(true);
+					UsuarioWindow window = new UsuarioWindow();
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,8 +46,7 @@ public class UsuarioWindow {
 	/**
 	 * Create the application.
 	 */
-	public UsuarioWindow(int user) {
-		codigoUser = user;
+	public UsuarioWindow() {
 		initialize();
 	}
 
@@ -113,7 +111,6 @@ public class UsuarioWindow {
 			}
 		});;
 		
-		
 		tpAbas.addChangeListener(new javax.swing.event.ChangeListener() {
 		    public void stateChanged(javax.swing.event.ChangeEvent e) {
 		        int aba = tpAbas.getSelectedIndex();
@@ -155,13 +152,14 @@ public class UsuarioWindow {
 				{
 					case 0:
 						Emprestimo emprestimo = new Emprestimo(table.getValueAt(table.getSelectedRow(), 1).toString(),
-													table.getValueAt(table.getSelectedRow(), 6).toString(), "a edição", 0, 
-													(int)table.getValueAt(table.getSelectedRow(), 0), codigoUser);
+													table.getValueAt(table.getSelectedRow(), 6).toString(), "a edição");
 						emprestimo.main(null);
 						frame.dispose();
 						break;
 					case 1:
-						
+						livros.editarTabela(table, livros);
+//						frmPesquisa.dispose();
+//						livros.removeDaTabela(table, livros);
 						break;
 					case 2:
 //						monografias.editarTabela(table, monografias);

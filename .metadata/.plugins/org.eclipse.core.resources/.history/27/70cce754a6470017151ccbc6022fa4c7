@@ -1,0 +1,46 @@
+package BibliotecaSIS;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.*;
+
+public class LivrosEmprestadosDAO
+{
+	public LivroEmprestado livroEmprestado;
+	private PreparedStatement statement;
+	private ResultSet resultSet;
+	private String men, sql;
+	public BancoDeDados bd;
+	
+	public LivrosEmprestadosDAO()
+	{
+		bd = new BancoDeDados();
+		livroEmprestado = new LivroEmprestado();
+	}
+	
+	
+
+}
+
+class LivroEmprestado
+{
+	int codigoUser, codigoLivro;
+
+	public int getCodigoUser() {
+		return codigoUser;
+	}
+
+	public void setCodigoUser(int codigoUser) {
+		this.codigoUser = codigoUser;
+	}
+
+	public int getCodigoLivro() {
+		return codigoLivro;
+	}
+
+	public void setCodigoLivro(int codigoLivro) {
+		this.codigoLivro = codigoLivro;
+	}
+	
+	
+}

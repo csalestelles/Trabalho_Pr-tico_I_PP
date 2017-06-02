@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 
 public class UsuarioWindow {
 
-	private static JFrame frame;
+	private JFrame frame;
 	private JTabbedPane tpAbas;
 	private JScrollPane livroScroll, monografiaScroll, periodicoScroll, revistaScroll;
 	private JTable table;
@@ -27,7 +27,6 @@ public class UsuarioWindow {
 	private JMenu mnArquivo;
 	private JMenuItem mntmSair;
 
-	private int codigoUser;
 	/**
 	 * Launch the application.
 	 */
@@ -35,8 +34,8 @@ public class UsuarioWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-//					UsuarioWindow window = new UsuarioWindow();
-					frame.setVisible(true);
+					UsuarioWindow window = new UsuarioWindow();
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,8 +46,7 @@ public class UsuarioWindow {
 	/**
 	 * Create the application.
 	 */
-	public UsuarioWindow(int user) {
-		codigoUser = user;
+	public UsuarioWindow() {
 		initialize();
 	}
 
@@ -108,11 +106,11 @@ public class UsuarioWindow {
 		mntmSair.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent e) 
 			{
-				MainWindow.main(null);
+				AdminLogin adminLogin = new AdminLogin();
 				frame.dispose();
+				adminLogin.main(null);
 			}
 		});;
-		
 		
 		tpAbas.addChangeListener(new javax.swing.event.ChangeListener() {
 		    public void stateChanged(javax.swing.event.ChangeEvent e) {
@@ -154,14 +152,16 @@ public class UsuarioWindow {
 				switch(valor)
 				{
 					case 0:
-						Emprestimo emprestimo = new Emprestimo(table.getValueAt(table.getSelectedRow(), 1).toString(),
-													table.getValueAt(table.getSelectedRow(), 6).toString(), "a edição", 0, 
-													(int)table.getValueAt(table.getSelectedRow(), 0), codigoUser);
+						Emprestimo emprestimo = new Emprestimo(table.getValueAt(table.getSelectedRow(), 0).toString(),
+													table.getValueAt(table.getSelectedRow(), 5).toString(), "a edição", 
+													table.getValueAt(table.getSelectedRow(), 6).toString());
 						emprestimo.main(null);
 						frame.dispose();
 						break;
 					case 1:
-						
+						livros.editarTabela(table, livros);
+//						frmPesquisa.dispose();
+//						livros.removeDaTabela(table, livros);
 						break;
 					case 2:
 //						monografias.editarTabela(table, monografias);

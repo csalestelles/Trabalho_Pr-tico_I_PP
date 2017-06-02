@@ -68,7 +68,6 @@ public class EditarMonografia {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -164,7 +163,6 @@ public class EditarMonografia {
 		
 		JComboBox comboBox_2 = new JComboBox(exemplaresVetor);
 		comboBox_2.setBounds(314, 157, 93, 27);
-		comboBox_2.setSelectedItem(exemplares);
 		frame.getContentPane().add(comboBox_2);
 		
 		JButton btnAtualizar = new JButton("Atualizar");

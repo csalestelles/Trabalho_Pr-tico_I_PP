@@ -1,7 +1,6 @@
 package BibliotecaSIS;
 
 import java.awt.EventQueue;
-import java.awt.HeadlessException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,14 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class Emprestimo {
 
 	private static JFrame frame;
 	Date data;
-	LivroDAO livros;
+//	LivroDAO livros;
 
 	/**
 	 * Launch the application.
@@ -33,7 +31,6 @@ public class Emprestimo {
 				try {
 //					Emprestimo window = new Emprestimo();
 					frame.setVisible(true);
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -45,15 +42,16 @@ public class Emprestimo {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public Emprestimo(String nome, String segundaInfo, String terceiraInfo, int infoDoc, int codigo, int codigoUser) {
+	public Emprestimo(String nome, String segundaInfo, String terceiraInfo, LivroDAO livros) {
 		data = new Date();
-		initialize(nome, segundaInfo, terceiraInfo, infoDoc, codigo, codigoUser);
+//		livros = new LivroDAO();
+		initialize(nome, segundaInfo, terceiraInfo, livros);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String nome, String segundaInfo, String terceiraInfo, int infoDoc, int codigo, int codigoUser) {
+	private void initialize(String nome, String segundaInfo, String terceiraInfo, LivroDAO livros) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setResizable(false);
@@ -92,36 +90,20 @@ public class Emprestimo {
 		btnEmprestar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				if (infoDoc == 0)
+				livros.livro.setTitulo(nome);
+				livros.livro.setEdicao(segundaInfo);
+				if(livros.localizar())
 				{
-					livros = new LivroDAO();
-					livros.livro.setCodigo(codigo);
-					if(livros.localizar())
+					if(Integer.parseInt(livros.livro.getExemplares()) == 0)
 					{
-						if(Integer.parseInt(livros.livro.getExemplares()) == 0)
-						{
-							JOptionPane.showMessageDialog(null, "Exemplar Indisponível!");
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null, livros.emprestar(codigoUser));
-							
-							frame.dispose();
-							UsuarioWindow.main(null);
-						}
-						
+						JOptionPane.showMessageDialog(null, "Exemplar Indisponível!");
 					}
-				}
-				else if (infoDoc == 1)
-				{
-					//DOCUMENTOS
-				}
-				else if (infoDoc == 2)
-				{
-					//PERIODIOCOS
-				}
-				else if (infoDoc == 3)
-				{
+					else
+					{
+						JOptionPane.showMessageDialog(null, livros.atualizar(BancoDeDados.EMPRESTIMO));
+						frame.dispose();
+						UsuarioWindow.main(null);
+					}
 					
 				}
 			}
