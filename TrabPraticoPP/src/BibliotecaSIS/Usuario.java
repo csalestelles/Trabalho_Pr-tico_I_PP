@@ -5,7 +5,15 @@ import java.util.Random;
 public class Usuario {
 
 	private String nomeDeUsuario, senha, anoDeNascimento, nomeCompleto;
-	private int codigo;
+	private int codigo, podeEmprestar;
+
+	public int getPodeEmprestar() {
+		return podeEmprestar;
+	}
+
+	public void setPodeEmprestar(int podeEmprestar) {
+		this.podeEmprestar = podeEmprestar;
+	}
 
 	public String getNomeCompleto() {
 		return nomeCompleto;

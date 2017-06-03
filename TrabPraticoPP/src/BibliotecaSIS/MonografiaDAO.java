@@ -147,6 +147,56 @@ public class MonografiaDAO
 		return men;
 	}
 	
+	public String devolver(int codigoUser)
+	{
+		Date data = new Date();
+		data.setDate(data.getDate());
+		java.sql.Date dataSQL = new java.sql.Date(data.getTime());
+		try
+		{
+			sql = "Select * FROM TitulosEmprestados WHERE codigoUser=?";
+			statement = bd.conexao.prepareStatement(sql);
+			statement.setInt(1, codigoUser);
+			resultSet = statement.executeQuery();
+			if(resultSet.first())
+			{
+				monografia.setCodigo(resultSet.getInt(2));
+				MonografiasEmprestadasDAO docsEmprestados = new MonografiasEmprestadasDAO();
+				docsEmprestados.devolucao(codigoUser);
+				if(dataSQL.compareTo(resultSet.getDate(3)) > 0)
+				{
+					JOptionPane.showMessageDialog(null, "Sujeito à multa de R$2,50");
+					RelatorioDAO.atualizarRemocao(4);
+				}
+				
+				if(localizar())
+				{
+					sql = "SELECT * FROM Monografias WHERE Codigo=?";
+					statement = bd.conexao.prepareStatement(sql);
+					statement.setInt(1, monografia.getCodigo());
+					resultSet = statement.executeQuery();
+					if(resultSet.first())
+					{
+						int exemplaresNovo = Integer.parseInt(resultSet.getString(9))+1;
+						monografia.setExemplares(exemplaresNovo+"");
+						atualizar(BancoDeDados.ALTERACAO);
+						men = resultSet.getString(2) + " devolvido!";
+						
+						sql = "UPDATE Usuarios SET PodeEmprestar=? WHERE Codigo=?";
+						statement = bd.conexao.prepareStatement(sql);
+						statement.setInt(1, BancoDeDados.SIM);
+						statement.setInt(2, codigoUser);
+						statement.executeUpdate();
+						RelatorioDAO.atualizarRemocao(3);
+					}
+				}
+			}
+		}
+		catch(SQLException error){men = "Falha";error.printStackTrace();}
+		
+		return men;
+	}
+	
 	/*
 	 * 
 	 * OPERAÇÕES NA TABELA

@@ -1,8 +1,7 @@
 package BibliotecaSIS;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Date;
 
 public class RelatorioDAO 
 {
@@ -48,6 +47,7 @@ public class RelatorioDAO
 	
 	public static void acessarRelatorio() throws SQLException
 	{
+		devolucoesAtrasadas();
 		sql = "SELECT * FROM Relatório";
 		
 		statement = bd.conexao.prepareStatement(sql);
@@ -76,6 +76,25 @@ public class RelatorioDAO
 		statement.setInt(1, relatorio.getValor()-1);
 		statement.setInt(2, tipo);
 		statement.executeUpdate();
+	}
+	
+	public static void devolucoesAtrasadas() throws SQLException
+	{
+		Date data = new Date();
+		data.setDate(data.getDate());
+		java.sql.Date dataSQL = new java.sql.Date(data.getTime());
+		sql = "SELECT * FROM TitulosEmprestados";
+		int devAtrasadas = 0;
+		statement = bd.conexao.prepareStatement(sql);
+		resultSet = statement.executeQuery();
+		int i = 0;
+		while(resultSet.next())
+		{
+			if(dataSQL.compareTo(resultSet.getDate(3)) > 0)
+			{
+				atualizarAdicao(4);
+			}
+		}
 	}
 	
 }

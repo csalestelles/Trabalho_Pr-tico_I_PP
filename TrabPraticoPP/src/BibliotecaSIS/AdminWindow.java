@@ -80,7 +80,7 @@ public class AdminWindow extends JPanel
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {		
-		frmPesquisa = new JFrame();
+		frmPesquisa = new JFrame("Repositório Biblioteca");
 		frmPesquisa.setTitle("Pesquisa");
 		frmPesquisa.setBounds(100, 100, 700, 590);
 		frmPesquisa.setResizable(false);
@@ -118,80 +118,21 @@ public class AdminWindow extends JPanel
 		frmPesquisa.setJMenuBar(menuBar);
 		menuBar.add(mnTeste);
 		
-		JMenu mnPesquisar = new JMenu("Adicionar");
-		mnTeste.add(mnPesquisar);
-		
-		JMenuItem menuItem_1 = new JMenuItem("Livro");
-		
-		JMenuItem menuItem_2 = new JMenuItem("Monografia");
-		
-		JMenuItem menuItem_3 = new JMenuItem("Periódico");
-		
-		JMenuItem menuItem_4 = new JMenuItem("Revista");
-		mnPesquisar.add(menuItem_2);
-		mnPesquisar.add(menuItem_1);
-		mnPesquisar.add(menuItem_3);
-		mnPesquisar.add(menuItem_4);
-		menuItem_1.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				AddLivro addLivro = new AddLivro();
-				addLivro.main(null);
-				frmPesquisa.dispose();	
-			}
-		});
-		
-		menuItem_2.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				AddMonografia addMonografia = new AddMonografia();
-				addMonografia.main(null);
-				frmPesquisa.dispose();	
-			}
-		});
-		
-		menuItem_3.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				AddPeriodico addPeriodico = new AddPeriodico();
-				addPeriodico.main(null);
-				frmPesquisa.dispose();	
-			}
-		});
-		
-		JMenu mnRemover = new JMenu("Remover");
-		mnTeste.add(mnRemover);
-		
-		JMenuItem mntmUsurio = new JMenuItem("Usuário");
-		
-		JMenuItem mntmLivro = new JMenuItem("Livro");
-		
-		JMenuItem mntmMonografia = new JMenuItem("Monografia");
-		
-		JMenuItem mntmPeridico = new JMenuItem("Periódico");
-		
-		JMenuItem mntmRevista = new JMenuItem("Revista");
-		mnRemover.add(mntmUsurio);
-		mnRemover.add(mntmLivro);
-		mnRemover.add(mntmMonografia);
-		mnRemover.add(mntmPeridico);
-		mnRemover.add(mntmRevista);
-		
 		JMenuItem mntmLogOut = new JMenuItem("Sair");
 		mnTeste.add(mntmLogOut);
 		
 		
-		btnAdicionar.setBounds(66, 9, 104, 29);
+		btnAdicionar.setBounds(125, 9, 104, 29);
 		btnAdicionar.setEnabled(false);
 		frmPesquisa.getContentPane().add(btnAdicionar);
 		
-		btnRemover.setBounds(182, 9, 104, 29);
+		btnRemover.setBounds(241, 9, 104, 29);
 		frmPesquisa.getContentPane().add(btnRemover);
 		
-		btnEdita.setBounds(298, 9, 104, 29);
+		btnEdita.setBounds(357, 9, 104, 29);
 		frmPesquisa.getContentPane().add(btnEdita);
 		
-		btnRelatorio.setBounds(414, 9, 104, 29);
+		btnRelatorio.setBounds(473, 9, 104, 29);
 		frmPesquisa.getContentPane().add(btnRelatorio);
 		
 		tpAbas.add("Usuarios", usuarioScroll);
@@ -201,10 +142,6 @@ public class AdminWindow extends JPanel
 		tpAbas.add("Revistas", revistaScroll);
 		tpAbas.setBounds(50, 50, 600, 490);
 		frmPesquisa.getContentPane().add(tpAbas);
-		
-		JButton btnInfo = new JButton("Info");
-		btnInfo.setBounds(530, 9, 104, 29);
-		frmPesquisa.getContentPane().add(btnInfo);
 		
 		usuarioScroll.setViewportView(table);
 		usuarios.showUsuariosTable(table);

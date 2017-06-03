@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -62,7 +65,7 @@ public class EditarPeriodico {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Editar Periódico");
 		frame.setBounds(100, 100, 450, 300);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,36 +73,36 @@ public class EditarPeriodico {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(26, 60, 368, 26);
+		textField.setBounds(27, 23, 368, 26);
 		textField.setText(nome);
 		frame.getContentPane().add(textField);
 		
 		JLabel label = new JLabel("Nome:");
-		label.setBounds(26, 43, 93, 16);
+		label.setBounds(27, 6, 93, 16);
 		frame.getContentPane().add(label);
 		
 		JLabel label_1 = new JLabel("Editora:");
-		label_1.setBounds(26, 98, 61, 16);
+		label_1.setBounds(27, 61, 61, 16);
 		frame.getContentPane().add(label_1);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(26, 117, 230, 26);
+		textField_1.setBounds(27, 80, 230, 26);
 		textField_1.setText(editora);
 		frame.getContentPane().add(textField_1);
 		
 		JLabel label_2 = new JLabel("Tema:");
-		label_2.setBounds(26, 155, 61, 16);
+		label_2.setBounds(27, 118, 61, 16);
 		frame.getContentPane().add(label_2);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(26, 175, 230, 26);
+		textField_2.setBounds(27, 138, 230, 26);
 		textField_2.setText(tema);
 		frame.getContentPane().add(textField_2);
 		
 		JLabel label_3 = new JLabel("Quantidade:");
-		label_3.setBounds(26, 218, 93, 16);
+		label_3.setBounds(27, 181, 93, 16);
 		frame.getContentPane().add(label_3);
 		
 		String[] exemplaresVetor = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
@@ -113,7 +116,7 @@ public class EditarPeriodico {
 				  "80", "81", "82", "83", "84", "85", "86", "87", "88", "89",
 				  "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"};
 		JComboBox comboBox = new JComboBox(exemplaresVetor);
-		comboBox.setBounds(131, 213, 81, 26);
+		comboBox.setBounds(132, 176, 81, 26);
 		comboBox.setSelectedItem(exemplares);
 		frame.getContentPane().add(comboBox);
 		
@@ -128,16 +131,16 @@ public class EditarPeriodico {
 				  "80", "81", "82", "83", "84", "85", "86", "87", "88", "89",
 				  "90", "91", "92", "93", "94", "95", "96", "97", "98", "99"};
 		JComboBox comboBox_1 = new JComboBox(exemplarVetor);
-		comboBox_1.setBounds(337, 191, 92, 26);
+		comboBox_1.setBounds(338, 154, 92, 26);
 		comboBox_1.setSelectedItem(exemplar);
 		frame.getContentPane().add(comboBox_1);
 		
 		JLabel label_4 = new JLabel("Exemplar:");
-		label_4.setBounds(268, 196, 68, 16);
+		label_4.setBounds(269, 159, 68, 16);
 		frame.getContentPane().add(label_4);
 		
 		JLabel label_5 = new JLabel("Ano:");
-		label_5.setBounds(268, 160, 61, 16);
+		label_5.setBounds(269, 123, 61, 16);
 		frame.getContentPane().add(label_5);
 		
 		String[] anoVetor = {"",
@@ -154,18 +157,18 @@ public class EditarPeriodico {
 		        "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010",
 		        "2011", "2012", "2013", "2014", "2015", "2016", "2017"};
 		JComboBox comboBox_2 = new JComboBox(anoVetor);
-		comboBox_2.setBounds(337, 155, 92, 26);
+		comboBox_2.setBounds(338, 118, 92, 26);
 		comboBox_2.setSelectedItem(ano);
 		frame.getContentPane().add(comboBox_2);
 		
 		String[] periodoVetor = {"", "Anual", "Semestral", "trimestral", "Mensal", "Quinzenal"};
 		JComboBox comboBox_3 = new JComboBox(periodoVetor);
-		comboBox_3.setBounds(268, 118, 147, 27);
+		comboBox_3.setBounds(269, 81, 147, 27);
 		comboBox_3.setSelectedItem(periodo);
 		frame.getContentPane().add(comboBox_3);
 		
 		JLabel label_6 = new JLabel("Período:");
-		label_6.setBounds(275, 98, 61, 16);
+		label_6.setBounds(276, 61, 61, 16);
 		frame.getContentPane().add(label_6);
 		
 		JButton btnAtualizar = new JButton("Atualizar");
@@ -185,7 +188,23 @@ public class EditarPeriodico {
 				AdminWindow.main(null);
 			}
 		});
-		btnAtualizar.setBounds(268, 243, 117, 29);
+		btnAtualizar.setBounds(269, 206, 117, 29);
 		frame.getContentPane().add(btnAtualizar);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Arquivo");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmSair = new JMenuItem("Sair");
+		mnNewMenu.add(mntmSair);
+		mntmSair.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.dispose();
+				AdminWindow.main(null);
+			}
+		});
 	}
 }

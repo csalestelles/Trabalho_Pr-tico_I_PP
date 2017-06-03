@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -66,7 +69,7 @@ public class EditarMonografia {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Editar Documento");
 		frame.setBounds(100, 100, 450, 300);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,31 +77,31 @@ public class EditarMonografia {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(21, 51, 368, 26);
+		textField.setBounds(22, 23, 368, 26);
 		textField.setText(titulo);
 		frame.getContentPane().add(textField);
 		
 		JLabel label = new JLabel("Título:");
-		label.setBounds(21, 34, 93, 16);
+		label.setBounds(22, 6, 93, 16);
 		frame.getContentPane().add(label);
 		
 		JLabel label_1 = new JLabel("Autor:");
-		label_1.setBounds(21, 80, 61, 16);
+		label_1.setBounds(22, 52, 61, 16);
 		frame.getContentPane().add(label_1);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(21, 98, 230, 26);
+		textField_1.setBounds(22, 70, 230, 26);
 		textField_1.setText(autor);
 		frame.getContentPane().add(textField_1);
 		
 		JLabel label_2 = new JLabel("Orientador:");
-		label_2.setBounds(21, 133, 93, 16);
+		label_2.setBounds(22, 105, 93, 16);
 		frame.getContentPane().add(label_2);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(21, 156, 168, 26);
+		textField_2.setBounds(22, 128, 168, 26);
 		textField_2.setText(orientador);
 		frame.getContentPane().add(textField_2);
 		
@@ -118,41 +121,41 @@ public class EditarMonografia {
 		        "2011", "2012", "2013", "2014", "2015", "2016", "2017"}; 
 
 		JComboBox comboBox = new JComboBox(anoVetor);
-		comboBox.setBounds(201, 157, 93, 27);
+		comboBox.setBounds(202, 129, 93, 27);
 		comboBox.setSelectedItem(ano);
 		frame.getContentPane().add(comboBox);
 		
 		JLabel label_3 = new JLabel("Ano:");
-		label_3.setBounds(201, 136, 61, 16);
+		label_3.setBounds(202, 108, 61, 16);
 		frame.getContentPane().add(label_3);
 		
 		JLabel label_4 = new JLabel("Tipo:");
-		label_4.setBounds(263, 80, 61, 16);
+		label_4.setBounds(264, 52, 61, 16);
 		frame.getContentPane().add(label_4);
 		
 		String[] tipoVetor = {"", "Bacharelado", "Licenciatura", "Dissertação", "Tese"};
 		JComboBox comboBox_1 = new JComboBox(tipoVetor);
-		comboBox_1.setBounds(263, 99, 168, 27);
+		comboBox_1.setBounds(264, 71, 168, 27);
 		comboBox_1.setSelectedItem(tipo);
 		frame.getContentPane().add(comboBox_1);
 		
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
-		textField_3.setBounds(114, 189, 317, 26);
+		textField_3.setBounds(115, 161, 317, 26);
 		textField_3.setText(instituicao);
 		frame.getContentPane().add(textField_3);
 		
 		JLabel label_5 = new JLabel("Instituição:");
-		label_5.setBounds(21, 194, 81, 16);
+		label_5.setBounds(22, 166, 81, 16);
 		frame.getContentPane().add(label_5);
 		
 		JLabel label_6 = new JLabel("Tema:");
-		label_6.setBounds(21, 222, 61, 16);
+		label_6.setBounds(22, 194, 61, 16);
 		frame.getContentPane().add(label_6);
 		
 		textField_4 = new JTextField();
 		textField_4.setColumns(10);
-		textField_4.setBounds(21, 243, 230, 26);
+		textField_4.setBounds(22, 215, 230, 26);
 		textField_4.setText(tema);
 		frame.getContentPane().add(textField_4);
 		
@@ -163,7 +166,7 @@ public class EditarMonografia {
 				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
 		
 		JComboBox comboBox_2 = new JComboBox(exemplaresVetor);
-		comboBox_2.setBounds(314, 157, 93, 27);
+		comboBox_2.setBounds(315, 129, 93, 27);
 		comboBox_2.setSelectedItem(exemplares);
 		frame.getContentPane().add(comboBox_2);
 		
@@ -185,11 +188,27 @@ public class EditarMonografia {
 				AdminWindow.main(null);
 			}
 		});
-		btnAtualizar.setBounds(314, 243, 117, 29);
+		btnAtualizar.setBounds(315, 215, 117, 29);
 		frame.getContentPane().add(btnAtualizar);
 		
 		JLabel lblExemplares = new JLabel("Exemplares:");
-		lblExemplares.setBounds(314, 133, 93, 16);
+		lblExemplares.setBounds(315, 105, 93, 16);
 		frame.getContentPane().add(lblExemplares);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Arquivo");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmSair = new JMenuItem("Sair");
+		mnNewMenu.add(mntmSair);
+		mntmSair.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.dispose();
+				AdminWindow.main(null);
+			}
+		});
 	}
 }

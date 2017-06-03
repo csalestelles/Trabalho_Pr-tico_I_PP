@@ -1,6 +1,6 @@
 package BibliotecaSIS;
 
-public class Monografia extends Exemplar
+public class Monografia 
 {
 	
 	private String titulo, autor, orientador, tema, tipo, instituicao, ano, exemplares;

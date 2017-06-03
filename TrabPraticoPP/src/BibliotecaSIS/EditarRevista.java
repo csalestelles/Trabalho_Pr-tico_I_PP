@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -59,47 +62,47 @@ public class EditarRevista {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame = new JFrame("Editar Revista");
+		frame.setBounds(100, 100, 450, 280);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel label = new JLabel("Nome:");
-		label.setBounds(45, 36, 61, 16);
+		label.setBounds(43, 6, 61, 16);
 		frame.getContentPane().add(label);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
 		textField.setText(nome);
-		textField.setBounds(45, 64, 248, 26);
+		textField.setBounds(43, 34, 248, 26);
 		
 		frame.getContentPane().add(textField);
 		
 		JLabel label_1 = new JLabel("Editora:");
-		label_1.setBounds(45, 102, 61, 16);
+		label_1.setBounds(43, 72, 61, 16);
 		frame.getContentPane().add(label_1);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		textField_1.setText(editora);
-		textField_1.setBounds(45, 130, 154, 26);
+		textField_1.setBounds(43, 100, 154, 26);
 		frame.getContentPane().add(textField_1);
 		
 		String[] temaVetor = {"", "Científica", "Culinária", "Curiosidades", "Educativa", 
 				 "Esportes", "Financeira", "Fofoca", 
 			 	 "Humor", "Política"};
 		JComboBox comboBox = new JComboBox(temaVetor);
-		comboBox.setBounds(251, 131, 154, 27);
+		comboBox.setBounds(249, 101, 154, 27);
 		comboBox.setSelectedItem(tema);
 		frame.getContentPane().add(comboBox);
 		
 		JLabel label_2 = new JLabel("Tema:");
-		label_2.setBounds(251, 102, 61, 16);
+		label_2.setBounds(249, 72, 61, 16);
 		frame.getContentPane().add(label_2);
 		
 		JLabel label_3 = new JLabel("Edição:");
-		label_3.setBounds(319, 36, 61, 16);
+		label_3.setBounds(317, 6, 61, 16);
 		frame.getContentPane().add(label_3);
 		
 		String[] edicaoVetor = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
@@ -109,11 +112,11 @@ public class EditarRevista {
 				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
 		JComboBox comboBox_1 = new JComboBox(edicaoVetor);
 		comboBox_1.setSelectedItem(edicao);
-		comboBox_1.setBounds(319, 64, 86, 26);
+		comboBox_1.setBounds(317, 34, 86, 26);
 		frame.getContentPane().add(comboBox_1);
 		
 		JLabel label_4 = new JLabel("Ano:");
-		label_4.setBounds(45, 168, 61, 16);
+		label_4.setBounds(43, 138, 61, 16);
 		frame.getContentPane().add(label_4);
 		
 		String[] anoVetor = {"",
@@ -128,11 +131,11 @@ public class EditarRevista {
 		        "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010",
 		        "2011", "2012", "2013", "2014", "2015", "2016", "2017"};
 		JComboBox comboBox_2 = new JComboBox(anoVetor);
-		comboBox_2.setBounds(45, 197, 94, 27);
+		comboBox_2.setBounds(43, 167, 94, 27);
 		frame.getContentPane().add(comboBox_2);
 		
 		JLabel label_5 = new JLabel("Total de exemplares:");
-		label_5.setBounds(158, 168, 154, 16);
+		label_5.setBounds(156, 138, 154, 16);
 		frame.getContentPane().add(label_5);
 		
 		String[] exemplaresVetor = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
@@ -142,7 +145,7 @@ public class EditarRevista {
 				   "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"};
 		JComboBox comboBox_3 = new JComboBox(exemplaresVetor);
 		comboBox_3.setSelectedItem(exemplares);
-		comboBox_3.setBounds(158, 196, 94, 26);
+		comboBox_3.setBounds(156, 166, 94, 26);
 		frame.getContentPane().add(comboBox_3);
 		
 		JButton btnAtualizar = new JButton("Atualizar");
@@ -161,8 +164,24 @@ public class EditarRevista {
 				AdminWindow.main(null);
 			}
 		});
-		btnAtualizar.setBounds(288, 196, 117, 29);
+		btnAtualizar.setBounds(286, 166, 117, 29);
 		frame.getContentPane().add(btnAtualizar);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Arquivo");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmSair = new JMenuItem("Sair");
+		mnNewMenu.add(mntmSair);
+		mntmSair.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.dispose();
+				AdminWindow.main(null);
+			}
+		});
 	}
 
 }

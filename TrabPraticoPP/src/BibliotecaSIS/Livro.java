@@ -1,6 +1,6 @@
 package BibliotecaSIS;
 
-public class Livro extends Exemplar
+public class Livro
 {
 	
 	private String titulo, editora, autor, idioma;

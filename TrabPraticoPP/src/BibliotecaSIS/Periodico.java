@@ -1,6 +1,6 @@
 package BibliotecaSIS;
 
-public class Periodico extends Exemplar 
+public class Periodico  
 {
 	
 	private String nome, periodo, editora, tema, ano, exemplar, exemplares;

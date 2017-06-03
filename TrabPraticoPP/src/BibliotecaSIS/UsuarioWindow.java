@@ -12,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class UsuarioWindow {
 
@@ -46,6 +49,7 @@ public class UsuarioWindow {
 
 	/**
 	 * Create the application.
+	 * @wbp.parser.entryPoint
 	 */
 	public UsuarioWindow(int user) {
 		codigoUser = user;
@@ -56,7 +60,7 @@ public class UsuarioWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Empréstimo e Devolução de Títulos");
 		frame.setBounds(100, 100, 700, 590);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,7 +83,13 @@ public class UsuarioWindow {
 		livroScroll.setViewportView(table);
 		livros.showLivrosTable(table);
 		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
+		lblNewLabel.setBounds(458, 14, 236, 37);
+		frame.getContentPane().add(lblNewLabel);
+		
 		JButton btnEmprestar = new JButton("Emprestar");
+		
 		btnEmprestar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{	
@@ -90,12 +100,14 @@ public class UsuarioWindow {
 		frame.getContentPane().add(btnEmprestar);
 		
 		JButton btnDevolver = new JButton("Devolver");
-		btnDevolver.setBounds(179, 9, 117, 29);
+		btnDevolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				JOptionPane.showConfirmDialog(null, livros.devolver(codigoUser));
+			}
+		});
+		btnDevolver.setBounds(302, 9, 117, 29);
 		frame.getContentPane().add(btnDevolver);
-		
-		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(308, 9, 117, 29);
-		frame.getContentPane().add(btnPesquisar);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -113,6 +125,20 @@ public class UsuarioWindow {
 			}
 		});;
 		
+		UsuarioDAO usuarios = new UsuarioDAO();
+		usuarios.usuario.setCodigo(codigoUser);
+		usuarios.localizar();
+		
+		if(usuarios.usuario.getPodeEmprestar() == BancoDeDados.SIM)
+		{
+			btnEmprestar.setEnabled(true);
+			lblNewLabel.setText("");
+		}
+		else
+		{
+			lblNewLabel.setText("*Você só pode emprestar um título por vez");
+			btnEmprestar.setEnabled(false);
+		}
 		
 		tpAbas.addChangeListener(new javax.swing.event.ChangeListener() {
 		    public void stateChanged(javax.swing.event.ChangeEvent e) {

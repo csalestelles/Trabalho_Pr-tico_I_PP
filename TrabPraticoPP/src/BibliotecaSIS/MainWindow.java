@@ -94,7 +94,7 @@ public class MainWindow extends BancoDeDados {
 					else
 					{
 						JOptionPane.showMessageDialog(null, "Nome de usuário ou senha Incorreto! " 
-								+ password, "Erro Login", JOptionPane.ERROR_MESSAGE);	
+								, "Erro Login", JOptionPane.ERROR_MESSAGE);	
 					}
 				} 
 				catch (SQLException e1) {e1.printStackTrace();}
@@ -176,6 +176,12 @@ public class MainWindow extends BancoDeDados {
 		
 		JMenuItem mntmSobre = new JMenuItem("Sobre");
 		mnSobre.add(mntmSobre);
+		mntmSobre.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				SobreWindow.main(null);;
+			}
+		});
 		
 		JMenuItem mntmSair = new JMenuItem("Sair");
 		mnSobre.add(mntmSair);

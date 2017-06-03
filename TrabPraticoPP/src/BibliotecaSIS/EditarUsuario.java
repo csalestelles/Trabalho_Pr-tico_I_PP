@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -42,6 +45,7 @@ public class EditarUsuario {
 
 	/**
 	 * Create the application.
+	 * @wbp.parser.entryPoint
 	 */
 	public EditarUsuario(int codigo, String nomeCompleto, String nomeUsuario, String senha, String dataNascimento)
 	{
@@ -58,7 +62,7 @@ public class EditarUsuario {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Editar Usuario");
 		frame.setBounds(100, 100, 450, 300);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,42 +70,42 @@ public class EditarUsuario {
 		
 		JLabel lblDados = new JLabel("Atualize as informações:");
 		lblDados.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDados.setBounds(147, 38, 155, 31);
+		lblDados.setBounds(148, 6, 155, 31);
 		frame.getContentPane().add(lblDados);
 		
 		JLabel label_1 = new JLabel("Nome Completo:");
-		label_1.setBounds(23, 93, 106, 16);
+		label_1.setBounds(24, 61, 106, 16);
 		frame.getContentPane().add(label_1);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(161, 88, 267, 26);
+		textField.setBounds(162, 56, 267, 26);
 		textField.setText(nomeCompleto);
 		frame.getContentPane().add(textField);
 		
 		JLabel label_2 = new JLabel("Nome de usuário:");
-		label_2.setBounds(23, 121, 116, 16);
+		label_2.setBounds(24, 89, 116, 16);
 		frame.getContentPane().add(label_2);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(161, 116, 267, 26);
+		textField_1.setBounds(162, 84, 267, 26);
 		textField_1.setText(nomeUsuario);
 		frame.getContentPane().add(textField_1);
 		
 		JLabel label_3 = new JLabel("Data de nascimento:");
-		label_3.setBounds(23, 149, 139, 16);
+		label_3.setBounds(24, 117, 139, 16);
 		frame.getContentPane().add(label_3);
 		
 		textField_2 = new JTextField();
 		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_2.setColumns(10);
-		textField_2.setBounds(161, 144, 116, 26);
+		textField_2.setBounds(162, 112, 116, 26);
 		textField_2.setText(dataNascimento);
 		frame.getContentPane().add(textField_2);
 		
 		JLabel lblSenha = new JLabel("Senha:");
-		lblSenha.setBounds(23, 179, 90, 16);
+		lblSenha.setBounds(24, 147, 90, 16);
 		frame.getContentPane().add(lblSenha);
 		
 		JButton btnAtualizar = new JButton("Atualizar");
@@ -118,13 +122,29 @@ public class EditarUsuario {
 				AdminWindow.main(null);
 			}
 		});
-		btnAtualizar.setBounds(175, 226, 117, 29);
+		btnAtualizar.setBounds(176, 194, 117, 29);
 		frame.getContentPane().add(btnAtualizar);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(161, 177, 116, 26);
+		textField_3.setBounds(162, 145, 116, 26);
 		frame.getContentPane().add(textField_3);
 		textField_3.setText(senha);
 		textField_3.setColumns(10);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Arquivo");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmSair = new JMenuItem("Sair");
+		mnNewMenu.add(mntmSair);
+		mntmSair.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				frame.dispose();
+				AdminWindow.main(null);
+			}
+		});
 	}
 }

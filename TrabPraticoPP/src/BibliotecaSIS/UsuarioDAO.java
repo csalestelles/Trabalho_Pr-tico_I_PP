@@ -24,11 +24,11 @@ public class UsuarioDAO extends BancoDeDados {
 	
 	public boolean localizar()
 	{
-		sql = "SELECT * FROM Usuarios WHERE User=?";
+		sql = "SELECT * FROM Usuarios WHERE Codigo=?";
 		try
 		{
 			statement = BancoDeDados.conexao.prepareStatement(sql);
-			statement.setString(1, usuario.getNomeDeUsuario());
+			statement.setInt(1, usuario.getCodigo());
 			resultSet = statement.executeQuery();
 			resultSet.next();
 			usuario.setCodigo(resultSet.getInt(1));
@@ -36,6 +36,7 @@ public class UsuarioDAO extends BancoDeDados {
 			usuario.setNomeDeUsuario(resultSet.getString(3));
 			usuario.setSenha(resultSet.getString(4));
 			usuario.setAnoDeNascimento(resultSet.getString(5));
+			usuario.setPodeEmprestar(resultSet.getInt(6));
 			return true;
 		}
 		catch(SQLException erro){return false;}
@@ -49,12 +50,15 @@ public class UsuarioDAO extends BancoDeDados {
 		{
 			if (operacao == BancoDeDados.INCLUSAO)
 			{
-				sql = "INSERT INTO Usuarios VALUES (NULL, ?, ?, ?, ?)";
+				sql = "INSERT INTO Usuarios VALUES (NULL, ?, ?, ?, ?, ?)";
 				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(1, usuario.getNomeCompleto());
 				statement.setString(2, usuario.getNomeDeUsuario());
 				statement.setString(3, usuario.getSenha());
 				statement.setString(4, usuario.getAnoDeNascimento());
+				statement.setInt(5, usuario.getPodeEmprestar());
+				
+				RelatorioDAO.atualizarAdicao(0);
 			}
 			else if(operacao == BancoDeDados.ALTERACAO)
 			{
@@ -71,17 +75,13 @@ public class UsuarioDAO extends BancoDeDados {
 				sql = "DELETE FROM Usuarios WHERE User=?";
 				statement = bd.conexao.prepareStatement(sql);
 				statement.setString(1, usuario.getNomeDeUsuario());
+				
+				RelatorioDAO.atualizarRemocao(0);
 			}
+			
 			if(statement.executeUpdate() == 0)
 			{
 				men = "Falha na operacao!";
-			}
-			else
-			{
-				if(operacao == BancoDeDados.INCLUSAO)
-					RelatorioDAO.atualizarAdicao(0);
-				else if (operacao == BancoDeDados.EXCLUSAO)
-					RelatorioDAO.atualizarRemocao(0);
 			}
 		}
 		catch(SQLException g){men = "Falha na operação";}
@@ -109,6 +109,7 @@ public class UsuarioDAO extends BancoDeDados {
 			usuarioAdd.setNomeDeUsuario(resultSet.getString(3));
 			usuarioAdd.setSenha(resultSet.getString(4));
 			usuarioAdd.setAnoDeNascimento(resultSet.getString(5));
+			usuarioAdd.setPodeEmprestar(resultSet.getInt(6));
 			list.add(usuarioAdd);
 		}
 		return list;
@@ -119,7 +120,7 @@ public class UsuarioDAO extends BancoDeDados {
 		ArrayList<Usuario> listUsuarios = new ArrayList<Usuario>();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 		table.setModel(new DefaultTableModel(
-				new String[]{"Código", "Nome Completo", "Nome de Usuário", "Senha", "Data de nascimento"}, 0) {
+				new String[]{"Código", "Nome Completo", "Nome de Usuário", "Senha", "Data de nascimento", "Pode Emprestar"}, 0) {
 				public boolean isCellEditable(int row, int col)
 				{	
 					return false;
@@ -133,7 +134,7 @@ public class UsuarioDAO extends BancoDeDados {
 		
 		DefaultTableModel model =(DefaultTableModel)table.getModel();
 		model.setNumRows(0);
-		Object[] row = new Object[5];
+		Object[] row = new Object[6];
 		for (int i=0; i<listUsuarios.size();i++)
 		{
 			row[0] = listUsuarios.get(i).getCodigo();
@@ -141,6 +142,10 @@ public class UsuarioDAO extends BancoDeDados {
 			row[2] = listUsuarios.get(i).getNomeDeUsuario();
 			row[3] = listUsuarios.get(i).getSenha();
 			row[4] = listUsuarios.get(i).getAnoDeNascimento();
+			if(listUsuarios.get(i).getPodeEmprestar() == BancoDeDados.SIM)
+				row[5] = "Sim";
+			else
+				row[5] = "Não";
 			
 			model.addRow(row);
 		}

@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -60,11 +63,11 @@ public class RecuperaSenha extends BancoDeDados {
 		JLabel lblRecuperaoDeSenha = new JLabel("Recuperação de senha");
 		lblRecuperaoDeSenha.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		lblRecuperaoDeSenha.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRecuperaoDeSenha.setBounds(140, 28, 170, 16);
+		lblRecuperaoDeSenha.setBounds(139, 6, 170, 16);
 		frame.getContentPane().add(lblRecuperaoDeSenha);
 		
 		JLabel lblConfirmeSeuNome = new JLabel("Defina sua nova senha:");
-		lblConfirmeSeuNome.setBounds(18, 109, 176, 16);
+		lblConfirmeSeuNome.setBounds(17, 87, 176, 16);
 		frame.getContentPane().add(lblConfirmeSeuNome);
 		
 		JButton btnGerarNovaSenha = new JButton("Gerar nova senha");
@@ -85,34 +88,50 @@ public class RecuperaSenha extends BancoDeDados {
 				
 			}
 		});
-		btnGerarNovaSenha.setBounds(150, 222, 150, 29);
+		btnGerarNovaSenha.setBounds(149, 200, 150, 29);
 		frame.getContentPane().add(btnGerarNovaSenha);
 		
 		JLabel lblConfirmeANova = new JLabel("Confirme a nova senha:");
-		lblConfirmeANova.setBounds(18, 137, 205, 16);
+		lblConfirmeANova.setBounds(17, 115, 205, 16);
 		frame.getContentPane().add(lblConfirmeANova);
 		
 		passwordField = new JPasswordField(6);
-		passwordField.setBounds(205, 104, 217, 26);
+		passwordField.setBounds(204, 82, 217, 26);
 		frame.getContentPane().add(passwordField);
 		
 		passwordField_1 = new JPasswordField(6);
-		passwordField_1.setBounds(205, 132, 217, 26);
+		passwordField_1.setBounds(204, 110, 217, 26);
 		frame.getContentPane().add(passwordField_1);
 		
 		JLabel lblNewLabel = new JLabel("*A nova senha deve ter entre 6 e 15 caractéres");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(18, 188, 415, 16);
+		lblNewLabel.setBounds(17, 166, 415, 16);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNomeDeUsurio = new JLabel("Nome de Usuário:");
-		lblNomeDeUsurio.setBounds(18, 81, 121, 16);
+		lblNomeDeUsurio.setBounds(17, 59, 121, 16);
 		frame.getContentPane().add(lblNomeDeUsurio);
 		
 		textField = new JTextField();
-		textField.setBounds(205, 76, 217, 26);
+		textField.setBounds(204, 54, 217, 26);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnMais = new JMenu("Mais");
+		menuBar.add(mnMais);
+		
+		JMenuItem mntmVoltar = new JMenuItem("Voltar");
+		mnMais.add(mntmVoltar);
+		mntmVoltar.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e) 
+			{
+				MainWindow.main(null);
+				frame.dispose();
+			}
+		});
 	}
 	
 	private void checaSenha(String pass, String confirmPass, String userName)

@@ -56,14 +56,14 @@ public class RevistasEmprestadasDAO
 		return men;
 	}
 	
-	public String devolucao()
+	public String devolucao(int codigoUser)
 	{
 		try
 		{
 			men = "Devolução realizada!";
 			sql = "DELETE FROM TitulosEmprestados WHERE codigoUser=?";
 			statement = bd.conexao.prepareStatement(sql);
-			statement.setInt(1, revistaEmprestada.getCodigoUser());
+			statement.setInt(1, codigoUser);
 		}
 		catch(SQLException error){men = "Não foi possível fazer o empréstimo!"; error.printStackTrace();}
 		return men;

@@ -58,7 +58,7 @@ public class CadastroAdmin extends BancoDeDados {
 		frame = new JFrame("Cadastro de Administrador");
 		frame.setBounds(100, 100, 450, 300);
 		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel label = new JLabel("Insira seus dados:");
@@ -141,6 +141,7 @@ public class CadastroAdmin extends BancoDeDados {
 		mntmSair.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) 
 			{
+				MainWindow.main(null);
 				frame.dispose();
 			}
 		});

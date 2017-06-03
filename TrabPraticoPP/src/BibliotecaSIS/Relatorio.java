@@ -4,7 +4,7 @@ public class Relatorio
 {	
 	private static int valor;
 	private static int tipo;
-//	usuarios = 0, administradores = 1, empReal = 2, empAnd = 3, devAtra = 4, exemplare = 5;
+//	usuarios = 0, administradores = 1, exemplares = 5, empReal = 2, empAnd = 3, devAtra = 4;
 	
 	
 	public static int getValor() {
